@@ -1,10 +1,9 @@
 {
   "openapi": "3.1.0",
-
   "info": {
     "title": "Grid Tariff API",
     "description": "Provides grid tariffs from Swedish DSOs.",
-    "version": "2.0.0",
+    "version": "0.1.0",
     "contact": {
       "name": "Grid Tariff API",
       "url": "https://github.com/RI-SE/Eltariff-API"
@@ -14,30 +13,32 @@
       "url": "https://github.com/RI-SE/Eltariff-API/blob/main/LICENSE"
     }
   },
-
   "servers": [
     {
       "url": "/"
     }
   ],
-
   "security": [
     {
-      "bearerAuth": []
+      "BearerAuth": []
     }
   ],
-
   "paths": {
-    "/api/Tariffs/All": {
+    "/{v}/tariffs": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VersionInPath"
+        }
+      ],
       "get": {
         "tags": [
           "Tariff"
         ],
-        "operationId": "GetAllTariffs",
-        "summary": "Returns a collection of all available tariffs for the DSO providing the endpoint.",
+        "operationId": "GetTariffs",
+        "summary": "Returns a collection of publicly available tariffs for the DSO without any customer data.",
         "responses": {
           "200": {
-            "description": "All available tariffs.",
+            "description": "All publicly available tariffs without any customer data.",
             "content": {
               "application/json": {
                 "schema": {
@@ -46,47 +47,37 @@
               }
             }
           },
-          "400": {
-            "$ref": "#/components/responses/BadRequest"
-          },
           "401": {
             "$ref": "#/components/responses/Unauthorized"
           },
           "403": {
             "$ref": "#/components/responses/Forbidden"
-          },
-          "404": {
-            "$ref": "#/components/responses/NotFound"
           }
         }
       }
     },
-
-    "/api/Tariffs/ForMeteringPoints": {
-      "post": {
+    "/{v}/tariffs/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VersionInPath"
+        },
+        {
+          "$ref": "#/components/parameters/IdInPath"
+        }
+      ],
+      "get": {
         "tags": [
           "Tariff"
         ],
-        "operationId": "GetTariffsWithMpidMap",
-        "summary": "Returns a collection of all available tariffs and a mapping between provided MPIDs and tariff id. If no MPIDs are provided, no mapping is returned.",
-        "requestBody": {
-          "description": "MeteringPointIds to match tariffs for.",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TariffsWithMpidRequest"
-              }
-            }
-          }
-        },
+        "operationId": "GetTariffById",
+        "summary": "Returns the tariff for the provided id.",
         "responses": {
           "200": {
-            "description": "All available tariffs and a mapping between MPID and tariff id.",
+            "description": "Response with one tariff.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TariffsWithMpidResponse"
+                  "$ref": "#/components/schemas/TariffResponse"
                 }
               }
             }
@@ -106,25 +97,85 @@
         }
       }
     },
-
-    "/api/Prices": {
+    "/{v}/tariffs/search": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VersionInPath"
+        }
+      ],
       "post": {
+        "tags": [
+          "Tariff"
+        ],
+        "operationId": "SearchTariffs",
+        "summary": "Returns a collection of tariffs based on the search criteria and a mapping between the tariffs and search parameters.",
+        "requestBody": {
+          "description": "Tariffs search parameters.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TariffsSearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tariffs and mapping between tariff and search parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TariffsSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/{v}/prices/{componentId}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VersionInPath"
+        },
+        {
+          "name": "componentId",
+          "description": "A price component id.",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "common.schema.json#/definitions/Uuid"
+          }
+        },
+        {
+          "name": "duration",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "$ref": "time.schema.json#/definitions/Duration"
+          },
+          "description": "A duration in time that starts at 00:00 (midnight) of the day when the request is made."
+        }
+      ],
+      "get": {
         "tags": [
           "Price"
         ],
         "operationId": "GetPrices",
         "summary": "Returns prices for a price component for a given timeperiod.",
-        "requestBody": {
-          "description": "Price component id and time period to get prices for.",
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PricesRequest"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "The prices for the provided component id and time period.",
@@ -152,16 +203,35 @@
       }
     }
   },
-
   "components": {
     "securitySchemes": {
-      "bearerAuth": {
+      "BearerAuth": {
         "type": "http",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     },
-
+    "parameters": {
+      "VersionInPath": {
+        "name": "v",
+        "description": "Version of the API",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "default": "v0"
+        }
+      },
+      "IdInPath": {
+        "name": "id",
+        "description": "Unique identifier for an object",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "common.schema.json#/definitions/Uuid"
+        }
+      }
+    },
     "schemas": {
       "TariffsResponse": {
         "type": "object",
@@ -171,12 +241,26 @@
             "items": {
               "$ref": "tariff.schema.json#/definitions/Tariff"
             }
+          },
+          "calendarPatterns": {
+            "type": "array",
+            "items": {
+              "$ref": "time.schema.json#/definitions/CalendarPattern"
+            }
           }
         },
         "additionalProperties": false
       },
-
-      "TariffsWithMpidRequest": {
+      "TariffResponse": {
+        "type": "object",
+        "properties": {
+          "tariff": {
+            "$ref": "tariff.schema.json#/definitions/Tariff"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TariffsSearchRequest": {
         "type": "object",
         "properties": {
           "meteringPointIds": {
@@ -189,8 +273,7 @@
         },
         "additionalProperties": false
       },
-
-      "TariffsWithMpidResponse": {
+      "TariffsSearchResponse": {
         "type": "object",
         "properties": {
           "tariffs": {
@@ -199,31 +282,15 @@
               "$ref": "tariff.schema.json#/definitions/Tariff"
             }
           },
-          "mpidTariffPairs": {
+          "mappings": {
             "type": "array",
             "items": {
-              "$ref": "common.schema.json#/definitions/MpidTariffPair"
+              "$ref": "common.schema.json#/definitions/TariffMapping"
             }
           }
         },
         "additionalProperties": false
       },
-
-      "PricesRequest": {
-        "type": "object",
-        "description": "Query to get a list of tariff prices for a given tariff id and time interval.",
-        "properties": {
-          "componentId": {
-            "$ref": "common.schema.json#/definitions/Uuid"
-          },
-          "duration": {
-            "description": "A duration in time that starts at 00:00 (midnight) of the day when the request is made.",
-            "$ref": "time.schema.json#/definitions/Duration"
-          }
-        },
-        "additionalProperties": false
-      },
-
       "PricesResponse": {
         "type": "object",
         "properties": {
@@ -233,7 +300,6 @@
         },
         "additionalProperties": false
       },
-
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -259,12 +325,14 @@
             "description": "A URI reference that identifies the problem type."
           }
         },
-        "required": ["status", "title", "detail"],
+        "required": [
+          "status",
+          "title",
+          "detail"
+        ],
         "additionalProperties": false
       }
-
     },
-
     "responses": {
       "BadRequest": {
         "description": "Bad Request",
@@ -277,12 +345,11 @@
               "status": 400,
               "title": "Bad Request",
               "detail": "The request object is invalid.",
-              "instance": "/api/endpoint"
+              "instance": "/v0/endpoint"
             }
           }
         }
       },
-
       "Unauthorized": {
         "description": "Unauthorized",
         "content": {
@@ -294,12 +361,11 @@
               "status": 401,
               "title": "Unauthorized",
               "detail": "You do not have access to make this request.",
-              "instance": "/api/endpoint"
+              "instance": "/v0/endpoint"
             }
           }
         }
       },
-
       "Forbidden": {
         "description": "Forbidden",
         "content": {
@@ -311,12 +377,11 @@
               "status": 403,
               "title": "Forbidden",
               "detail": "The request you made is not allowed.",
-              "instance": "/api/endpoint"
+              "instance": "/v0/endpoint"
             }
           }
         }
       },
-
       "NotFound": {
         "description": "Not Found",
         "content": {
@@ -328,7 +393,7 @@
               "status": 404,
               "title": "Not Found",
               "detail": "The requested resource could not be found.",
-              "instance": "/api/endpoint"
+              "instance": "/v0/endpoint"
             }
           }
         }

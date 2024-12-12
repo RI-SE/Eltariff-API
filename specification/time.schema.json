@@ -1,8 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-
   "definitions": {
-
     "DateInterval": {
       "type": "object",
       "description": "A date interval to define a validity period for an object.",
@@ -22,29 +20,6 @@
       },
       "additionalProperties": false
     },
-
-
-    "TimeInterval": {
-      "type": "object",
-      "description": "A time interval where \"fromIncluding\" is included and the interval is up to, but excluding \"toExcluding\".",
-      "properties": {
-        "fromIncluding": {
-          "description": "From and including this timestamp.",
-          "type": "string",
-          "format": "time",
-          "example": "00:00:00"
-        },
-        "toExcluding": {
-          "description": "To but excluding this timestamp.",
-          "type": "string",
-          "format": "time",
-          "example": "01:00:00"
-        }
-      },
-      "additionalProperties": false
-    },
-
-
     "DateTimeInterval": {
       "type": "object",
       "description": "A datetime interval where fromIncluding is included and the interval is up until toExcluding.",
@@ -64,17 +39,104 @@
       },
       "additionalProperties": false
     },
-
-
     "Duration": {
       "description": "A time duration in the format [ISO 8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations).\nExamples:\n- \"P1D\" for one day\n- \"P1M\" for one month\n- \"P2W\" for two weeks\n- \"P3Y6M4DT12H30M5S\" for a complex duration.",
       "type": "string",
       "format": "duration",
-      "examples": [ "PT0S", "PT15M", "PT1H", "P1D", "P1W", "P1M", "P1DT12H" ],
+      "examples": [
+        "PT0S",
+        "PT15M",
+        "PT1H",
+        "P1D",
+        "P1W",
+        "P1M",
+        "P1DT12H"
+      ],
       "additionalProperties": false
     },
-
-
+    "CalendarPattern": {
+      "type": "object",
+      "description": "A pattern of calendar events.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "examples": [ "weekday", "weekend", "holiday" ]
+        },
+        "frequency": {
+          "type": "string",
+          "examples": [ "P1W", "P1Y" ],
+          "$ref": "time.schema.json#/definitions/Duration"
+        },
+        "days": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
+        },
+        "dates": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "date",
+            "example": "2024-10-01"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "CalendarPatternReferences": {
+      "type": "object",
+      "description": "A collection of calendar patterns that defines which days and/or dates to use for an active period.",
+      "properties": {
+        "include": {
+          "description": "A list of calendar patterns to be included in the active period.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "weekday",
+              "weekend",
+              "holiday"
+            ]
+          }
+        },
+        "exclude": {
+          "description": "A list of calendar patterns to be excluded from an active period.",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "examples": [
+              "weekday",
+              "weekend",
+              "holiday"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "ActivePeriod": {
+      "type": "object",
+      "description": "A time interval where \"fromIncluding\" is included and the interval is up to, but excluding \"toExcluding\".",
+      "properties": {
+        "fromIncluding": {
+          "description": "From and including this timestamp.",
+          "type": "string",
+          "format": "time",
+          "example": "00:00:00"
+        },
+        "toExcluding": {
+          "description": "To but excluding this timestamp.",
+          "type": "string",
+          "format": "time",
+          "example": "01:00:00"
+        },
+        "calendarPatternReferences": {
+          "$ref": "time.schema.json#/definitions/CalendarPatternReferences"
+        }
+      },
+      "additionalProperties": false
+    },
     "RecurringPeriod": {
       "description": "A short period of time that recurs several times during a season or other long time period.",
       "type": "object",
@@ -82,7 +144,11 @@
         "reference": {
           "description": "Reference to be used to identify this recurring period in a function.",
           "type": "string",
-          "examples": [ "main", "high", "low" ],
+          "examples": [
+            "main",
+            "high",
+            "low"
+          ],
           "default": "main"
         },
         "frequency": {
@@ -93,7 +159,7 @@
         "activePeriods": {
           "type": "array",
           "items": {
-            "$ref": "time.schema.json#/definitions/TimeInterval"
+            "$ref": "time.schema.json#/definitions/ActivePeriod"
           }
         }
       },

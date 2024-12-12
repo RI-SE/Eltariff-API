@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "definitions": {
+    "FixedPriceComponent": {
+      "description": "A time period in which price details are defined. Price components can be overlapping in time to define the full price for one time period.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "common.schema.json#/definitions/Uuid"
+        },
+        "name": {
+          "$ref": "common.schema.json#/definitions/Name",
+          "example": "Subscription cost"
+        },
+        "description": {
+          "$ref": "common.schema.json#/definitions/Description",
+          "example": "The subscription component of the fixed price part."
+        },
+        "type": {
+          "description": "Type describes if the price component is a publicly available price or customer specific.",
+          "type": "string",
+          "pattern": "public|specific",
+          "examples": [
+            "public",
+            "specific"
+          ],
+          "default": "fixed"
+        },
+        "reference": {
+          "description": "Reference to be used to identify this recurring price period in the cost function.",
+          "type": "string",
+          "examples": [
+            "main",
+            "pubclic",
+            "specific"
+          ],
+          "default": "main"
+        },
+        "validPeriod": {
+          "$ref": "time.schema.json#/definitions/DateInterval"
+        },
+        "price": {
+          "$ref": "price.schema.json#/definitions/Price"
+        },
+        "pricedPeriod": {
+          "description": "The time period that is priced in the price property.",
+          "$ref": "time.schema.json#/definitions/Duration",
+          "examples": [
+            "P1M",
+            "P1Y"
+          ],
+          "default": "P1M"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

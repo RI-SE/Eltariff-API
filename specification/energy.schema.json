@@ -1,8 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-
   "definitions": {
-
     "EnergyPriceComponent": {
       "description": "A time period in which price details are defined. Price components can be overlapping in time to define the full price for one time period.",
       "type": "object",
@@ -16,18 +14,28 @@
         },
         "description": {
           "$ref": "common.schema.json#/definitions/Description",
-          "example": "A recurring time interval every day with a high power price during day time."
+          "example": "A recurring time interval every day with a high price during day time."
         },
         "type": {
           "type": "string",
           "pattern": "fixed|spot",
-          "examples": [ "fixed", "spot" ],
+          "examples": [
+            "fixed",
+            "spot"
+          ],
           "default": "fixed"
         },
         "reference": {
           "description": "Reference to be used to identify this recurring price period in the cost function.",
           "type": "string",
-          "examples": [ "main", "high", "low", "fixed", "spot", "tax" ],
+          "examples": [
+            "main",
+            "high",
+            "low",
+            "fixed",
+            "spot",
+            "tax"
+          ],
           "default": "main"
         },
         "price": {
@@ -50,8 +58,6 @@
       },
       "additionalProperties": false
     },
-
-
     "SpotPriceSettings": {
       "description": "Settings for a spot price relative pricing component.",
       "type": "object",
@@ -59,12 +65,16 @@
         "multiplier": {
           "description": "A number used to multiply the electricity markets spot price to get a price for this price component.",
           "type": "number",
-          "examples": [ 0.0005, 0 ]
+          "examples": [
+            0.0005,
+            0
+          ]
         },
         "currency": {
           "$ref": "common.schema.json#/definitions/Currency"
         }
-      }
+      },
+      "additionalProperties": false
     }
   }
 }

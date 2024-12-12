@@ -1,8 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-
   "definitions": {
-
     "PricePeriod": {
       "description": "A consecutive time period with one price.",
       "type": "object",
@@ -17,19 +15,23 @@
       },
       "additionalProperties": false
     },
-
-
     "Price": {
       "description": "Price, VAT and currency.",
       "type": "object",
       "properties": {
         "priceExVat": {
           "type": "number",
-          "examples": [ 171.32, 154 ]
+          "examples": [
+            171.32,
+            154
+          ]
         },
         "priceIncVat": {
           "type": "number",
-          "examples": [ 171.32, 154 ]
+          "examples": [
+            171.32,
+            154
+          ]
         },
         "currency": {
           "$ref": "common.schema.json#/definitions/Currency",
@@ -38,8 +40,6 @@
       },
       "additionalProperties": false
     },
-
-
     "ComponentPrices": {
       "description": "Time differentiated prices for a price component.",
       "type": "object",
@@ -57,12 +57,11 @@
       },
       "additionalProperties": false
     },
-
-
     "CostFunction": {
       "description": "A pseudo code function that describes how to calculate the cost for a set of price components. Usage examples at https://someexamples.",
       "type": "string",
       "examples": [
+        "sum(price(c))",
         "sum(energy(c)*price(c))",
         "sum(peak(c)*price(c))"
       ],

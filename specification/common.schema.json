@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-
   "definitions": {
     "Uuid": {
       "type": "string",
@@ -9,58 +8,52 @@
       "example": "216783ff-5dda-4c38-b491-d6f0fcee9a9b",
       "additionalProperties": false
     },
-
-
     "Name": {
       "type": "string",
       "description": "A short human readable name.",
       "example": "Fusesize 25A",
       "additionalProperties": false
     },
-
-
     "Description": {
       "description": "A longer explanatory text.",
       "type": "string",
       "example": "Fixed price for a contract with a fuse size of 25 A.",
       "additionalProperties": false
     },
-
-
     "MeteringPointId": {
       "type": "string",
       "description": "Identifier for a physical metering point (MPID)",
-      "example": "707057500000000001",
+      "example": "735999000000000001",
       "additionalProperties": false
     },
-
-
-    "MpidTariffPair": {
+    "TariffMapping": {
       "type": "object",
       "properties": {
-        "meteringPointId": {
-          "$ref": "common.schema.json#/definitions/MeteringPointId"
-        },
         "tariffId": {
           "$ref": "common.schema.json#/definitions/Uuid"
+        },
+        "meteringPointIds": {
+          "type": "array",
+          "items": {
+            "$ref": "common.schema.json#/definitions/MeteringPointId"
+          }
         }
       },
       "additionalProperties": false
     },
-
-
     "Currency": {
       "description": "The currency for all related prices.",
       "type": "string",
       "example": "SEK",
       "additionalProperties": false
     },
-
-
     "Unit": {
       "description": "The unit of a measurement or price calculation.",
       "type": "string",
-      "examples": [ "kWh", "kW" ],
+      "examples": [
+        "kWh",
+        "kW"
+      ],
       "additionalProperties": false
     }
   }

@@ -1,8 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-
   "definitions": {
-
     "Tariff": {
       "description": "Information about the tariff that are static and does not change during at least a month.",
       "type": "object",
@@ -46,6 +44,9 @@
           "type": "string",
           "format": "date-time"
         },
+        "validPeriod": {
+          "$ref": "time.schema.json#/definitions/DateInterval"
+        },
         "billingPeriod": {
           "description": "A time period that describes how often the customer is billed. E.g. \"P1M\" means billing is made at every new month.",
           "$ref": "time.schema.json#/definitions/Duration",
@@ -64,8 +65,6 @@
       },
       "additionalProperties": false
     },
-
-
     "FixedPrice": {
       "description": "Prices and information for the fixed price component of the tariff.",
       "type": "object",
@@ -81,23 +80,19 @@
           "$ref": "common.schema.json#/definitions/Description",
           "example": "Fixed price for a contract with a fuse size of 25 A."
         },
-        "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateInterval"
+        "costFunction": {
+          "$ref": "price.schema.json#/definitions/CostFunction",
+          "default": "sum(price(c))"
         },
-        "price": {
-          "$ref": "price.schema.json#/definitions/Price"
-        },
-        "pricedPeriod": {
-          "description": "The time period that is priced in the price property.",
-          "$ref": "time.schema.json#/definitions/Duration",
-          "examples": [ "P1M", "P1Y" ],
-          "default": "P1M"
+        "components": {
+          "type": "array",
+          "items": {
+            "$ref": "fixed.schema.json#/definitions/FixedPriceComponent"
+          }
         }
       },
       "additionalProperties": false
     },
-
-
     "EnergyPrice": {
       "description": "Prices and information for the energy price component of the tariff.",
       "type": "object",
@@ -131,8 +126,6 @@
       },
       "additionalProperties": false
     },
-
-
     "PowerPrice": {
       "description": "Prices with parameters that defines power peak identification and price calculation for the power component of the tariff.",
       "type": "object",
