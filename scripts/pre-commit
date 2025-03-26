@@ -1,6 +1,6 @@
 #!/bin/sh
 
-BUNDLE_FILE_PATTERN="specification/versions/gridtariffapi-v"
+BUNDLE_FILE_PATTERN="specification/releases/gridtariffapi-v"
 API_INDEX_FILE="specification/gridtariffapi.json"
 
 if git diff --cached --name-only | grep -q "$BUNDLE_FILE_PATTERN"; then

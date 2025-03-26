@@ -3,10 +3,6 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
-# Project specific files
-**/src/SwaggerUI/wwwroot/swagger/specification/
-**/src/**/build
-
 # Ignore IDEA files
 .idea/
 
@@ -369,3 +365,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+# Project specific files
+**/src/SwaggerUI/wwwroot/swagger/specification/
+**/src/**/build
+
+# Specifically include the specification/releases dir, since releases dir are otherwise ignored
+!specification/releases

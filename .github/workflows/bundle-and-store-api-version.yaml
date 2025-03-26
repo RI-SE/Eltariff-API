@@ -29,8 +29,8 @@ jobs:
 
       - name: Generate OpenAPI Bundle
         run: |
-          mkdir -p specification/versions
-          NEW_BUNDLE_FILE="specification/versions/gridtariffapi-v$OPENAPI_VERSION.json"
+          mkdir -p specification/releases
+          NEW_BUNDLE_FILE="specification/releases/gridtariffapi-v$OPENAPI_VERSION.json"
           echo "Bundling OpenAPI specification to $NEW_BUNDLE_FILE"
           openapi bundle $INDEX_FILE -o $NEW_BUNDLE_FILE
           echo "BUNDLE_FILE=$NEW_BUNDLE_FILE" >> $GITHUB_ENV

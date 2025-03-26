@@ -16,13 +16,9 @@
     <ProjectReference Include="../ExampleController/ExampleController.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="../specification/versions/*.json" />
-  </ItemGroup>
-
   <Target Name="PrepareOpenApiFiles" BeforeTargets="Build">
     <ItemGroup>
-      <ApiSpecifications Include="../../specification/versions/*.json" />
+      <ApiSpecifications Include="../../specification/releases/*.json" />
     </ItemGroup>
     <RemoveDir Directories="wwwroot/swagger/specification" />
     <MakeDir Directories="wwwroot/swagger/specification" />
