@@ -24,12 +24,7 @@
     }
   ],
   "paths": {
-    "/{v}/info": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        }
-      ],
+    "/info": {
       "get": {
         "tags": [
           "Information"
@@ -53,12 +48,7 @@
         }
       }
     },
-    "/{v}/tariffs": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        }
-      ],
+    "/tariffs": {
       "get": {
         "tags": [
           "Tariff"
@@ -85,11 +75,8 @@
         }
       }
     },
-    "/{v}/tariffs/{id}": {
+    "/tariffs/{id}": {
       "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        },
         {
           "$ref": "#/components/parameters/IdInPath"
         }
@@ -123,12 +110,7 @@
         }
       }
     },
-    "/{v}/tariffs/search": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        }
-      ],
+    "/tariffs/search": {
       "post": {
         "tags": [
           "Tariff"
@@ -175,11 +157,8 @@
         }
       }
     },
-    "/{v}/prices/{componentId}": {
+    "/prices/{componentId}": {
       "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        },
         {
           "name": "componentId",
           "description": "A price component id.",
@@ -244,16 +223,6 @@
       }
     },
     "parameters": {
-      "VersionInPath": {
-        "name": "v",
-        "description": "Version of the API",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string",
-          "default": "v0"
-        }
-      },
       "IdInPath": {
         "name": "id",
         "description": "Unique identifier for an object",
