@@ -10,8 +10,19 @@ Den som vill hämta tariff-information börjar med att anropa katalog-tjänsten 
 ![Basic onboarding sequence](doc/Eltariff_sequence_diagram.svg)
 
 # Contribute
-Install git hooks by running
+Run the following commands to set up your dev environment
 
+    npm install
     bash scripts/install-hooks.sh
 
 The pre-commit hook makes sure that any generated files within `specification/versions/` are not changed manually. The versioned bundle files are created in GitHub Actions by manually running the "Bundle and store current API version" action.
+
+## Build
+    dotnet build src/ControllerGenerator
+
+This will create a C# controller based on the OpenAPI specification `specification/gridtariffapi.json`. The `ExampleController` project implements the generated controller.
+
+    dotnet run --project src/SwaggerUI
+
+Run the `SwaggerUI` project with the above command, which will use the `ExampleController` as a server so that you can test the requests.
+Access the Swagger UI by going to http://localhost:5000/swagger.
