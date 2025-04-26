@@ -2,6 +2,7 @@
 
 BUNDLE_FILE_PATTERN="specification/releases/gridtariffapi-v"
 API_INDEX_FILE="specification/gridtariffapi.json"
+CATALOGUE_INDEX_FILE="specification/catalogueapi.json"
 
 if git diff --cached --name-only | grep -q "$BUNDLE_FILE_PATTERN"; then
   echo "❌ ERROR: Generated bundle files ($BUNDLE_FILE_PATTERN*) should only be modified by GitHub Actions!"
@@ -23,5 +24,31 @@ if git diff --cached --name-only | grep -q "specification/"; then
     fi
   done
 fi
+
+npx @redocly/cli lint $API_INDEX_FILE
+if [ $? -ne 0 ]; then
+  echo "❌ ERROR: OpenAPI validation failed. Please fix the issues before committing."
+  exit 1
+fi
+
+npx @stoplight/spectral lint $API_INDEX_FILE --ruleset .spectral.yaml
+if [ $? -ne 0 ]; then
+  echo "❌ ERROR: Spectral linst failed. Please fix the issues before committing."
+  exit 1
+fi
+
+# npx @redocly/cli lint $CATALOGUE_INDEX_FILE
+# if [ $? -ne 0 ]; then
+#   echo "❌ ERROR: OpenAPI validation failed. Please fix the issues before committing."
+#   exit 1
+# fi
+
+npx @stoplight/spectral lint $CATALOGUE_INDEX_FILE --ruleset .spectral.yaml
+if [ $? -ne 0 ]; then
+  echo "❌ ERROR: Spectral linst failed. Please fix the issues before committing."
+  exit 1
+fi
+
+echo "✅ All checks passed. Proceeding with commit."
 
 exit 0
