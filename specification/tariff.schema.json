@@ -45,13 +45,10 @@
           "format": "date-time"
         },
         "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateInterval"
+          "$ref": "time.schema.json#/definitions/DateTimeInterval"
         },
         "billingPeriod": {
-          "description": "A time period that describes how often the customer is billed. E.g. \"P1M\" means billing is made at every new month.",
-          "$ref": "time.schema.json#/definitions/Duration",
-          "example": "P1M",
-          "default": "P1M"
+          "$ref": "time.schema.json#/definitions/Duration"
         },
         "fixedPrice": {
           "$ref": "tariff.schema.json#/definitions/FixedPrice"
@@ -73,16 +70,13 @@
           "$ref": "common.schema.json#/definitions/Uuid"
         },
         "name": {
-          "$ref": "common.schema.json#/definitions/Name",
-          "example": "Fusesize 25 A"
+          "$ref": "common.schema.json#/definitions/Name"
         },
         "description": {
-          "$ref": "common.schema.json#/definitions/Description",
-          "example": "Fixed price for a contract with a fuse size of 25 A."
+          "$ref": "common.schema.json#/definitions/Description"
         },
         "costFunction": {
-          "$ref": "price.schema.json#/definitions/CostFunction",
-          "default": "sum(price(c))"
+          "$ref": "price.schema.json#/definitions/CostFunction"
         },
         "components": {
           "type": "array",
@@ -101,21 +95,16 @@
           "$ref": "common.schema.json#/definitions/Uuid"
         },
         "name": {
-          "$ref": "common.schema.json#/definitions/Name",
-          "example": "Energy transfer"
+          "$ref": "common.schema.json#/definitions/Name"
         },
         "description": {
-          "$ref": "common.schema.json#/definitions/Description",
-          "example": "Energy transfer price for one kWh."
+          "$ref": "common.schema.json#/definitions/Description"
         },
         "costFunction": {
-          "$ref": "price.schema.json#/definitions/CostFunction",
-          "default": "sum(energy(c)*price(c))"
+          "$ref": "price.schema.json#/definitions/CostFunction"
         },
         "unit": {
-          "$ref": "common.schema.json#/definitions/Unit",
-          "example": "kWh",
-          "default": "kWh"
+          "$ref": "common.schema.json#/definitions/Unit"
         },
         "components": {
           "type": "array",
@@ -134,21 +123,16 @@
           "$ref": "common.schema.json#/definitions/Uuid"
         },
         "name": {
-          "$ref": "common.schema.json#/definitions/Name",
-          "example": "Energy transfer"
+          "$ref": "common.schema.json#/definitions/Name"
         },
         "description": {
-          "$ref": "common.schema.json#/definitions/Description",
-          "example": "Energy transfer price for one kWh."
+          "$ref": "common.schema.json#/definitions/Description"
         },
         "costFunction": {
-          "$ref": "price.schema.json#/definitions/CostFunction",
-          "default": "sum(peak(c)*price(c))"
+          "$ref": "price.schema.json#/definitions/CostFunction"
         },
         "unit": {
-          "$ref": "common.schema.json#/definitions/Unit",
-          "example": "kW",
-          "default": "kW"
+          "$ref": "common.schema.json#/definitions/Unit"
         },
         "components": {
           "type": "array",

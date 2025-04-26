@@ -23,6 +23,20 @@
       "BearerAuth": []
     }
   ],
+  "tags": [
+    {
+      "name": "Information",
+      "description": "Information about the API implementation."
+    },
+    {
+      "name": "Tariff",
+      "description": "Grid tariff related operations."
+    },
+    {
+      "name": "Price",
+      "description": "Price related operations."
+    }
+  ],
   "paths": {
     "/info": {
       "get": {
@@ -31,6 +45,7 @@
         ],
         "operationId": "GetInfo",
         "summary": "Get information about the API implementation.",
+        "description": "Get information about the API implementation.",
         "responses": {
           "200": {
             "description": "Information about the API implementation.",
@@ -55,6 +70,7 @@
         ],
         "operationId": "GetTariffs",
         "summary": "Get a collection of publicly available tariffs for the DSO without any customer data.",
+        "description": "Get a collection of publicly available tariffs for the DSO without any customer data.",
         "responses": {
           "200": {
             "description": "All publicly available tariffs without any customer data.",
@@ -87,6 +103,7 @@
         ],
         "operationId": "GetTariffById",
         "summary": "Get grid tariff for the provided id.",
+        "description": "Get grid tariff for the provided id.",
         "responses": {
           "200": {
             "description": "Single grid tariff object.",
@@ -117,6 +134,7 @@
         ],
         "operationId": "SearchTariffs",
         "summary": "Search for grid tariffs matching provided search parameters.",
+        "description": "Search for grid tariffs matching provided search parameters.",
         "requestBody": {
           "description": "Search parameters.",
           "required": true,
@@ -184,6 +202,7 @@
         ],
         "operationId": "GetPrices",
         "summary": "Returns prices for a price component for a given timeperiod.",
+        "description": "Returns prices for a price component for a given timeperiod.",
         "responses": {
           "200": {
             "description": "The prices for the provided component id and time period.",

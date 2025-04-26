@@ -9,33 +9,21 @@
           "$ref": "common.schema.json#/definitions/Uuid"
         },
         "name": {
-          "$ref": "common.schema.json#/definitions/Name",
-          "example": "Winter day high price"
+          "$ref": "common.schema.json#/definitions/Name"
         },
         "description": {
-          "$ref": "common.schema.json#/definitions/Description",
-          "example": "A recurring time interval every day with a high price during day time."
+          "$ref": "common.schema.json#/definitions/Description"
         },
         "type": {
           "type": "string",
           "pattern": "fixed|spot",
-          "examples": [
-            "fixed",
-            "spot"
-          ],
+          "example": "fixed",
           "default": "fixed"
         },
         "reference": {
           "description": "Reference to be used to identify this recurring price period in the cost function.",
           "type": "string",
-          "examples": [
-            "main",
-            "high",
-            "low",
-            "fixed",
-            "spot",
-            "tax"
-          ],
+          "example": "high",
           "default": "main"
         },
         "price": {
@@ -47,7 +35,7 @@
           "nullable": true
         },
         "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateInterval"
+          "$ref": "time.schema.json#/definitions/DateTimeInterval"
         },
         "recurringPeriods": {
           "type": "array",
@@ -65,10 +53,7 @@
         "multiplier": {
           "description": "A number used to multiply the electricity markets spot price to get a price for this price component.",
           "type": "number",
-          "examples": [
-            0.0005,
-            0
-          ]
+          "example": 1.25
         },
         "currency": {
           "$ref": "common.schema.json#/definitions/Currency"

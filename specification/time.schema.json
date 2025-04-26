@@ -1,25 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "definitions": {
-    "DateInterval": {
-      "type": "object",
-      "description": "A date interval to define a validity period for an object.",
-      "properties": {
-        "fromIncluding": {
-          "description": "From and including this date.",
-          "type": "string",
-          "format": "date",
-          "example": "2024-10-01"
-        },
-        "toExcluding": {
-          "description": "To but excluding this date.",
-          "type": "string",
-          "format": "date",
-          "example": "2025-04-01"
-        }
-      },
-      "additionalProperties": false
-    },
     "DateTimeInterval": {
       "type": "object",
       "description": "A datetime interval where fromIncluding is included and the interval is up until toExcluding.",
@@ -28,13 +9,13 @@
           "description": "From and including this timestamp.",
           "type": "string",
           "format": "date-time",
-          "example": "2024-09-17T00:00:00+01:00"
+          "example": "2024-09-17T00:00:00Z"
         },
         "toExcluding": {
           "description": "To but excluding this timestamp.",
           "type": "string",
           "format": "date-time",
-          "example": "204-09-17T01:00:00+01:00"
+          "example": "2024-09-17T01:00:00Z"
         }
       },
       "additionalProperties": false
@@ -43,28 +24,24 @@
       "description": "A time duration in the format [ISO 8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations).\nExamples:\n- \"P1D\" for one day\n- \"P1M\" for one month\n- \"P2W\" for two weeks\n- \"P3Y6M4DT12H30M5S\" for a complex duration.",
       "type": "string",
       "format": "duration",
-      "examples": [
-        "PT0S",
-        "PT15M",
-        "PT1H",
-        "P1D",
-        "P1W",
-        "P1M",
-        "P1DT12H"
-      ],
+      "example": "PT15M",
+      "pattern": "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$",
       "additionalProperties": false
+    },
+    "CalendarPatternName": {
+      "type": "string",
+      "description": "A name of a calendar pattern.",
+      "pattern": "weekday|weekend|holiday",
+      "example": "weekday"
     },
     "CalendarPattern": {
       "type": "object",
       "description": "A pattern of calendar events.",
       "properties": {
         "name": {
-          "type": "string",
-          "examples": [ "weekday", "weekend", "holiday" ]
+          "$ref": "time.schema.json#/definitions/CalendarPatternName"
         },
         "frequency": {
-          "type": "string",
-          "examples": [ "P1W", "P1Y" ],
           "$ref": "time.schema.json#/definitions/Duration"
         },
         "days": {
@@ -92,24 +69,14 @@
           "description": "A list of calendar patterns to be included in the active period.",
           "type": "array",
           "items": {
-            "type": "string",
-            "examples": [
-              "weekday",
-              "weekend",
-              "holiday"
-            ]
+            "$ref": "time.schema.json#/definitions/CalendarPatternName"
           }
         },
         "exclude": {
           "description": "A list of calendar patterns to be excluded from an active period.",
           "type": "array",
           "items": {
-            "type": "string",
-            "examples": [
-              "weekday",
-              "weekend",
-              "holiday"
-            ]
+            "$ref": "time.schema.json#/definitions/CalendarPatternName"
           }
         }
       },
@@ -144,17 +111,11 @@
         "reference": {
           "description": "Reference to be used to identify this recurring period in a function.",
           "type": "string",
-          "examples": [
-            "main",
-            "high",
-            "low"
-          ],
+          "example": "high",
           "default": "main"
         },
         "frequency": {
-          "$ref": "time.schema.json#/definitions/Duration",
-          "example": "P1D",
-          "default": "P1D"
+          "$ref": "time.schema.json#/definitions/Duration"
         },
         "activePeriods": {
           "type": "array",
