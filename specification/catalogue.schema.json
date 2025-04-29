@@ -37,8 +37,8 @@
   "EntryMapping": {
     "type": "object",
     "properties": {
-      "description": "Metering Point Identifier",
       "meteringPointId": {
+        "description": "Metering Point Identifier",
         "$ref": "#/definitions/MeteringPointID"
       },
       "entryId": {

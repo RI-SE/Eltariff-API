@@ -9,47 +9,32 @@
           "$ref": "common.schema.json#/definitions/Uuid"
         },
         "name": {
-          "$ref": "common.schema.json#/definitions/Name",
-          "example": "Subscription cost"
+          "$ref": "common.schema.json#/definitions/Name"
         },
         "description": {
-          "$ref": "common.schema.json#/definitions/Description",
-          "example": "The subscription component of the fixed price part."
+          "$ref": "common.schema.json#/definitions/Description"
         },
         "type": {
           "description": "Type describes if the price component is a publicly available price or customer specific.",
           "type": "string",
           "pattern": "public|specific",
-          "examples": [
-            "public",
-            "specific"
-          ],
-          "default": "fixed"
+          "example": "public",
+          "default": "public"
         },
         "reference": {
           "description": "Reference to be used to identify this recurring price period in the cost function.",
           "type": "string",
-          "examples": [
-            "main",
-            "pubclic",
-            "specific"
-          ],
+          "example": "main",
           "default": "main"
         },
         "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateInterval"
+          "$ref": "time.schema.json#/definitions/DateTimeInterval"
         },
         "price": {
           "$ref": "price.schema.json#/definitions/Price"
         },
         "pricedPeriod": {
-          "description": "The time period that is priced in the price property.",
-          "$ref": "time.schema.json#/definitions/Duration",
-          "examples": [
-            "P1M",
-            "P1Y"
-          ],
-          "default": "P1M"
+          "$ref": "time.schema.json#/definitions/Duration"
         }
       },
       "additionalProperties": false

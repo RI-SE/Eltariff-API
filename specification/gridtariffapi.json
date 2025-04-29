@@ -23,19 +23,29 @@
       "BearerAuth": []
     }
   ],
+  "tags": [
+    {
+      "name": "Information",
+      "description": "Information about the API implementation."
+    },
+    {
+      "name": "Tariff",
+      "description": "Grid tariff related operations."
+    },
+    {
+      "name": "Price",
+      "description": "Price related operations."
+    }
+  ],
   "paths": {
-    "/{v}/info": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        }
-      ],
+    "/info": {
       "get": {
         "tags": [
           "Information"
         ],
         "operationId": "GetInfo",
         "summary": "Get information about the API implementation.",
+        "description": "Get information about the API implementation.",
         "responses": {
           "200": {
             "description": "Information about the API implementation.",
@@ -53,18 +63,14 @@
         }
       }
     },
-    "/{v}/tariffs": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        }
-      ],
+    "/tariffs": {
       "get": {
         "tags": [
           "Tariff"
         ],
         "operationId": "GetTariffs",
         "summary": "Get a collection of publicly available tariffs for the DSO without any customer data.",
+        "description": "Get a collection of publicly available tariffs for the DSO without any customer data.",
         "responses": {
           "200": {
             "description": "All publicly available tariffs without any customer data.",
@@ -85,11 +91,8 @@
         }
       }
     },
-    "/{v}/tariffs/{id}": {
+    "/tariffs/{id}": {
       "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        },
         {
           "$ref": "#/components/parameters/IdInPath"
         }
@@ -100,6 +103,7 @@
         ],
         "operationId": "GetTariffById",
         "summary": "Get grid tariff for the provided id.",
+        "description": "Get grid tariff for the provided id.",
         "responses": {
           "200": {
             "description": "Single grid tariff object.",
@@ -123,18 +127,14 @@
         }
       }
     },
-    "/{v}/tariffs/search": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        }
-      ],
+    "/tariffs/search": {
       "post": {
         "tags": [
           "Tariff"
         ],
         "operationId": "SearchTariffs",
         "summary": "Search for grid tariffs matching provided search parameters.",
+        "description": "Search for grid tariffs matching provided search parameters.",
         "requestBody": {
           "description": "Search parameters.",
           "required": true,
@@ -175,11 +175,8 @@
         }
       }
     },
-    "/{v}/prices/{componentId}": {
+    "/prices/{componentId}": {
       "parameters": [
-        {
-          "$ref": "#/components/parameters/VersionInPath"
-        },
         {
           "name": "componentId",
           "description": "A price component id.",
@@ -205,6 +202,7 @@
         ],
         "operationId": "GetPrices",
         "summary": "Returns prices for a price component for a given timeperiod.",
+        "description": "Returns prices for a price component for a given timeperiod.",
         "responses": {
           "200": {
             "description": "The prices for the provided component id and time period.",
@@ -244,16 +242,6 @@
       }
     },
     "parameters": {
-      "VersionInPath": {
-        "name": "v",
-        "description": "Version of the API",
-        "in": "path",
-        "required": true,
-        "schema": {
-          "type": "string",
-          "default": "v0"
-        }
-      },
       "IdInPath": {
         "name": "id",
         "description": "Unique identifier for an object",

@@ -9,37 +9,28 @@
           "$ref": "common.schema.json#/definitions/Uuid"
         },
         "name": {
-          "$ref": "common.schema.json#/definitions/Name",
-          "example": "Winter day high price"
+          "$ref": "common.schema.json#/definitions/Name"
         },
         "description": {
-          "$ref": "common.schema.json#/definitions/Description",
-          "example": "A recurring time interval every day with a high power price during day time."
+          "$ref": "common.schema.json#/definitions/Description"
         },
         "type": {
           "type": "string",
           "pattern": "peak|dynamic",
-          "examples": [
-            "peak",
-            "dynamic"
-          ],
+          "example": "peak",
           "default": "peak"
         },
         "reference": {
           "description": "Reference to be used to identify this recurring price period in the cost function.",
           "type": "string",
-          "examples": [
-            "main",
-            "high",
-            "low"
-          ],
+          "example": "high",
           "default": "main"
         },
         "price": {
           "$ref": "price.schema.json#/definitions/Price"
         },
         "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateInterval"
+          "$ref": "time.schema.json#/definitions/DateTimeInterval"
         },
         "peakIdentificationSettings": {
           "$ref": "power.schema.json#/definitions/PeakIdentificationSettings"
@@ -61,22 +52,10 @@
           "$ref": "power.schema.json#/definitions/PeakFunction"
         },
         "peakIdentificationPeriod": {
-          "description": "The time period as an ISO 8601 duration for identifying one single peak to be used in calculations. For example only one peak per day is saved => \"P1D\".",
-          "$ref": "time.schema.json#/definitions/Duration",
-          "examples": [
-            "P1D",
-            "P1W"
-          ],
-          "default": "P1D"
+          "$ref": "time.schema.json#/definitions/Duration"
         },
         "peakDuration": {
-          "description": "The time length as an ISO 8601 duration for calculating average power to get one peak.",
-          "$ref": "time.schema.json#/definitions/Duration",
-          "examples": [
-            "PT1H",
-            "PT15M"
-          ],
-          "default": "PT1H"
+          "$ref": "time.schema.json#/definitions/Duration"
         },
         "numberOfPeaksForAverageCalculation": {
           "description": "The number of peaks within a peak pricing period for calculating average peak for that period.",
@@ -89,10 +68,7 @@
     "PeakFunction": {
       "description": "A pseudo code function that describes how to identify a power peak for one power price component. Usage examples at https://someexamples.",
       "type": "string",
-      "examples": [
-        "peak(main)",
-        "max(peak(high),peak(low)/2)"
-      ],
+      "example": "max(peak(high),peak(low)/2)",
       "default": "peak(main)",
       "additionalProperties": false
     }

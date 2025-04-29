@@ -7,7 +7,7 @@ namespace ExampleController;
 
 public class ExampleControllerImplementation : ControllerBase, IGeneratedController
 {
-    public async Task<ActionResult<InfoResponse>> GetInfoAsync(string v)
+    public async Task<ActionResult<InfoResponse>> GetInfoAsync()
     {
         JsonNode json = await JsonDataLoader.LoadApiSpecification("gridtariffapi-wip.json");
         string? apiName = json["info"]?["title"]?.ToString();
@@ -32,13 +32,13 @@ public class ExampleControllerImplementation : ControllerBase, IGeneratedControl
         return Ok(info);
     }
 
-    public async Task<ActionResult<PricesResponse>> GetPricesAsync(string v, Guid componentId, string duration)
+    public async Task<ActionResult<PricesResponse>> GetPricesAsync(Guid componentId, string duration)
     {
         await Task.Delay(0);
-        return StatusCode(StatusCodes.Status501NotImplemented, $"GET /{v}/prices/{{id}} is not implemented.");
+        return StatusCode(StatusCodes.Status501NotImplemented, $"GET /prices/{{id}} is not implemented.");
     }
 
-    public async Task<ActionResult<TariffResponse>> GetTariffByIdAsync(string v, Guid id)
+    public async Task<ActionResult<TariffResponse>> GetTariffByIdAsync(Guid id)
     {
         var tariffsResponse = await JsonDataLoader.LoadResponseDataAsync<TariffsResponse>("tariffs.json");
         foreach (var tariff in tariffsResponse.Tariffs)
@@ -54,14 +54,14 @@ public class ExampleControllerImplementation : ControllerBase, IGeneratedControl
         return NotFound($"Tariff with id {id} was not found.");
     }
 
-    public async Task<ActionResult<TariffsResponse>> GetTariffsAsync(string v)
+    public async Task<ActionResult<TariffsResponse>> GetTariffsAsync()
     {
         return await JsonDataLoader.LoadResponseDataAsync<TariffsResponse>("tariffs.json");
     }
 
-    public async Task<ActionResult<TariffsSearchResponse>> SearchTariffsAsync(TariffsSearchRequest body, string v)
+    public async Task<ActionResult<TariffsSearchResponse>> SearchTariffsAsync(TariffsSearchRequest body)
     {
         await Task.Delay(0);
-        return StatusCode(StatusCodes.Status501NotImplemented, $"POST /{v}/tariffs/search is not implemented.");
+        return StatusCode(StatusCodes.Status501NotImplemented, $"POST /tariffs/search is not implemented.");
     }
 }

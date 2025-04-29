@@ -6,7 +6,6 @@
       "type": "object",
       "properties": {
         "validPeriod": {
-          "description": "The time period during this price is valid.",
           "$ref": "time.schema.json#/definitions/DateTimeInterval"
         },
         "price": {
@@ -21,21 +20,14 @@
       "properties": {
         "priceExVat": {
           "type": "number",
-          "examples": [
-            171.32,
-            154
-          ]
+          "example": 171.32
         },
         "priceIncVat": {
           "type": "number",
-          "examples": [
-            171.32,
-            154
-          ]
+          "example": 171.32
         },
         "currency": {
-          "$ref": "common.schema.json#/definitions/Currency",
-          "example": "SEK"
+          "$ref": "common.schema.json#/definitions/Currency"
         }
       },
       "additionalProperties": false
@@ -45,7 +37,6 @@
       "type": "object",
       "properties": {
         "componentId": {
-          "description": "Unique id for the price component for which the prices belong to.",
           "$ref": "common.schema.json#/definitions/Uuid"
         },
         "prices": {
@@ -60,11 +51,7 @@
     "CostFunction": {
       "description": "A pseudo code function that describes how to calculate the cost for a set of price components. Usage examples at https://someexamples.",
       "type": "string",
-      "examples": [
-        "sum(price(c))",
-        "sum(energy(c)*price(c))",
-        "sum(peak(c)*price(c))"
-      ],
+      "example": "sum(energy(c)*price(c))",
       "additionalProperties": false
     }
   }
