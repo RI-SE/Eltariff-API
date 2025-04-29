@@ -32,12 +32,15 @@
       },
       "additionalProperties": false
     },
-    "ComponentPrices": {
+    "PriceSeries": {
       "description": "Time differentiated prices for a price component.",
       "type": "object",
       "properties": {
         "componentId": {
           "$ref": "common.schema.json#/definitions/Uuid"
+        },
+        "resolution": {
+          "$ref": "time.schema.json#/definitions/Duration"
         },
         "prices": {
           "type": "array",

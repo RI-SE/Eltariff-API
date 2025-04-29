@@ -185,15 +185,6 @@
           "schema": {
             "$ref": "common.schema.json#/definitions/Uuid"
           }
-        },
-        {
-          "name": "duration",
-          "in": "query",
-          "required": true,
-          "schema": {
-            "$ref": "time.schema.json#/definitions/Duration"
-          },
-          "description": "A duration in time that starts at 00:00 (midnight) of the day when the request is made."
         }
       ],
       "get": {
@@ -345,8 +336,8 @@
       "PricesResponse": {
         "type": "object",
         "properties": {
-          "componentPrices": {
-            "$ref": "price.schema.json#/definitions/ComponentPrices"
+          "priceSeries": {
+            "$ref": "price.schema.json#/definitions/PriceSeries"
           }
         },
         "additionalProperties": false
