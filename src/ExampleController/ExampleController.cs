@@ -32,7 +32,7 @@ public class ExampleControllerImplementation : ControllerBase, IGeneratedControl
         return Ok(info);
     }
 
-    public async Task<ActionResult<PricesResponse>> GetPricesAsync(Guid componentId, string duration)
+    public async Task<ActionResult<PricesResponse>> GetPricesAsync(Guid componentId)
     {
         await Task.Delay(0);
         return StatusCode(StatusCodes.Status501NotImplemented, $"GET /prices/{{id}} is not implemented.");
