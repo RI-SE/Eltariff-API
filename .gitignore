@@ -372,3 +372,4 @@ FodyWeavers.xsd
 
 # Specifically include the specification/releases dir, since releases dir are otherwise ignored
 !specification/releases
+**/.claude/settings.local.json
