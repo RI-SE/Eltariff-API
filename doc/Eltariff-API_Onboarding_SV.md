@@ -14,7 +14,7 @@ Eltariff-API bygger på följande komponenter:
 2. **Katalog-API** - En central katalogtjänst där elnätsbolag registrerar information om sina tillgängliga API:er
 3. **Klienter** - System som konsumerar tariff-information genom att först anropa katalog-API:et och sedan det specifika nätbolagets Grid Tariff API
 
-![Grundläggande sekvensdiagram](doc/Eltariff_sequence_diagram.svg)
+![Grundläggande sekvensdiagram](Eltariff_sequence_diagram.svg)
 
 ## Implementationsguide
 
