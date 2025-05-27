@@ -1,11 +1,13 @@
 # Eltariff-API
-_Specifikation för ett API för Elnätstariffer i Sverige._
+_Specification for an API for Electricity Grid Tariffs in Sweden._
 
-__Notera att tillhandahållandet av data i API:t är i ett utvecklingsskede. Det är sannolikt inte bindande, används på egen risk och innebär således inte några skyldigheter för elnätsbolagen om inte annat meddelas. För mer information kontakta respektive nätbolag.__
-# Dokumentation
-Eltariff-API bygger på att elnätsoperatörer publicerar sina tariffer enligt en gemensam [API-specifikation](specification/gridtariffapi.json)
-och registrerar sin lösning hos en gemensam katalogtjänst, vars API-specifikation finns [här](specification/catalogueapi.json)
-Den som vill hämta tariff-information börjar med att anropa katalog-tjänsten med ett eller flera anläggnings-id för att få information om var tariff-information kan hämtas för respektive anläggnings-id.
+__Please note that the provision of data in this API is in a development phase. It is likely not legally binding, used at your own risk, and does not entail any obligations for the grid operators unless otherwise stated. For more information, contact the respective grid company.__
+# Documentation
+
+The Eltariff API is based on electricity grid operators publishing their tariffs according to a shared [API specification](specification/gridtariffapi.json)
+and registering their implementation with a shared catalogue service, whose API specification is available [here](specification/catalogueapi.json).
+
+Anyone wishing to retrieve tariff information should start by calling the catalogue service with one or more facility IDs (anläggnings-id) to get information on where the tariff data can be retrieved for each respective facility ID.
 
 ![Basic onboarding sequence](doc/Eltariff_sequence_diagram.svg)
 
