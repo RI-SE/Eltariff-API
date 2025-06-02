@@ -1,0 +1,346 @@
+{
+  "tariffs": [
+    {
+      "id": "DDC4C717-4D1F-42AB-857C-F197E6A56E56",
+      "name": "Statisk säkringstariff",
+      "description": "Statisk säkringstariff",
+      "product": "Säkringstariff standard",
+      "companyName": "Dala Energi Elnät AB",
+      "companyOrgNo": "556166-7758",
+      "direction": "consumption",
+      "timeZone": "Europe/Stockholm",
+      "lastUpdated": "2025-04-17T09:55:00.7219459+00:00",
+      "validPeriod": null,
+      "billingPeriod": "P1M",
+      "fixedPrice": {
+        "id": "D42C3F6E-BBF7-435C-86D3-55992A89E554",
+        "name": "Säkring 16 A ej lägenhet",
+        "description": "Fast avgift/abonnemang för icke lägenhet med 16 A säkringstorlek",
+        "validPeriod": {
+          "fromIncluding": "2025-01-01",
+          "toExcluding": "2026-01-01"
+        },
+        "price": {
+          "priceExVat": 3280,
+          "priceIncVat": 4100,
+          "currency": "SEK"
+        },
+        "pricedPeriod": "P1Y"
+      },
+      "energyPrice": {
+        "id": "17B47E20-3A0F-4636-86E7-C9C926FBC4E4",
+        "name": "Överföringsavgift",
+        "description": "Överföringsavgift per kWh",
+        "costFunction": "sum(energy(c)*price(c))",
+        "unit": "kWh",
+        "components": [
+          {
+            "id": "A4B8AD76-A52D-45BC-95D3-71CE2A4F5124",
+            "name": "Fast överföringsavgift",
+            "description": "Fast överföringsavgift",
+            "type": "fixed",
+            "reference": "fixed",
+            "price": {
+              "priceExVat": 0.064,
+              "priceIncVat": 0.08,
+              "currency": "SEK"
+            },
+            "spotPriceSettings": null,
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2026-01-01"
+            },
+            "recurringPeriods": []
+          },
+          {
+            "id": "CBF4332B-3E68-4E13-A57E-B2A52102ED9C",
+            "name": "Energiskatt",
+            "description": "Energiskatt per kWh",
+            "type": "fixed",
+            "reference": "tax",
+            "price": {
+              "priceExVat": 0.439,
+              "priceIncVat": 0.54875,
+              "currency": "SEK"
+            },
+            "spotPriceSettings": null,
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2026-01-01"
+            },
+            "recurringPeriods": []
+          }
+        ]
+      },
+      "powerPrice": {
+        "id": "1DA3724E-2931-4AFD-8BBD-E076A850A060",
+        "name": "Effektpris per timme",
+        "description": "Effektpris per timme",
+        "costFunction": "sum(peak(c)*price(c))",
+        "unit": "kW",
+        "components": [
+          {
+            "id": "2FFA8676-637D-48CE-B926-2E412D0F4ED9",
+            "name": "Tidsindelad, effektavgift hög",
+            "description": "Första perioden av vinter höglast",
+            "type": "peak",
+            "reference": "winter_high_1",
+            "price": {
+              "priceExVat": 76,
+              "priceIncVat": 95,
+              "currency": "SEK"
+            },
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2025-04-01"
+            },
+            "peakIdentificationSettings": {
+              "peakFunction": "peak(main)",
+              "peakIdentificationPeriod": "P1D",
+              "peakDuration": "PT1H",
+              "numberOfPeaksForAverageCalculation": 3
+            },
+            "recurringPeriods": [
+              {
+                "reference": "main",
+                "frequency": "P1D",
+                "activePeriods": [
+                  {
+                    "fromIncluding": "07:00:00",
+                    "toExcluding": "20:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays"
+                      ],
+                      "exclude": [
+                        "weekends",
+                        "holidays"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "A8639FF4-8FE5-4E8D-A69B-BF9BE60D7363",
+            "name": "Tidsindelad, effektavgift låg",
+            "description": "Första perioden av vinter låglast",
+            "type": "peak",
+            "reference": "winter_low_1",
+            "price": {
+              "priceExVat": 28,
+              "priceIncVat": 35,
+              "currency": "SEK"
+            },
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2025-04-01"
+            },
+            "peakIdentificationSettings": {
+              "peakFunction": "peak(main)",
+              "peakIdentificationPeriod": "P1D",
+              "peakDuration": "PT1H",
+              "numberOfPeaksForAverageCalculation": 3
+            },
+            "recurringPeriods": [
+              {
+                "reference": "main",
+                "frequency": "P1D",
+                "activePeriods": [
+                  {
+                    "fromIncluding": "00:00:00",
+                    "toExcluding": "07:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays"
+                      ],
+                      "exclude": [                        
+                        "holidays"
+                      ]
+                    }
+                  },
+                  {
+                    "fromIncluding": "20:00:00",
+                    "toExcluding": "00:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays"
+                      ],
+                      "exclude": [
+                        "holidays"
+                      ]
+                    }
+                  },
+                  {
+                    "fromIncluding": "00:00:00",
+                    "toExcluding": "00:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekends",
+                        "holidays"
+                      ],
+                      "exclude": []
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "E44B6355-DEBC-48AB-9656-69833EA9F07D",
+            "name": "Tidsindelad, effektavgift låg",
+            "description": "Sommarperioden hög- och låg-last",
+            "type": "peak",
+            "reference": "summer",
+            "price": {
+              "priceExVat": 28,
+              "priceIncVat": 35,
+              "currency": "SEK"
+            },
+            "validPeriod": {
+              "fromIncluding": "2025-04-01",
+              "toExcluding": "2026-11-01"
+            },
+            "peakIdentificationSettings": {
+              "peakFunction": "peak(main)",
+              "peakIdentificationPeriod": "P1D",
+              "peakDuration": "PT1H",
+              "numberOfPeaksForAverageCalculation": 3
+            },
+            "recurringPeriods": [
+              {
+                "reference": "main",
+                "frequency": "P1D",
+                "activePeriods": [
+                  {
+                    "fromIncluding": "00:00:00",
+                    "toExcluding": "00:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays",
+                        "weekends",
+                        "holidays"
+                      ],
+                      "exclude": []
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "43D22453-36B2-4ABF-8FF6-36E97AFC45B1",
+            "name": "Tidsindelad, effektavgift hög",
+            "description": "Andra perioden av vinter höglast",
+            "type": "peak",
+            "reference": "winter_high_2",
+            "price": {
+              "priceExVat": 76,
+              "priceIncVat": 95,
+              "currency": "SEK"
+            },
+            "validPeriod": {
+              "fromIncluding": "2025-11-01",
+              "toExcluding": "2026-01-01"
+            },
+            "peakIdentificationSettings": {
+              "peakFunction": "peak(main)",
+              "peakIdentificationPeriod": "P1D",
+              "peakDuration": "PT1H",
+              "numberOfPeaksForAverageCalculation": 3
+            },
+            "recurringPeriods": [
+              {
+                "reference": "main",
+                "frequency": "P1D",
+                "activePeriods": [
+                  {
+                    "fromIncluding": "07:00:00",
+                    "toExcluding": "20:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays"
+                      ],
+                      "exclude": [
+                        "weekends",
+                        "holidays",
+                        "2025-12-23"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "9D1E1FBA-F332-4680-AD9C-E79F624C6328",
+            "name": "Tidsindelad, effektavgift låg",
+            "description": "Andra perioden av vinter låglast",
+            "type": "peak",
+            "reference": "winter_low_2",
+            "price": {
+              "priceExVat": 28,
+              "priceIncVat": 35,
+              "currency": "SEK"
+            },
+            "validPeriod": {
+              "fromIncluding": "2025-11-01",
+              "toExcluding": "2026-01-01"
+            },
+            "peakIdentificationSettings": {
+              "peakFunction": "peak(main)",
+              "peakIdentificationPeriod": "P1D",
+              "peakDuration": "PT1H",
+              "numberOfPeaksForAverageCalculation": 3
+            },
+            "recurringPeriods": [
+              {
+                "reference": "main",
+                "frequency": "P1D",
+                "activePeriods": [
+                  {
+                    "fromIncluding": "00:00:00",
+                    "toExcluding": "07:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays"
+                      ],
+                      "exclude": [
+                        "holidays"
+                      ]
+                    }
+                  },
+                  {
+                    "fromIncluding": "20:00:00",
+                    "toExcluding": "00:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays"
+                      ],
+                      "exclude": [
+                        "holidays"
+                      ]
+                    }
+                  },
+                  {
+                    "fromIncluding": "00:00:00",
+                    "toExcluding": "00:00:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekends",
+                        "holidays",
+                        "2025-12-23"
+                      ],
+                      "exclude": []
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
