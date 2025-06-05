@@ -11,9 +11,9 @@
   "codeGenerators": {
     "openApiToCSharpController": {
       "namespace": "GeneratedController",
-      "output": "build/GeneratedController.cs",
+      "output": "build/GeneratedControllerBase.cs",
       "className": "Generated{controller}",
-      "generateControllerAnnotation": true,
+      "controllerStyle": "Abstract",
       "controllerTarget": "AspNetCore",
       "useCancellationToken": false,
       "useActionResultType": true,

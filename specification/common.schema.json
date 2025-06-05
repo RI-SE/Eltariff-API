@@ -41,12 +41,6 @@
       },
       "additionalProperties": false
     },
-    "Currency": {
-      "description": "The currency for all related prices.",
-      "type": "string",
-      "example": "SEK",
-      "additionalProperties": false
-    },
     "Unit": {
       "description": "The unit of a measurement or price calculation.",
       "type": "string",

@@ -2,12 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 using GeneratedController;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json.Nodes;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ExampleController;
 
-public class ExampleControllerImplementation : ControllerBase, IGeneratedController
+public class GridTariffController : GeneratedControllerBase
 {
-    public async Task<ActionResult<InfoResponse>> GetInfoAsync()
+    public override async Task<ActionResult<InfoResponse>> GetInfo()
     {
         JsonNode json = await JsonDataLoader.LoadApiSpecification("gridtariffapi-wip.json");
         string? apiName = json["info"]?["title"]?.ToString();
@@ -32,13 +33,42 @@ public class ExampleControllerImplementation : ControllerBase, IGeneratedControl
         return Ok(info);
     }
 
-    public async Task<ActionResult<PricesResponse>> GetPricesAsync(Guid componentId)
+    public override async Task<ActionResult<PricesResponse>> GetPrices(
+        [BindRequired] Guid componentId,
+        [FromQuery] DateTimeOffset? fromIncluding,
+        [FromQuery] DateTimeOffset? toExcluding)
     {
-        await Task.Delay(0);
-        return StatusCode(StatusCodes.Status501NotImplemented, $"GET /prices/{{id}} is not implemented.");
+
+        var today = DateTime.Today;
+        List<PriceListEntry> prices = [];
+        for (int i = 0; i < 24; i++)
+        {
+            prices.Add(new PriceListEntry
+            {
+                Timestamp = today.AddHours(i),
+                PriceExVat = i * 0.1m,
+                PriceIncVat = i * 0.1m * 1.25m,
+                Currency = "SEK"
+            });
+        }
+
+        PriceList priceList = new()
+        {
+            ComponentId = componentId,
+            Resolution = "PT1H",
+            Prices = prices
+        };
+
+        PricesResponse response = new()
+        {
+            PriceList = priceList
+        };
+
+        await Task.CompletedTask;
+        return Ok(response);
     }
 
-    public async Task<ActionResult<TariffResponse>> GetTariffByIdAsync(Guid id)
+    public override async Task<ActionResult<TariffResponse>> GetTariffById([BindRequired] Guid id)
     {
         var tariffsResponse = await JsonDataLoader.LoadResponseDataAsync<TariffsResponse>("tariffs.json");
         foreach (var tariff in tariffsResponse.Tariffs)
@@ -54,12 +84,12 @@ public class ExampleControllerImplementation : ControllerBase, IGeneratedControl
         return NotFound($"Tariff with id {id} was not found.");
     }
 
-    public async Task<ActionResult<TariffsResponse>> GetTariffsAsync()
+    public override async Task<ActionResult<TariffsResponse>> GetTariffs()
     {
         return await JsonDataLoader.LoadResponseDataAsync<TariffsResponse>("tariffs.json");
     }
 
-    public async Task<ActionResult<TariffsSearchResponse>> SearchTariffsAsync(TariffsSearchRequest body)
+    public override async Task<ActionResult<TariffsSearchResponse>> SearchTariffs([BindRequired, FromBody] TariffsSearchRequest body)
     {
         await Task.Delay(0);
         return StatusCode(StatusCodes.Status501NotImplemented, $"POST /tariffs/search is not implemented.");
