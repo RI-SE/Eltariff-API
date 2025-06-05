@@ -185,6 +185,24 @@
           "schema": {
             "$ref": "common.schema.json#/definitions/Uuid"
           }
+        },
+        {
+          "name": "fromIncluding",
+          "description": "Get all defined prices from this time and forward. Default is today midnight.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "time.schema.json#/definitions/DateTime"
+          }
+        },
+        {
+          "name": "toExcluding",
+          "description": "Get all defined prices up to this time. Default is fromIncluding + 7 days.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "time.schema.json#/definitions/DateTime"
+          }
         }
       ],
       "get": {
@@ -336,8 +354,8 @@
       "PricesResponse": {
         "type": "object",
         "properties": {
-          "priceSeries": {
-            "$ref": "price.schema.json#/definitions/PriceSeries"
+          "priceList": {
+            "$ref": "price.schema.json#/definitions/PriceList"
           }
         },
         "additionalProperties": false
@@ -387,7 +405,7 @@
               "status": 400,
               "title": "Bad Request",
               "detail": "The request object is invalid.",
-              "instance": "/v0/endpoint"
+              "instance": "/endpoint"
             }
           }
         }
@@ -403,7 +421,7 @@
               "status": 401,
               "title": "Unauthorized",
               "detail": "You do not have access to make this request.",
-              "instance": "/v0/endpoint"
+              "instance": "/endpoint"
             }
           }
         }
@@ -419,7 +437,7 @@
               "status": 403,
               "title": "Forbidden",
               "detail": "The request you made is not allowed.",
-              "instance": "/v0/endpoint"
+              "instance": "/endpoint"
             }
           }
         }
@@ -435,7 +453,7 @@
               "status": 404,
               "title": "Not Found",
               "detail": "The requested resource could not be found.",
-              "instance": "/v0/endpoint"
+              "instance": "/endpoint"
             }
           }
         }
@@ -451,7 +469,7 @@
               "status": 501,
               "title": "Not Implemented",
               "detail": "The request method is not yet implemented on this server.",
-              "instance": "/v0/endpoint"
+              "instance": "/endpoint"
             }
           }
         }
