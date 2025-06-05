@@ -27,19 +27,13 @@ public class OpenApiTools()
 
     public static void EditFile(string filePath)
     {
-        JsonSerializerOptions jsonOptions = new()
-        {
-            WriteIndented = true,
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-        };
-
         string jsonText = File.ReadAllText(filePath);
         if (JsonNode.Parse(jsonText) is JsonObject root)
         {
             string version = GetVersion(filePath);
             if (filePath.EndsWith("-wip.json") && root.TryGetPropertyValue("info", out var info) && info is JsonObject infoObj)
             {
-                File.Move(filePath, filePath.Replace("-wip", $"-v{version}-wip"));
+                File.Move(filePath, filePath.Replace("-wip", $"-v123-wip"));
             }
         }
         else
