@@ -3,7 +3,7 @@
   "info": {
     "title": "Grid Tariff API",
     "description": "Provides grid tariffs from Swedish DSOs.",
-    "version": "0.2.0-alpha2",
+    "version": "0.2.0-alpha3",
     "contact": {
       "name": "Grid Tariff API",
       "url": "https://github.com/RI-SE/Eltariff-API"
@@ -284,6 +284,11 @@
             "type": "string",
             "description": "Name of the company or organization operating this server.",
             "example": "Grid Company AB"
+          },
+          "identityProviderUrl": {
+            "type": "string",
+            "description": "URL to the identity provider server which provides access tokens.",
+            "example": "https://idp.gridcompany.se/oath2/token"
           },
           "lastUpdated": {
             "$ref": "time.schema.json#/definitions/DateTime"
