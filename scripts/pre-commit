@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e  # Exit on any failure
 
 BUNDLE_FILE_PATTERN="specification/releases/gridtariffapi-v"
 API_INDEX_FILE="specification/gridtariffapi.json"
@@ -48,6 +49,10 @@ if [ $? -ne 0 ]; then
   echo "❌ ERROR: Spectral linst failed. Please fix the issues before committing."
   exit 1
 fi
+
+dotnet build src/ControllerGenerator
+dotnet build src/ExampleController
+dotnet build src/SwaggerUI
 
 echo "✅ All checks passed. Proceeding with commit."
 
