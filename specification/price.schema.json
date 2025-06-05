@@ -6,7 +6,6 @@
       "type": "object",
       "properties": {
         "timestamp": {
-          "description": "The timestamp where the price period starts.",
           "$ref": "time.schema.json#/definitions/DateTime"
         },
         "priceExVat": {
