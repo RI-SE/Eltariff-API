@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema",
   "definitions": {
     "PowerPriceComponent": {
-      "description": "A time period in which pricing and power peak identification details are defined. Price components can be overlapping in time to define the full price for one time period.",
+      "description": "A time period in which power price details are defined. Price components can be overlapping in time to define the full price for one time period.",
       "type": "object",
       "properties": {
         "id": {
