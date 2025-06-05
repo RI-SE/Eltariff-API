@@ -28,6 +28,7 @@ public class GridTariffController : GeneratedControllerBase
             ImplementationVersion = $"{apiVersion}-{implementationRevision}",
             Operator = "The Grid Company AB",
             LastUpdated = DateTime.Parse("2025-03-25"),
+            IdentityProviderUrl = "https://idp.gridcompany.se/oath2/token",
             AdditionalProperties = additionalProperties
         };
         return Ok(info);
