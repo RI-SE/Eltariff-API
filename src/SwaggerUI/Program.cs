@@ -1,5 +1,4 @@
 using ExampleController;
-using GeneratedController;
 
 string wwwrootSpecificationDir = Path.Combine("wwwroot", "swagger", "specification");
 Dictionary<string, string> swaggerUISpecifications = [];
@@ -12,8 +11,6 @@ foreach (var filePath in Directory.GetFiles(wwwrootSpecificationDir))
 }
 
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddScoped<IGeneratedController, ExampleControllerImplementation>();
 
 builder.Services.AddControllers();
 builder.Services.AddHttpClient();

@@ -22,9 +22,7 @@
     </ItemGroup>
     <RemoveDir Directories="wwwroot/swagger/specification" />
     <MakeDir Directories="wwwroot/swagger/specification" />
-    <Exec
-      Command="openapi bundle --short ../../specification/gridtariffapi.json -o build/gridtariffapi-wip.json" />
-    <Copy SourceFiles="build/gridtariffapi-wip.json"
+    <Copy SourceFiles="../ControllerGenerator/build/gridtariffapi-wip.json"
       DestinationFolder="wwwroot/swagger/specification" />
     <Copy SourceFiles="@(ApiSpecifications)"
       DestinationFolder="wwwroot/swagger/specification" />
