@@ -56,7 +56,7 @@
           "example": 1.25
         },
         "currency": {
-          "$ref": "common.schema.json#/definitions/Currency"
+          "$ref": "price.schema.json#/definitions/Currency"
         }
       },
       "additionalProperties": false

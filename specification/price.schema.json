@@ -1,15 +1,26 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "definitions": {
-    "PricePeriod": {
-      "description": "A consecutive time period with one price.",
+    "PriceListEntry": {
+      "description": "A timed price entry that belongs to a price list.",
       "type": "object",
       "properties": {
-        "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateTimeInterval"
+        "timestamp": {
+          "description": "The timestamp where the price period starts.",
+          "$ref": "time.schema.json#/definitions/DateTime"
         },
-        "price": {
-          "$ref": "price.schema.json#/definitions/Price"
+        "priceExVat": {
+          "type": "number",
+          "format": "decimal",
+          "example": 100
+        },
+        "priceIncVat": {
+          "type": "number",
+          "format": "decimal",
+          "example": 125
+        },
+        "currency": {
+          "$ref": "price.schema.json#/definitions/Currency"
         }
       },
       "additionalProperties": false
@@ -20,19 +31,21 @@
       "properties": {
         "priceExVat": {
           "type": "number",
+          "format": "decimal",
           "example": 171.32
         },
         "priceIncVat": {
           "type": "number",
+          "format": "decimal",
           "example": 171.32
         },
         "currency": {
-          "$ref": "common.schema.json#/definitions/Currency"
+          "$ref": "price.schema.json#/definitions/Currency"
         }
       },
       "additionalProperties": false
     },
-    "PriceSeries": {
+    "PriceList": {
       "description": "Time differentiated prices for a price component.",
       "type": "object",
       "properties": {
@@ -45,7 +58,7 @@
         "prices": {
           "type": "array",
           "items": {
-            "$ref": "price.schema.json#/definitions/PricePeriod"
+            "$ref": "price.schema.json#/definitions/PriceListEntry"
           }
         }
       },
@@ -55,6 +68,12 @@
       "description": "A pseudo code function that describes how to calculate the cost for a set of price components. Usage examples at https://someexamples.",
       "type": "string",
       "example": "sum(energy(c)*price(c))",
+      "additionalProperties": false
+    },
+    "Currency": {
+      "description": "The currency for all related prices.",
+      "type": "string",
+      "example": "SEK",
       "additionalProperties": false
     }
   }
