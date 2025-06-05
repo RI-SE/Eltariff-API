@@ -286,9 +286,7 @@
             "example": "Grid Company AB"
           },
           "lastUpdated": {
-            "description": "Timestamp for deployment of the last release.",
-            "type": "string",
-            "format": "date-time"
+            "$ref": "time.schema.json#/definitions/DateTime"
           }
         },
         "additionalProperties": true

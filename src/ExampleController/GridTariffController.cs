@@ -35,8 +35,8 @@ public class GridTariffController : GeneratedControllerBase
 
     public override async Task<ActionResult<PricesResponse>> GetPrices(
         [BindRequired] Guid componentId,
-        [FromQuery] DateTimeOffset? fromIncluding,
-        [FromQuery] DateTimeOffset? toExcluding)
+        [FromQuery] DateTime? fromIncluding,
+        [FromQuery] DateTime? toExcluding)
     {
 
         var today = DateTime.Today;
