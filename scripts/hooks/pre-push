@@ -51,7 +51,6 @@ if [ $? -ne 0 ]; then
 fi
 
 dotnet build src/ControllerGenerator
-dotnet build src/ExampleController
 dotnet build src/SwaggerUI
 
 echo "✅ All checks passed. Proceeding with commit."
