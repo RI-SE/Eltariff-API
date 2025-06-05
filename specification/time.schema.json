@@ -7,18 +7,19 @@
       "properties": {
         "fromIncluding": {
           "description": "From and including this timestamp.",
-          "type": "string",
-          "format": "date-time",
-          "example": "2024-09-17T00:00:00Z"
+          "$ref": "time.schema.json#/definitions/DateTime"
         },
         "toExcluding": {
           "description": "To but excluding this timestamp.",
-          "type": "string",
-          "format": "date-time",
-          "example": "2024-09-17T01:00:00Z"
+          "$ref": "time.schema.json#/definitions/DateTime"
         }
       },
       "additionalProperties": false
+    },
+    "DateTime": {
+      "type": "string",
+      "format": "date-time",
+      "example": "2024-09-17T01:00:00Z"
     },
     "Duration": {
       "description": "A time duration in the format [ISO 8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations).\nExamples:\n- \"P1D\" for one day\n- \"P1M\" for one month\n- \"P2W\" for two weeks\n- \"P3Y6M4DT12H30M5S\" for a complex duration.",
