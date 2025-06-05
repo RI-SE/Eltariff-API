@@ -40,9 +40,7 @@
           "example": "Europe/Stockholm"
         },
         "lastUpdated": {
-          "description": "The time of when the prices were last updated on the server side. No need to get prices if you already fetched the latest ones? Ex. 2021-11-05T00:00:00+01:00",
-          "type": "string",
-          "format": "date-time"
+          "$ref": "time.schema.json#/definitions/DateTime"
         },
         "validPeriod": {
           "$ref": "time.schema.json#/definitions/DateTimeInterval"

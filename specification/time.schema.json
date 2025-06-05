@@ -3,23 +3,36 @@
   "definitions": {
     "DateTimeInterval": {
       "type": "object",
-      "description": "A datetime interval where fromIncluding is included and the interval is up until toExcluding.",
+      "description": "A datetime interval where 'fromIncluding' is included and the interval is up until, but excluding, 'toExcluding'.",
       "properties": {
         "fromIncluding": {
-          "description": "From and including this timestamp.",
           "$ref": "time.schema.json#/definitions/DateTime"
         },
         "toExcluding": {
-          "description": "To but excluding this timestamp.",
           "$ref": "time.schema.json#/definitions/DateTime"
         }
       },
       "additionalProperties": false
     },
+    "Date": {
+      "type": "string",
+      "format": "date",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+      "example": "2025-05-25",
+      "description": "Date in ISO 8601 format."
+    },
     "DateTime": {
       "type": "string",
       "format": "date-time",
-      "example": "2024-09-17T01:00:00Z"
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
+      "example": "2025-05-25T01:00:00",
+      "description": "Date-time in ISO 8601 format without offset."
+    },
+    "Time": {
+      "type": "string",
+      "pattern": "^\\d{2}:\\d{2}:\\d{2}$",
+      "example": "01:00:00",
+      "description": "Time in ISO 8601 format without offset."
     },
     "Duration": {
       "description": "A time duration in the format [ISO 8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations).\nExamples:\n- \"P1D\" for one day\n- \"P1M\" for one month\n- \"P2W\" for two weeks\n- \"P3Y6M4DT12H30M5S\" for a complex duration.",
@@ -54,9 +67,7 @@
         "dates": {
           "type": "array",
           "items": {
-            "type": "string",
-            "format": "date",
-            "example": "2024-10-01"
+            "$ref": "time.schema.json#/definitions/Date"
           }
         }
       },
@@ -88,16 +99,10 @@
       "description": "A time interval where \"fromIncluding\" is included and the interval is up to, but excluding \"toExcluding\".",
       "properties": {
         "fromIncluding": {
-          "description": "From and including this timestamp.",
-          "type": "string",
-          "format": "time",
-          "example": "00:00:00"
+          "$ref": "time.schema.json#/definitions/Time"
         },
         "toExcluding": {
-          "description": "To but excluding this timestamp.",
-          "type": "string",
-          "format": "time",
-          "example": "01:00:00"
+          "$ref": "time.schema.json#/definitions/Time"
         },
         "calendarPatternReferences": {
           "$ref": "time.schema.json#/definitions/CalendarPatternReferences"
