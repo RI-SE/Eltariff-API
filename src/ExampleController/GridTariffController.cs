@@ -31,6 +31,7 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
             ApiVersion = apiVersion,
             ImplementationVersion = $"{apiVersion}-{implementationRevision}",
             Operator = "The Grid Company AB",
+            TimeZone = "Europe/Stockholm",
             IdentityProviderUrl = "https://idp.gridcompany.se/oath2/token",
             LastUpdated = DateTime.Parse("2025-06-13"),
             AdditionalProperties = additionalProperties
