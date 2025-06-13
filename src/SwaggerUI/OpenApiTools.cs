@@ -1,7 +1,5 @@
-#nullable enable
+namespace SwaggerUI;
 
-using System.Text.Encodings.Web;
-using System.Text.Json;
 using System.Text.Json.Nodes;
 
 public class OpenApiTools()
@@ -22,23 +20,6 @@ public class OpenApiTools()
         {
             Console.WriteLine($"ERROR: Failed to read OpenAPI version from file {openApiFilePath}: {ex.Message}");
             throw;
-        }
-    }
-
-    public static void EditFile(string filePath)
-    {
-        string jsonText = File.ReadAllText(filePath);
-        if (JsonNode.Parse(jsonText) is JsonObject root)
-        {
-            string version = GetVersion(filePath);
-            if (filePath.EndsWith("-wip.json") && root.TryGetPropertyValue("info", out var info) && info is JsonObject infoObj)
-            {
-                File.Move(filePath, filePath.Replace("-wip", $"-v123-wip"));
-            }
-        }
-        else
-        {
-            Console.WriteLine($"Skipping {filePath} - Not a valid JSON object.");
         }
     }
 }

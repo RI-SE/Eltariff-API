@@ -3,14 +3,18 @@ using GeneratedController;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Hosting;
 
 namespace ExampleController;
 
-public class GridTariffController : GeneratedControllerBase
+public class GridTariffController(IWebHostEnvironment hostEnvironment) : GeneratedControllerBase
 {
+    private IWebHostEnvironment _hostEnvironment = hostEnvironment;
+
     public override async Task<ActionResult<InfoResponse>> GetInfo()
     {
-        JsonNode json = await JsonDataLoader.LoadApiSpecification("gridtariffapi-wip.json");
+        string filePath = Path.Combine(_hostEnvironment.WebRootPath, "swagger/specification", "gridtariffapi-wip.json");
+        JsonNode json = JsonDataLoader.LoadApiSpecification(filePath);
         string? apiName = json["info"]?["title"]?.ToString();
         string? apiVersion = json["info"]?["version"]?.ToString();
         string implementationRevision = "r1";
@@ -27,10 +31,12 @@ public class GridTariffController : GeneratedControllerBase
             ApiVersion = apiVersion,
             ImplementationVersion = $"{apiVersion}-{implementationRevision}",
             Operator = "The Grid Company AB",
-            LastUpdated = DateTime.Parse("2025-03-25"),
             IdentityProviderUrl = "https://idp.gridcompany.se/oath2/token",
+            LastUpdated = DateTime.Parse("2025-06-13"),
             AdditionalProperties = additionalProperties
         };
+
+        await Task.CompletedTask;
         return Ok(info);
     }
 
@@ -71,7 +77,7 @@ public class GridTariffController : GeneratedControllerBase
 
     public override async Task<ActionResult<TariffResponse>> GetTariffById([BindRequired] Guid id)
     {
-        var tariffsResponse = await JsonDataLoader.LoadResponseDataAsync<TariffsResponse>("tariffs.json");
+        var tariffsResponse = JsonDataLoader.LoadResponseData<TariffsResponse>("tariffs.json");
         foreach (var tariff in tariffsResponse.Tariffs)
         {
             if (tariff.Id == id)
@@ -82,17 +88,20 @@ public class GridTariffController : GeneratedControllerBase
                 };
             }
         }
+
+        await Task.CompletedTask;
         return NotFound($"Tariff with id {id} was not found.");
     }
 
     public override async Task<ActionResult<TariffsResponse>> GetTariffs()
     {
-        return await JsonDataLoader.LoadResponseDataAsync<TariffsResponse>("tariffs.json");
+        await Task.CompletedTask;
+        return JsonDataLoader.LoadResponseData<TariffsResponse>("tariffs.json");
     }
 
     public override async Task<ActionResult<TariffsSearchResponse>> SearchTariffs([BindRequired, FromBody] TariffsSearchRequest body)
     {
-        await Task.Delay(0);
+        await Task.CompletedTask;
         return StatusCode(StatusCodes.Status501NotImplemented, $"POST /tariffs/search is not implemented.");
     }
 }
