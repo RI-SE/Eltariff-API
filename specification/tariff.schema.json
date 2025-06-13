@@ -35,9 +35,7 @@
           "default": "consumption"
         },
         "timeZone": {
-          "type": "string",
-          "description": "Time zone for all time values in this tariff. From the IANA Time Zone Database (e.g., 'Europe/Stockholm').",
-          "example": "Europe/Stockholm"
+          "$ref": "time.schema.json#/definitions/TimeZone"
         },
         "lastUpdated": {
           "$ref": "time.schema.json#/definitions/DateTime"

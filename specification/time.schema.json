@@ -14,6 +14,11 @@
       },
       "additionalProperties": false
     },
+    "TimeZone": {
+      "type": "string",
+      "description": "Time zone as described in the IANA Time Zone Database (https://www.iana.org/time-zones) e.g., 'Europe/Stockholm'.",
+      "example": "Europe/Stockholm"
+    },
     "Date": {
       "type": "string",
       "format": "date",
