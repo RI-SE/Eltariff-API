@@ -1,4 +1,4 @@
-using ExampleController;
+using SwaggerUI;
 
 string wwwrootSpecificationDir = Path.Combine("wwwroot", "swagger", "specification");
 Dictionary<string, string> swaggerUISpecifications = [];

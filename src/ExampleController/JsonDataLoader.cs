@@ -10,9 +10,8 @@ public static class JsonDataLoader
         PropertyNameCaseInsensitive = true
     };
 
-    public static async Task<T> LoadResponseDataAsync<T>(string responseFile) where T : class
+    public static T LoadResponseData<T>(string responseFile) where T : class
     {
-        await Task.Delay(0);
         var filePath = Path.Combine(AppContext.BaseDirectory, "Data", responseFile);
         var json = File.ReadAllText(filePath);
         var items = JsonSerializer.Deserialize<T>(json, OPTIONS);
@@ -23,10 +22,8 @@ public static class JsonDataLoader
         throw new JsonException($"Failed reading json file {filePath}");
     }
 
-    public static async Task<JsonNode> LoadApiSpecification(string fileName)
+    public static JsonNode LoadApiSpecification(string filePath)
     {
-        await Task.Delay(0);
-        var filePath = Path.Combine(AppContext.BaseDirectory, "build", fileName);
         var content = File.ReadAllText(filePath);
         JsonNode? document = JsonNode.Parse(content);
         if (document != null)

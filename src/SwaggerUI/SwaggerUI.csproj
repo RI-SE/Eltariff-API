@@ -26,8 +26,6 @@
       DestinationFolder="wwwroot/swagger/specification" />
     <Copy SourceFiles="@(ApiSpecifications)"
       DestinationFolder="wwwroot/swagger/specification" />
-    <Exec
-      Command="dotnet script $(ProjectDir)PrepareApiSpecifications.csx wwwroot/swagger/specification" />
   </Target>
 
 </Project>
