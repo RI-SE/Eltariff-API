@@ -34,7 +34,7 @@ fi
 
 npx @stoplight/spectral-cli lint $API_INDEX_FILE --ruleset .spectral.yaml
 if [ $? -ne 0 ]; then
-  echo "❌ ERROR: Spectral linst failed. Please fix the issues before committing."
+  echo "❌ ERROR: Spectral lint failed. Please fix the issues before committing."
   exit 1
 fi
 
@@ -46,7 +46,7 @@ fi
 
 npx @stoplight/spectral-cli lint $CATALOGUE_INDEX_FILE --ruleset .spectral.yaml
 if [ $? -ne 0 ]; then
-  echo "❌ ERROR: Spectral linst failed. Please fix the issues before committing."
+  echo "❌ ERROR: Spectral lint failed. Please fix the issues before committing."
   exit 1
 fi
 
