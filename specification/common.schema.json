@@ -20,6 +20,12 @@
       "example": "Fixed price for a contract with a fuse size of 25 A.",
       "additionalProperties": false
     },
+    "Url": {
+      "type": "string",
+      "description": "A URL string.",
+      "example": "/prices/216783ff-5dda-4c38-b491-d6f0fcee9a9b",
+      "additionalProperties": false
+    },
     "MeteringPointId": {
       "type": "string",
       "description": "Identifier for a physical metering point (MPID)",

@@ -29,6 +29,9 @@
         "price": {
           "$ref": "price.schema.json#/definitions/Price"
         },
+        "url": {
+          "$ref": "common.schema.json#/definitions/Url"
+        },
         "validPeriod": {
           "$ref": "time.schema.json#/definitions/DateTimeInterval"
         },
