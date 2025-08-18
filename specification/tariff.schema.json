@@ -17,8 +17,9 @@
           "type": "string"
         },
         "product": {
-          "description": "Name of the grid company product, for grid company internal use.",
-          "type": "string"
+          "description": "A persistent and unique (on company level) reference to identify a given product during its entire lifecycle. If set, the reference allows for a seamless transition when a products tariff definition gets updated.",
+          "type": "string",
+          "example": "net.consume.std.25"
         },
         "companyName": {
           "description": "Name of the grid company.",
