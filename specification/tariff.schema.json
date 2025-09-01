@@ -26,7 +26,7 @@
           "type": "string"
         },
         "companyOrgNo": {
-          "description": "Organization number of the grid company.",
+          "description": "Organization number and unique identifier of the grid company.",
           "type": "string"
         },
         "direction": {
