@@ -1,50 +1,50 @@
 #!/bin/sh
-set -e  # Exit on any failure
+set -eu # Exit on any failure and unset variables
 
-BUNDLE_FILE_PATTERN="specification/releases/gridtariffapi-v"
-API_INDEX_FILE="specification/gridtariffapi.json"
-CATALOGUE_INDEX_FILE="specification/catalogueapi.json"
+bundle_file_pattern="specification/releases/gridtariffapi-v"
+api_index_file="specification/gridtariffapi.json"
+catalogue_api_index_file="specification/catalogueapi.json"
 
-if git diff --cached --name-only | grep -q "$BUNDLE_FILE_PATTERN"; then
-  echo "❌ ERROR: Generated bundle files ($BUNDLE_FILE_PATTERN*) should only be modified by GitHub Actions!"
+if git diff --cached --name-only | grep -q "$bundle_file_pattern"; then
+  echo "❌ ERROR: Generated bundle files ($bundle_file_pattern*) should only be modified by GitHub Actions!"
   echo "➡️  Revert any changes to the following files before commit:"
-  git diff --cached --name-only | grep "$BUNDLE_FILE_PATTERN"
+  git diff --cached --name-only | grep "$bundle_file_pattern"
   exit 1
 fi
 
 if git diff --cached --name-only | grep -q "specification/"; then
-  version=$(jq -r '.info.version' $API_INDEX_FILE)
-  for file in $(git ls-files $BUNDLE_FILE_PATTERN*); do
+  version=$(jq -r '.info.version' $api_index_file)
+  for file in $(git ls-files $bundle_file_pattern*); do
     if [[ -f $file ]]; then
       filename=$(basename $file)
       if [[ "$filename" == *"$version"* ]]; then
         echo "❌ ERROR: The API version $version has already been stored in file $filename."
-        echo "➡️  You need to increase the API version (.info.version) in $API_INDEX_FILE before changing the API specification."
+        echo "➡️  You need to increase the API version (.info.version) in $api_index_file before changing the API specification."
         exit 1
       fi
     fi
   done
 fi
 
-npx @redocly/cli lint $API_INDEX_FILE
+npx @redocly/cli lint $api_index_file
 if [ $? -ne 0 ]; then
   echo "❌ ERROR: OpenAPI validation failed. Please fix the issues before committing."
   exit 1
 fi
 
-npx @stoplight/spectral-cli lint $API_INDEX_FILE --ruleset .spectral.yaml
+npx @stoplight/spectral-cli lint $api_index_file --ruleset .spectral.yaml
 if [ $? -ne 0 ]; then
   echo "❌ ERROR: Spectral lint failed. Please fix the issues before committing."
   exit 1
 fi
 
-# npx @redocly/cli lint $CATALOGUE_INDEX_FILE
+# npx @redocly/cli lint $catalogue_api_index_file
 # if [ $? -ne 0 ]; then
 #   echo "❌ ERROR: OpenAPI validation failed. Please fix the issues before committing."
 #   exit 1
 # fi
 
-npx @stoplight/spectral-cli lint $CATALOGUE_INDEX_FILE --ruleset .spectral.yaml
+npx @stoplight/spectral-cli lint $catalogue_api_index_file --ruleset .spectral.yaml
 if [ $? -ne 0 ]; then
   echo "❌ ERROR: Spectral lint failed. Please fix the issues before committing."
   exit 1
@@ -53,6 +53,6 @@ fi
 dotnet build src/ControllerGenerator
 dotnet build src/SwaggerUI
 
-echo "✅ All checks passed. Proceeding with commit."
+echo "✅ All checks passed."
 
 exit 0
