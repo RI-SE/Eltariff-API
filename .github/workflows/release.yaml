@@ -1,8 +1,9 @@
-name: release-and-pages
+name: release
 on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -28,7 +29,7 @@ jobs:
       - name: Bundle OpenAPI
         run: |
           mkdir -p dist
-          npx @redocly/cli bundle specification/index.json -o dist/openapi.json
+          npx @redocly/cli bundle specification/gridtariffapi.json -o dist/openapi.json
 
       - name: Verify info.version matches tag
         run: |
