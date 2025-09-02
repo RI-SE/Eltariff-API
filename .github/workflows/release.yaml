@@ -1,0 +1,89 @@
+name: release-and-pages
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-release-and-publish:
+    runs-on: ubuntu-latest
+    environment: github-pages
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install tools
+        run: |
+          npm i -g @redocly/cli @stoplight/spectral-cli
+
+      - name: Bundle OpenAPI
+        run: |
+          mkdir -p dist
+          npx @redocly/cli bundle specification/index.json -o dist/openapi.json
+
+      - name: Verify info.version matches tag
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          FILE_VER=$(jq -r '.info.version' dist/openapi.json)
+          if [ "$FILE_VER" != "$TAG" ]; then
+            echo "info.version ($FILE_VER) does not match tag ($TAG)"
+            exit 1
+          fi
+
+      - name: Lint with Spectral
+        run: spectral lint dist/openapi.json
+
+      - name: Lint with Redocly
+        run: redocly lint dist/openapi.json
+
+      - name: Generate Redoc (static HTML)
+        run: redocly build-docs dist/openapi.json -o dist/redoc.html
+
+      - name: Attach bundled file to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          files: dist/openapi.json
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Prepare Pages site
+        run: |
+          TAG="${GITHUB_REF_NAME}"          # e.g. v1.2.3
+          mkdir -p site/${TAG} site/latest
+          cp dist/openapi.json site/${TAG}/openapi.json
+          cp dist/redoc.html   site/${TAG}/redoc.html
+          cp site/${TAG}/*     site/latest/
+
+          # tiny index
+          cat > site/index.html <<'HTML'
+          <!doctype html><meta charset="utf-8"><title>API Releases</title>
+          <h1>API Releases</h1>
+          <p><b>Latest</b>:
+            <a href="latest/redoc.html">Redoc</a> ·
+            <a href="latest/openapi.json">openapi.json</a></p>
+          <h2>Versions</h2>
+          <div id="list"></div>
+          <script>
+            // naive directory list (works because we always publish under /vX.Y.Z)
+            const versions = [location.pathname]; // placeholder updated below by Action
+          </script>
+          HTML
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to Pages
+        uses: actions/deploy-pages@v4
