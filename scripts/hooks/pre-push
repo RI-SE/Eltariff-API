@@ -26,13 +26,16 @@ if git diff --cached --name-only | grep -q "specification/"; then
   done
 fi
 
-npx @redocly/cli lint $api_index_file
+mkdir -p build
+npx @redocly/cli bundle specification/gridtariffapi.json -o build/openapi.json
+
+npx @redocly/cli lint build/openapi.json
 if [ $? -ne 0 ]; then
   echo "❌ ERROR: OpenAPI validation failed. Please fix the issues before committing."
   exit 1
 fi
 
-npx @stoplight/spectral-cli lint $api_index_file --ruleset .spectral.yaml
+npx @stoplight/spectral-cli lint build/openapi.json --ruleset .spectral.yaml
 if [ $? -ne 0 ]; then
   echo "❌ ERROR: Spectral lint failed. Please fix the issues before committing."
   exit 1

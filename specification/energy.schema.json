@@ -27,12 +27,10 @@
           "default": "main"
         },
         "price": {
-          "$ref": "price.schema.json#/definitions/Price",
-          "nullable": true
+          "$ref": "price.schema.json#/definitions/Price"
         },
         "spotPriceSettings": {
-          "$ref": "energy.schema.json#/definitions/SpotPriceSettings",
-          "nullable": true
+          "$ref": "energy.schema.json#/definitions/SpotPriceSettings"
         },
         "validPeriod": {
           "$ref": "time.schema.json#/definitions/DateTimeInterval"
