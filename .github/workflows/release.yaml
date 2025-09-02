@@ -60,33 +60,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Prepare Pages site
-      #   run: |
-      #     TAG="${GITHUB_REF_NAME}"          # e.g. v1.2.3
-      #     mkdir -p site/${TAG} site/latest
-      #     cp dist/${API_FILE_NAME} site/${TAG}/gridtariffapi.json
-      #     cp dist/redoc.html   site/${TAG}/redoc.html
-      #     cp site/${TAG}/*     site/latest/
+      - name: Prepare Pages site
+        run: |
+          TAG="${GITHUB_REF_NAME}"          # e.g. v1.2.3
+          mkdir -p site/${TAG} site/latest
+          cp dist/${API_FILE_NAME} site/${TAG}/gridtariffapi.json
+          cp dist/redoc.html   site/${TAG}/redoc.html
+          cp site/${TAG}/*     site/latest/
 
-      #     # tiny index
-      #     cat > site/index.html <<'HTML'
-      #     <!doctype html><meta charset="utf-8"><title>API Releases</title>
-      #     <h1>API Releases</h1>
-      #     <p><b>Latest</b>:
-      #       <a href="latest/redoc.html">Redoc</a> ·
-      #       <a href="latest/openapi.json">openapi.json</a></p>
-      #     <h2>Versions</h2>
-      #     <div id="list"></div>
-      #     <script>
-      #       // naive directory list (works because we always publish under /vX.Y.Z)
-      #       const versions = [location.pathname]; // placeholder updated below by Action
-      #     </script>
-      #     HTML
+          # tiny index
+          cat > site/index.html <<'HTML'
+          <!doctype html><meta charset="utf-8"><title>API Releases</title>
+          <h1>API Releases</h1>
+          <p><b>Latest</b>:
+            <a href="latest/redoc.html">Redoc</a> ·
+            <a href="latest/openapi.json">openapi.json</a></p>
+          <h2>Versions</h2>
+          <div id="list"></div>
+          <script>
+            // naive directory list (works because we always publish under /vX.Y.Z)
+            const versions = [location.pathname]; // placeholder updated below by Action
+          </script>
+          HTML
 
-      # - name: Upload Pages artifact
-      #   uses: actions/upload-pages-artifact@v3
-      #   with:
-      #     path: site
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
 
-      # - name: Deploy to Pages
-      #   uses: actions/deploy-pages@v4
+      - name: Deploy to Pages
+        uses: actions/deploy-pages@v4
