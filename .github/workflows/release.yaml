@@ -4,6 +4,11 @@ on:
     tags:
       - "v*.*.*"
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Git tag (e.g. v1.2.3)
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -15,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: github-pages
     env:
-      API_FILE_NAME: gridtariffapi-${{ github.ref_name }}.json
+      TAG: ${{ inputs.tag != '' && inputs.tag || github.ref_name }}
 
     steps:
       - uses: actions/checkout@v4
