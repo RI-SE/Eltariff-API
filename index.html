@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>API Releases</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; margin: 2rem; }
+    h1 { margin-bottom: .5rem; }
+    .note { color: #666; margin-bottom: 1.5rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 14px; }
+    .card h2 { font-size: 1.05rem; margin: 0 0 .5rem; }
+    .links a { display: inline-block; margin-right: 10px; }
+    .time { font-size: .9rem; color: #555; }
+  </style>
+</head>
+<body>
+  <h1>API Releases</h1>
+  <div class="note">Every tag has its own OpenAPI JSON and a Redoc HTML viewer.</div>
+  <div id="grid" class="grid"></div>
+  <script>
+    async function main(){
+      const res = await fetch('versions.json', {cache: 'no-store'});
+      const items = await res.json(); // [{tag, date, path}]
+      // newest first
+      items.sort((a,b) => new Date(b.date) - new Date(a.date));
+      const grid = document.getElementById('grid');
+      for (const x of items){
+        const root = x.path.replace(/\/$/, '');
+        const li = document.createElement('div');
+        li.className = 'card';
+        li.innerHTML = `
+          <h2>${x.tag}</h2>
+          <div class="time">${new Date(x.date).toLocaleString()}</div>
+          <div class="links" style="margin-top:.5rem">
+            <a href="${root}/openapi.json" rel="noopener">openapi.json</a>
+            <a href="${root}/redoc.html" rel="noopener">redoc.html</a>
+          </div>`;
+        grid.appendChild(li);
+      }
+    }
+    main();
+  </script>
+</body>
+</html>
