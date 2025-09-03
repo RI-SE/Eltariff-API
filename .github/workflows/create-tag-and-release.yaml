@@ -1,4 +1,4 @@
-name: Release OpenAPI
+name: Create new tag and release
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
         required: true
 
 permissions:
-  contents: write # needed to create tags and releases
+  contents: write # needed to create tags and release
 
 env:
   OPENAPI_ENTRY: specification/gridtariffapi.json
