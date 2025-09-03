@@ -1,0 +1,154 @@
+name: Publish API docs to Pages
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to publish (e.g., v1.2.3). Leave empty to use latest published."
+        required: false
+        type: string
+      allow_prerelease:
+        description: "If empty tag, allow prerelease to be selected as 'latest'?"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write  # push to gh-pages
+
+concurrency:
+  group: publish-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo (default branch)
+        uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          npm i -g redoc-cli@latest
+
+      - name: Resolve TAG
+        id: resolve
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          EVENT_NAME: ${{ github.event_name }}
+          EVENT_TAG: ${{ github.event.release.tag_name }}
+          ALLOW_PRERELEASE: ${{ inputs.allow_prerelease }}
+        run: |
+          set -euo pipefail
+          if [[ -n "${INPUT_TAG:-}" ]]; then
+            TAG="$INPUT_TAG"
+          elif [[ "${EVENT_NAME}" == "release" && -n "${EVENT_TAG:-}" ]]; then
+            TAG="${EVENT_TAG}"
+          else
+            # No tag provided → pick latest published (optionally include prereleases)
+            if [[ "${ALLOW_PRERELEASE}" == "true" ]]; then
+              JQ_FILTER='.[] | select(.draft==false) | .tag_name'
+            else
+              JQ_FILTER='.[] | select(.draft==false and .prerelease==false) | .tag_name'
+            fi
+            TAG="$(gh api repos/${{ github.repository }}/releases --paginate --jq "${JQ_FILTER}" | head -n1 || true)"
+          fi
+
+          if [[ -z "${TAG:-}" ]]; then
+            echo "::error::Could not determine a release tag. Provide 'tag' when running manually, or ensure there is a published release."
+            exit 1
+          fi
+
+          # Validate that release exists
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            echo "::error::Release '$TAG' not found."
+            exit 1
+          fi
+
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Resolved tag: $TAG"
+
+      - name: Prepare workspace
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          mkdir -p work/site work/input
+          echo "Publishing tag: $TAG"
+
+      - name: Download openapi.json (from release assets)
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          gh release download "$TAG" --pattern "openapi.json" --dir work/input || true
+          if [[ ! -f work/input/openapi.json ]]; then
+            echo "::error::Release '$TAG' must include an 'openapi.json' asset."
+            exit 1
+          fi
+
+      - name: Download redoc.html (optional)
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          gh release download "$TAG" --pattern "redoc.html" --dir work/input || true
+
+      - name: Generate redoc.html if missing
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          if [[ ! -f work/input/redoc.html ]]; then
+            echo "No redoc.html provided; generating with redoc-cli"
+            redoc-cli bundle work/input/openapi.json -o work/input/redoc.html --title "API – $TAG"
+          fi
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: work/site
+
+      - name: Copy versioned files
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          set -e
+          VERSION_DIR="work/site/v/$TAG"
+          mkdir -p "$VERSION_DIR"
+          cp work/input/openapi.json "$VERSION_DIR/openapi.json"
+          cp work/input/redoc.html "$VERSION_DIR/redoc.html"
+
+      - name: Update versions.json
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          set -e
+          cd work/site
+          test -f versions.json || echo "[]" > versions.json
+
+          # Remove previous entry for this tag (idempotent)
+          jq --arg tag "$TAG" 'map(select(.tag != $tag))' versions.json > .tmp.json && mv .tmp.json versions.json
+
+          # Get release publish time for index
+          PUBLISHED_AT="$(gh release view "$TAG" --json publishedAt --jq .publishedAt)"
+
+          jq --arg tag "$TAG" \
+             --arg path "/v/\($tag)/" \
+             --arg date "$PUBLISHED_AT" \
+             '. + [{tag:$tag, path:$path, date:$date}]' versions.json > .tmp.json && mv .tmp.json versions.json
+
+      - name: Commit & push
+        run: |
+          cd work/site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Publish ${{ steps.resolve.outputs.tag }}"
+            git push origin gh-pages
+          fi

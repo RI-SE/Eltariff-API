@@ -1,97 +1,108 @@
-name: release
+name: Release OpenAPI
+
 on:
-  push:
-    tags:
-      - "v*.*.*"
   workflow_dispatch:
     inputs:
       tag:
-        description: Git tag (e.g. v1.2.3)
-        required: true
+        description: "Release tag (format vX.Y.Z, e.g. v1.2.3)"
         type: string
+        required: true
 
 permissions:
-  contents: write
-  pages: write
-  id-token: write
+  contents: write # needed to create tags and releases
+
+env:
+  OPENAPI_ENTRY: specification/gridtariffapi.json
+  OUT_DIR: dist
+  BUNDLED_JSON: dist/openapi.json
+  REDOC_HTML: dist/redoc.html
 
 jobs:
-  build-release-and-publish:
+  release:
     runs-on: ubuntu-latest
-    environment: github-pages
     env:
-      TAG: ${{ inputs.tag != '' && inputs.tag || github.ref_name }}
+      TAG: "${{ github.event.inputs.tag }}"
+      VERSION: "${TAG#v}"
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
+      - name: Check out repository
+        uses: actions/checkout@v4
         with:
-          node-version: 20
+          fetch-depth: 0 # we need history to create/push a tag cleanly
 
-      - name: Install tools
+      - name: Validate version input
+        id: validate
+        shell: bash
         run: |
-          npm i -g @redocly/cli @stoplight/spectral-cli
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: version must match vX.Y.Z (e.g., v1.2.3). Got: $TAG"
+            exit 1
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
 
       - name: Bundle OpenAPI
         run: |
-          mkdir -p dist
-          npx @redocly/cli bundle specification/gridtariffapi.json -o dist/${API_FILE_NAME}
+          mkdir -p "$OUT_DIR"
+          npx --yes @redocly/cli@latest bundle "$OPENAPI_ENTRY" \
+            --output "$BUNDLED_JSON" \
+            --ext json
+
+      - name: Lint OpenAPI (bundled)
+        run: npx --yes @redocly/cli@latest lint "$BUNDLED_JSON"
 
       - name: Verify info.version matches tag
         run: |
-          TAG_VER="${GITHUB_REF_NAME#v}"
-          FILE_VER=$(jq -r '.info.version' dist/${API_FILE_NAME})
-          if [ "$FILE_VER" != "$TAG_VER" ]; then
-            echo "info.version ($FILE_VER) does not match tag ($TAG_VER)"
+          TAG="${GITHUB_REF_NAME#v}"
+          FILE_VER=$(jq -r '.info.version' $BUNDLED_JSON)
+          if [ "$FILE_VER" != "$VERSION" ]; then
+            echo "info.version ($FILE_VER) does not match input version ($VERSION)"
             exit 1
           fi
 
-      - name: Lint with Spectral
-        run: spectral lint dist/${API_FILE_NAME}
+      - name: Build Redoc HTML
+        run: npx --yes @redocly/cli@latest build-docs "$BUNDLED_JSON" --output="$REDOC_HTML"
 
-      - name: Lint with Redocly
-        run: redocly lint dist/${API_FILE_NAME}
+      # Create and push the git tag pointing at the current commit
+      - name: Create and push tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # fail if tag already exists remotely
+          if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
+            echo "Tag ${TAG} already exists on origin. Aborting."
+            exit 1
+          fi
+          git tag "${TAG}" "${GITHUB_SHA}"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "refs/tags/${TAG}"
 
-      - name: Generate Redoc (static HTML)
-        run: redocly build-docs dist/${API_FILE_NAME} -o dist/redoc.html
-
-      - name: Attach bundled file to Release
+      # Create the release and upload assets
+      - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          files: dist/${API_FILE_NAME}
+          tag_name: ${{ steps.validate.outputs.tag }}
+          name: ${{ steps.validate.outputs.tag }}
+          body: |
+            Automated release for ${{ steps.validate.outputs.tag }}.
+
+            - Linted source OpenAPI (`${{ env.OPENAPI_ENTRY }}`)
+            - Bundled to `${{ env.BUNDLED_JSON }}`
+            - Generated Redoc `${{ env.REDOC_HTML }}`
+          files: |
+            dist/openapi.json
+            dist/redoc.html
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Prepare Pages site
-        run: |
-          TAG="${GITHUB_REF_NAME}"          # e.g. v1.2.3
-          mkdir -p site/${TAG} site/latest
-          cp dist/${API_FILE_NAME} site/${TAG}/gridtariffapi.json
-          cp dist/redoc.html   site/${TAG}/redoc.html
-          cp site/${TAG}/*     site/latest/
-
-          # tiny index
-          cat > site/index.html <<'HTML'
-          <!doctype html><meta charset="utf-8"><title>API Releases</title>
-          <h1>API Releases</h1>
-          <p><b>Latest</b>:
-            <a href="latest/redoc.html">Redoc</a> ·
-            <a href="latest/openapi.json">openapi.json</a></p>
-          <h2>Versions</h2>
-          <div id="list"></div>
-          <script>
-            // naive directory list (works because we always publish under /vX.Y.Z)
-            const versions = [location.pathname]; // placeholder updated below by Action
-          </script>
-          HTML
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+      # (Nice to have) Upload the files as workflow run artifacts as well
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
-          path: site
-
-      - name: Deploy to Pages
-        uses: actions/deploy-pages@v4
+          name: openapi-release-${{ steps.validate.outputs.tag }}
+          path: |
+            dist/openapi.json
+            dist/redoc.html
