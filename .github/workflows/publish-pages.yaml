@@ -64,12 +64,6 @@ jobs:
             exit 1
           fi
 
-          # Validate that release exists
-          if ! gh release view "$TAG" >/dev/null 2>&1; then
-            echo "::error::Release '$TAG' not found."
-            exit 1
-          fi
-
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "Resolved tag: $TAG"
 
