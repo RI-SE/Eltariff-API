@@ -30,12 +30,13 @@
       for (const x of items){
         let name = x.tag
         if (first) {
-          name = name + ' (latest)'
+          name = name + ' (latest)';
+          first = false;
         }
         const li = document.createElement('div');
         li.className = 'card';
         li.innerHTML = `
-          <h2>${x.tag}</h2>
+          <h2>${name}</h2>
           <div class="time">${new Date(x.date).toISOString().split('T')[0]}</div>
           <div class="links" style="margin-top:.5rem">
             <a href="/releases/${x.tag}/openapi.json" rel="noopener">openapi.json</a>
