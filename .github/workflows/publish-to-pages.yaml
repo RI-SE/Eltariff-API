@@ -9,14 +9,9 @@ on:
         description: "Release tag to publish (e.g., v1.2.3). Leave empty to use latest published."
         required: false
         type: string
-      allow_prerelease:
-        description: "If empty tag, allow prerelease to be selected as 'latest'?"
-        required: false
-        default: false
-        type: boolean
 
 permissions:
-  contents: write  # push to gh-pages
+  contents: write # push to gh-pages
 
 concurrency:
   group: publish-pages
@@ -50,12 +45,7 @@ jobs:
           elif [[ "${EVENT_NAME}" == "release" && -n "${EVENT_TAG:-}" ]]; then
             TAG="${EVENT_TAG}"
           else
-            # No tag provided → pick latest published (optionally include prereleases)
-            if [[ "${ALLOW_PRERELEASE}" == "true" ]]; then
-              JQ_FILTER='.[] | select(.draft==false) | .tag_name'
-            else
-              JQ_FILTER='.[] | select(.draft==false and .prerelease==false) | .tag_name'
-            fi
+            JQ_FILTER='.[] | select(.draft==false and .prerelease==false) | .tag_name'
             TAG="$(gh api repos/${{ github.repository }}/releases --paginate --jq "${JQ_FILTER}" | head -n1 || true)"
           fi
 
@@ -78,7 +68,8 @@ jobs:
         env:
           TAG: ${{ steps.resolve.outputs.tag }}
         run: |
-          gh release download "$TAG" --pattern "openapi.json" --dir work/input || true
+          mkdir -p work/input
+          gh release download "$TAG" --pattern "openapi.json" --dir work/input
           if [[ ! -f work/input/openapi.json ]]; then
             echo "::error::Release '$TAG' must include an 'openapi.json' asset."
             exit 1
