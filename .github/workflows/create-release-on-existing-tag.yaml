@@ -3,11 +3,11 @@ name: Create release on existing tag
 on:
   push:
     tags:
-      - "v*.*.*"
+      - v*.*.*
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Existing tag (e.g. v1.2.3)'
+        description: Existing tag (e.g. v1.2.3)
         required: true
         type: string
 
