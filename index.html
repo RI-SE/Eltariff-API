@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>API Releases</title>
+  <title>Grid Tariff API Releases</title>
   <style>
     body { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; margin: 2rem; }
     h1 { margin-bottom: .5rem; }
@@ -16,8 +16,8 @@
   </style>
 </head>
 <body>
-  <h1>API Releases</h1>
-  <div class="note">Every tag has its own OpenAPI JSON and a Redoc HTML viewer.</div>
+  <h1>Grid Tariff API Releases</h1>
+  <div class="note">All releases for the Grid Tariff API project. Each release has it's own OpenAPI specification.</div>
   <div id="grid" class="grid"></div>
   <script>
     async function main(){
@@ -25,13 +25,18 @@
       const items = await res.json(); // [{tag, date}]
       // newest first
       items.sort((a,b) => new Date(b.date) - new Date(a.date));
+      let first = true;
       const grid = document.getElementById('grid');
       for (const x of items){
+        let name = x.tag
+        if (first) {
+          name = name + ' (latest)'
+        }
         const li = document.createElement('div');
         li.className = 'card';
         li.innerHTML = `
           <h2>${x.tag}</h2>
-          <div class="time">${new Date(x.date).toLocaleString()}</div>
+          <div class="time">${new Date(x.date).toISOString().split('T')[0]}</div>
           <div class="links" style="margin-top:.5rem">
             <a href="/releases/${x.tag}/openapi.json" rel="noopener">openapi.json</a>
             <a href="/releases/${x.tag}/redoc.html" rel="noopener">redoc.html</a>
