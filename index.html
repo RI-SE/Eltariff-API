@@ -39,8 +39,8 @@
           <h2>${name}</h2>
           <div class="time">${new Date(x.date).toISOString().split('T')[0]}</div>
           <div class="links" style="margin-top:.5rem">
-            <a href="/releases/${x.tag}/openapi.json" rel="noopener">openapi.json</a>
-            <a href="/releases/${x.tag}/redoc.html" rel="noopener">redoc.html</a>
+            <a href="releases/${x.tag}/openapi.json" rel="noopener">openapi.json</a>
+            <a href="releases/${x.tag}/redoc.html" rel="noopener">redoc.html</a>
           </div>`;
         grid.appendChild(li);
       }
