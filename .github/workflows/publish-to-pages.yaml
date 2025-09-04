@@ -117,7 +117,9 @@ jobs:
           test -f versions.json || echo "[]" > versions.json
 
           # Get release publish time for index
-          COMMIT_DATE="$(git log -1 --format=%ai v0.1.0 | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')"
+          COMMIT_DATE=$(git log -1 --format=%ai $TAG | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')
+          echo "$COMMIT_DATE"
+          exit 1
 
           jq --arg tag "$TAG" \
              --arg path "/$TAG/" \
