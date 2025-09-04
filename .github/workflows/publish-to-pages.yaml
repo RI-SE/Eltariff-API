@@ -103,10 +103,10 @@ jobs:
           TAG: ${{ steps.resolve.outputs.tag }}
         run: |
           set -e
-          VERSION_DIR="work/site/v/$TAG"
-          mkdir -p "$VERSION_DIR"
-          cp work/input/openapi.json "$VERSION_DIR/openapi.json"
-          cp work/input/redoc.html "$VERSION_DIR/redoc.html"
+          release_dir="work/site/releases/$TAG"
+          mkdir -p "$release_dir"
+          cp work/input/openapi.json "$release_dir/openapi.json"
+          cp work/input/redoc.html "$release_dir/redoc.html"
 
       - name: Update versions.json
         env:
@@ -115,9 +115,6 @@ jobs:
           set -e
           cd work/site
           test -f versions.json || echo "[]" > versions.json
-
-          # Remove previous entry for this tag (idempotent)
-          jq --arg tag "$TAG" 'map(select(.tag != $tag))' versions.json > .tmp.json && mv .tmp.json versions.json
 
           # Get release publish time for index
           COMMIT_DATE="$(git log -1 --format=%ai v0.1.0 | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')"
