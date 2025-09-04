@@ -1,0 +1,76 @@
+name: Create and push new tag
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (format vX.Y.Z, e.g. v1.2.3)"
+        type: string
+        required: true
+
+permissions:
+  contents: write # needed to push tag
+
+env:
+  OPENAPI_ENTRY: specification/gridtariffapi.json
+  OUT_DIR: dist
+  BUNDLED_JSON: dist/openapi.json
+  REDOC_HTML: dist/redoc.html
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      TAG: "${{ github.event.inputs.tag }}"
+      VERSION: "${TAG#v}"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # we need full history to create/push a tag cleanly
+
+      - name: Validate version input
+        id: validate
+        shell: bash
+        run: |
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: version must match vX.Y.Z (e.g., v1.2.3). Got: $TAG"
+            exit 1
+          fi
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Bundle OpenAPI
+        run: |
+          mkdir -p "$OUT_DIR"
+          npx --yes @redocly/cli@latest bundle "$OPENAPI_ENTRY" \
+            --output "$BUNDLED_JSON" \
+            --ext json
+
+      - name: Lint OpenAPI (bundled)
+        run: npx --yes @redocly/cli@latest lint "$BUNDLED_JSON"
+
+      - name: Verify info.version matches tag
+        run: |
+          TAG="${GITHUB_REF_NAME#v}"
+          FILE_VER=$(jq -r '.info.version' $BUNDLED_JSON)
+          if [ "$FILE_VER" != "$VERSION" ]; then
+            echo "info.version ($FILE_VER) does not match input version ($VERSION)"
+            exit 1
+          fi
+
+      - name: Create and push tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # fail if tag already exists remotely
+          if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
+            echo "Tag ${TAG} already exists on origin. Aborting."
+            exit 1
+          fi
+          git tag "${TAG}" "${GITHUB_SHA}"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "refs/tags/${TAG}"

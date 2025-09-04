@@ -1,15 +1,18 @@
-name: Create new tag and release
+name: Create release on existing tag
 
 on:
+  push:
+    tags:
+      - "v*.*.*"
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag (format vX.Y.Z, e.g. v1.2.3)"
-        type: string
+        description: 'Existing tag (e.g. v1.2.3)'
         required: true
+        type: string
 
 permissions:
-  contents: write # needed to create tags and release
+  contents: write # needed to create release
 
 env:
   OPENAPI_ENTRY: specification/gridtariffapi.json
@@ -19,26 +22,20 @@ env:
 
 jobs:
   release:
+    if: |
+      (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/') && github.ref_name matches '^v\\d+\\.\\d+\\.\\d+$')
+      || (github.event_name == 'workflow_dispatch')
+
     runs-on: ubuntu-latest
     env:
-      TAG: "${{ github.event.inputs.tag }}"
+      TAG: "${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
       VERSION: "${TAG#v}"
 
     steps:
-      - name: Check out repository
+      - name: Check out tag ref
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # we need history to create/push a tag cleanly
-
-      - name: Validate version input
-        id: validate
-        shell: bash
-        run: |
-          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Error: version must match vX.Y.Z (e.g., v1.2.3). Got: $TAG"
-            exit 1
-          fi
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          ref: ${{ env.TAG }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -57,7 +54,6 @@ jobs:
 
       - name: Verify info.version matches tag
         run: |
-          TAG="${GITHUB_REF_NAME#v}"
           FILE_VER=$(jq -r '.info.version' $BUNDLED_JSON)
           if [ "$FILE_VER" != "$VERSION" ]; then
             echo "info.version ($FILE_VER) does not match input version ($VERSION)"
@@ -67,27 +63,13 @@ jobs:
       - name: Build Redoc HTML
         run: npx --yes @redocly/cli@latest build-docs "$BUNDLED_JSON" --output="$REDOC_HTML"
 
-      # Create and push the git tag pointing at the current commit
-      - name: Create and push tag
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          # fail if tag already exists remotely
-          if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
-            echo "Tag ${TAG} already exists on origin. Aborting."
-            exit 1
-          fi
-          git tag "${TAG}" "${GITHUB_SHA}"
-          git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "refs/tags/${TAG}"
-
-      # Create the release and upload assets
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.validate.outputs.tag }}
-          name: ${{ steps.validate.outputs.tag }}
+          tag_name: ${{ env.TAG }}
+          name: ${{ env.TAG }}
           body: |
-            Automated release for ${{ steps.validate.outputs.tag }}.
+            Automated release for ${{ env.TAG }}.
 
             - Linted source OpenAPI (`${{ env.OPENAPI_ENTRY }}`)
             - Bundled to `${{ env.BUNDLED_JSON }}`
