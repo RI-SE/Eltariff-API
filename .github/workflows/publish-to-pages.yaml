@@ -28,6 +28,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Install tools
         run: |
@@ -58,8 +59,11 @@ jobs:
             exit 1
           fi
 
+          COMMIT_DATE="$(git show -s --format=%ai "$TAG^{commit}" | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')"
+          
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "Resolved tag: $TAG"
+          echo "commit_date=$COMMIT_DATE" >> "$GITHUB_OUTPUT"
+          echo "Resolved tag $TAG with commit date $COMMIT_DATE"
 
       - name: Prepare workspace
         env:
@@ -113,15 +117,11 @@ jobs:
       - name: Update versions.json
         env:
           TAG: ${{ steps.resolve.outputs.tag }}
+          COMMIT_DATE: ${{ steps.resolve.outputs.commit_date }}
         run: |
           set -e
           cd work/site
           test -f versions.json || echo "[]" > versions.json
-
-          # Get release publish time for index
-          COMMIT_DATE=$(git log -1 --format=%ai $TAG | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')
-          echo "$COMMIT_DATE"
-          exit 1
 
           jq --arg tag "$TAG" \
              --arg path "/$TAG/" \
