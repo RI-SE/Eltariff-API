@@ -22,20 +22,19 @@
   <script>
     async function main(){
       const res = await fetch('versions.json', {cache: 'no-store'});
-      const items = await res.json(); // [{tag, date, path}]
+      const items = await res.json(); // [{tag, date}]
       // newest first
       items.sort((a,b) => new Date(b.date) - new Date(a.date));
       const grid = document.getElementById('grid');
       for (const x of items){
-        const root = x.path.replace(/\/$/, '');
         const li = document.createElement('div');
         li.className = 'card';
         li.innerHTML = `
           <h2>${x.tag}</h2>
           <div class="time">${new Date(x.date).toLocaleString()}</div>
           <div class="links" style="margin-top:.5rem">
-            <a href="${root}/openapi.json" rel="noopener">openapi.json</a>
-            <a href="${root}/redoc.html" rel="noopener">redoc.html</a>
+            <a href="/releases/${x.tag}/openapi.json" rel="noopener">openapi.json</a>
+            <a href="/releases/${x.tag}/redoc.html" rel="noopener">redoc.html</a>
           </div>`;
         grid.appendChild(li);
       }
