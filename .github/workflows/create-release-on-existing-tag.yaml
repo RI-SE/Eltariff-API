@@ -25,7 +25,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TAG: "${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
-      VERSION: "${TAG#v}"
 
     steps:
       - name: Validate tag format
@@ -59,9 +58,10 @@ jobs:
 
       - name: Verify info.version matches tag
         run: |
-          FILE_VER=$(jq -r '.info.version' $BUNDLED_JSON)
-          if [ "$FILE_VER" != "$VERSION" ]; then
-            echo "info.version ($FILE_VER) does not match input version ($VERSION)"
+          version_in_tag=${TAG#v}
+          version_in_file=$(jq -r '.info.version' $BUNDLED_JSON)
+          if [ "$version_in_file" != "$version_in_tag" ]; then
+            echo "info.version ($version_in_file) does not match input version ($version_in_tag)"
             exit 1
           fi
 
