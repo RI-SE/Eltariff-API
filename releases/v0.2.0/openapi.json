@@ -1,0 +1,1056 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Grid Tariff API",
+    "description": "Provides grid tariffs from Swedish DSOs.",
+    "version": "0.2.0",
+    "contact": {
+      "name": "Grid Tariff API",
+      "url": "https://github.com/RI-SE/Eltariff-API"
+    },
+    "license": {
+      "name": "Licence",
+      "url": "https://github.com/RI-SE/Eltariff-API/blob/main/LICENSE"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Information",
+      "description": "Information about the API implementation."
+    },
+    {
+      "name": "Tariff",
+      "description": "Grid tariff related operations."
+    },
+    {
+      "name": "Price",
+      "description": "Price related operations."
+    }
+  ],
+  "paths": {
+    "/info": {
+      "get": {
+        "tags": [
+          "Information"
+        ],
+        "operationId": "GetInfo",
+        "summary": "Get information about the API implementation.",
+        "description": "Get information about the API implementation.",
+        "responses": {
+          "200": {
+            "description": "Information about the API implementation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          }
+        }
+      }
+    },
+    "/tariffs": {
+      "get": {
+        "tags": [
+          "Tariff"
+        ],
+        "operationId": "GetTariffs",
+        "summary": "Get a collection of publicly available tariffs for the DSO without any customer data.",
+        "description": "Get a collection of publicly available tariffs for the DSO without any customer data.",
+        "responses": {
+          "200": {
+            "description": "All publicly available tariffs without any customer data.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TariffsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "501": {
+            "$ref": "#/components/responses/NotImplemented"
+          }
+        }
+      }
+    },
+    "/tariffs/{id}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/IdInPath"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Tariff"
+        ],
+        "operationId": "GetTariffById",
+        "summary": "Get grid tariff for the provided id.",
+        "description": "Get grid tariff for the provided id.",
+        "responses": {
+          "200": {
+            "description": "Single grid tariff object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TariffResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "501": {
+            "$ref": "#/components/responses/NotImplemented"
+          }
+        }
+      }
+    },
+    "/tariffs/search": {
+      "post": {
+        "tags": [
+          "Tariff"
+        ],
+        "operationId": "SearchTariffs",
+        "summary": "Search for grid tariffs matching provided search parameters.",
+        "description": "Search for grid tariffs matching provided search parameters.",
+        "requestBody": {
+          "description": "Search parameters.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TariffsSearchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tariffs matching the search criteria and mapping between tariff and search parameters.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TariffsSearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "501": {
+            "$ref": "#/components/responses/NotImplemented"
+          }
+        }
+      }
+    },
+    "/prices/{componentId}": {
+      "parameters": [
+        {
+          "name": "componentId",
+          "description": "A price component id.",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "$ref": "#/components/schemas/Uuid"
+          }
+        },
+        {
+          "name": "fromIncluding",
+          "description": "Get all defined prices from this time and forward. Default is today midnight.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        },
+        {
+          "name": "toExcluding",
+          "description": "Get all defined prices up to this time. Default is fromIncluding + 7 days.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "Price"
+        ],
+        "operationId": "GetPrices",
+        "summary": "Returns prices for a price component for a given timeperiod.",
+        "description": "Returns prices for a price component for a given timeperiod.",
+        "responses": {
+          "200": {
+            "description": "The prices for the provided component id and time period.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PricesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "501": {
+            "$ref": "#/components/responses/NotImplemented"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "parameters": {
+      "IdInPath": {
+        "name": "id",
+        "description": "Unique identifier for an object",
+        "in": "path",
+        "required": true,
+        "schema": {
+          "$ref": "#/components/schemas/Uuid"
+        }
+      }
+    },
+    "schemas": {
+      "InfoResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the implemented API.",
+            "default": "Grid Tariff API"
+          },
+          "apiVersion": {
+            "type": "string",
+            "description": "Version of the implemented API specification.",
+            "example": "1.2.3"
+          },
+          "implementationVersion": {
+            "type": "string",
+            "description": "Version of the implementation. The format is set by the operator and can differ. In this example -r4 is the revision number of the implementation and the first three numbers the API version.",
+            "example": "1.2.3-r4"
+          },
+          "operator": {
+            "type": "string",
+            "description": "Name of the company or organization operating this server.",
+            "example": "Grid Company AB"
+          },
+          "timeZone": {
+            "$ref": "#/components/schemas/TimeZone"
+          },
+          "identityProviderUrl": {
+            "type": "string",
+            "description": "URL to the identity provider server which provides access tokens.",
+            "example": "https://idp.gridcompany.se/oath2/token"
+          },
+          "lastUpdated": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        },
+        "additionalProperties": true
+      },
+      "TariffsResponse": {
+        "type": "object",
+        "properties": {
+          "tariffs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tariff"
+            }
+          },
+          "calendarPatterns": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarPattern"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "TariffResponse": {
+        "type": "object",
+        "properties": {
+          "tariff": {
+            "$ref": "#/components/schemas/Tariff"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TariffsSearchRequest": {
+        "type": "object",
+        "properties": {
+          "meteringPointIds": {
+            "type": "array",
+            "description": "List of MPIDs you are the registered owner of as a private person or your company has e legal reason to request in a customer/provider relationship.",
+            "items": {
+              "$ref": "#/components/schemas/MeteringPointId"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "TariffsSearchResponse": {
+        "type": "object",
+        "properties": {
+          "tariffs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tariff"
+            }
+          },
+          "mappings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TariffMapping"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PricesResponse": {
+        "type": "object",
+        "properties": {
+          "priceList": {
+            "$ref": "#/components/schemas/PriceList"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "HTTP status code of the error."
+          },
+          "title": {
+            "type": "string",
+            "description": "A short, human-readable summary of the problem."
+          },
+          "detail": {
+            "type": "string",
+            "description": "A detailed message explaining the error."
+          },
+          "instance": {
+            "type": "string",
+            "description": "URI reference identifying the specific occurrence of the problem."
+          },
+          "type": {
+            "type": "string",
+            "description": "A URI reference that identifies the problem type."
+          }
+        },
+        "required": [
+          "status",
+          "title",
+          "detail"
+        ],
+        "additionalProperties": false
+      },
+      "TimeZone": {
+        "type": "string",
+        "description": "Time zone as described in the IANA Time Zone Database (https://www.iana.org/time-zones) e.g., 'Europe/Stockholm'.",
+        "example": "Europe/Stockholm"
+      },
+      "DateTime": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
+        "example": "2025-05-25T01:00:00",
+        "description": "Date-time in ISO 8601 format without offset."
+      },
+      "Uuid": {
+        "type": "string",
+        "format": "uuid",
+        "description": "Globally unique identifier",
+        "example": "216783ff-5dda-4c38-b491-d6f0fcee9a9b",
+        "additionalProperties": false
+      },
+      "DateTimeInterval": {
+        "type": "object",
+        "description": "A datetime interval where 'fromIncluding' is included and the interval is up until, but excluding, 'toExcluding'.",
+        "properties": {
+          "fromIncluding": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "toExcluding": {
+            "$ref": "#/components/schemas/DateTime"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Duration": {
+        "description": "A time duration in the format [ISO 8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations).\nExamples:\n- \"P1D\" for one day\n- \"P1M\" for one month\n- \"P2W\" for two weeks\n- \"P3Y6M4DT12H30M5S\" for a complex duration.",
+        "type": "string",
+        "format": "duration",
+        "example": "PT15M",
+        "pattern": "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$",
+        "additionalProperties": false
+      },
+      "Name": {
+        "type": "string",
+        "description": "A short human readable name.",
+        "example": "Fusesize 25A",
+        "additionalProperties": false
+      },
+      "Description": {
+        "description": "A longer explanatory text.",
+        "type": "string",
+        "example": "Fixed price for a contract with a fuse size of 25 A.",
+        "additionalProperties": false
+      },
+      "CostFunction": {
+        "description": "A pseudo code function that describes how to calculate the cost for a set of price components. Usage examples at https://someexamples.",
+        "type": "string",
+        "example": "sum(energy(c)*price(c))",
+        "additionalProperties": false
+      },
+      "Currency": {
+        "description": "The currency for all related prices.",
+        "type": "string",
+        "example": "SEK",
+        "additionalProperties": false
+      },
+      "Price": {
+        "description": "Price, VAT and currency.",
+        "type": "object",
+        "properties": {
+          "priceExVat": {
+            "type": "number",
+            "format": "decimal",
+            "example": 171.32
+          },
+          "priceIncVat": {
+            "type": "number",
+            "format": "decimal",
+            "example": 171.32
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FixedPriceComponent": {
+        "description": "A time period in which fixed price details are defined. Price components can be overlapping in time to define the full price for one time period.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "description": {
+            "$ref": "#/components/schemas/Description"
+          },
+          "type": {
+            "description": "Type describes if the price component is a publicly available price or customer specific.",
+            "type": "string",
+            "pattern": "public|specific",
+            "example": "public",
+            "default": "public"
+          },
+          "reference": {
+            "description": "Reference to be used to identify this recurring price period in the cost function.",
+            "type": "string",
+            "example": "main",
+            "default": "main"
+          },
+          "validPeriod": {
+            "$ref": "#/components/schemas/DateTimeInterval"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "pricedPeriod": {
+            "$ref": "#/components/schemas/Duration"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FixedPrice": {
+        "description": "Prices and information for the fixed price component of the tariff.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "description": {
+            "$ref": "#/components/schemas/Description"
+          },
+          "costFunction": {
+            "$ref": "#/components/schemas/CostFunction"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FixedPriceComponent"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Unit": {
+        "description": "The unit of a measurement or price calculation.",
+        "type": "string",
+        "example": "kWh",
+        "additionalProperties": false
+      },
+      "SpotPriceSettings": {
+        "description": "Settings for a spot price relative pricing component.",
+        "type": "object",
+        "properties": {
+          "multiplier": {
+            "description": "A number used to multiply the electricity markets spot price to get a price for this price component.",
+            "type": "number",
+            "example": 1.25
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Time": {
+        "type": "string",
+        "pattern": "^\\d{2}:\\d{2}:\\d{2}$",
+        "example": "01:00:00",
+        "description": "Time in ISO 8601 format without offset."
+      },
+      "CalendarPatternName": {
+        "type": "string",
+        "description": "A name of a calendar pattern.",
+        "pattern": "weekday|weekend|holiday",
+        "example": "weekday"
+      },
+      "CalendarPatternReferences": {
+        "type": "object",
+        "description": "A collection of calendar patterns that defines which days and/or dates to use for an active period.",
+        "properties": {
+          "include": {
+            "description": "A list of calendar patterns to be included in the active period.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarPatternName"
+            }
+          },
+          "exclude": {
+            "description": "A list of calendar patterns to be excluded from an active period.",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CalendarPatternName"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActivePeriod": {
+        "type": "object",
+        "description": "A time interval where \"fromIncluding\" is included and the interval is up to, but excluding \"toExcluding\".",
+        "properties": {
+          "fromIncluding": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "toExcluding": {
+            "$ref": "#/components/schemas/Time"
+          },
+          "calendarPatternReferences": {
+            "$ref": "#/components/schemas/CalendarPatternReferences"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecurringPeriod": {
+        "description": "A short period of time that recurs several times during a season or other long time period.",
+        "type": "object",
+        "properties": {
+          "reference": {
+            "description": "Reference to be used to identify this recurring period in a function.",
+            "type": "string",
+            "example": "high",
+            "default": "main"
+          },
+          "frequency": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "activePeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActivePeriod"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnergyPriceComponent": {
+        "description": "A time period in which energy price details are defined. Price components can be overlapping in time to define the full price for one time period.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "description": {
+            "$ref": "#/components/schemas/Description"
+          },
+          "type": {
+            "type": "string",
+            "pattern": "fixed|spot",
+            "example": "fixed",
+            "default": "fixed"
+          },
+          "reference": {
+            "description": "Reference to be used to identify this recurring price period in the cost function.",
+            "type": "string",
+            "example": "high",
+            "default": "main"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "spotPriceSettings": {
+            "$ref": "#/components/schemas/SpotPriceSettings"
+          },
+          "validPeriod": {
+            "$ref": "#/components/schemas/DateTimeInterval"
+          },
+          "recurringPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecurringPeriod"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "EnergyPrice": {
+        "description": "Prices and information for the energy price component of the tariff.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "description": {
+            "$ref": "#/components/schemas/Description"
+          },
+          "costFunction": {
+            "$ref": "#/components/schemas/CostFunction"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnergyPriceComponent"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Url": {
+        "type": "string",
+        "description": "A URL string.",
+        "example": "/prices/216783ff-5dda-4c38-b491-d6f0fcee9a9b",
+        "additionalProperties": false
+      },
+      "PeakFunction": {
+        "description": "A pseudo code function that describes how to identify a power peak for one power price component. Usage examples at https://someexamples.",
+        "type": "string",
+        "example": "max(peak(high),peak(low)/2)",
+        "default": "peak(main)",
+        "additionalProperties": false
+      },
+      "PeakIdentificationSettings": {
+        "description": "Settings that defines how to identify a power peak during a billing period.",
+        "type": "object",
+        "properties": {
+          "peakFunction": {
+            "$ref": "#/components/schemas/PeakFunction"
+          },
+          "peakIdentificationPeriod": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "peakDuration": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "numberOfPeaksForAverageCalculation": {
+            "description": "The number of peaks within a peak pricing period for calculating average peak for that period.",
+            "type": "integer",
+            "example": 3
+          }
+        },
+        "additionalProperties": false
+      },
+      "PowerPriceComponent": {
+        "description": "A time period in which power price details are defined. Price components can be overlapping in time to define the full price for one time period.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "description": {
+            "$ref": "#/components/schemas/Description"
+          },
+          "type": {
+            "type": "string",
+            "pattern": "peak|dynamic",
+            "example": "peak",
+            "default": "peak"
+          },
+          "reference": {
+            "description": "Reference to be used to identify this recurring price period in the cost function.",
+            "type": "string",
+            "example": "high",
+            "default": "main"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "url": {
+            "$ref": "#/components/schemas/Url"
+          },
+          "validPeriod": {
+            "$ref": "#/components/schemas/DateTimeInterval"
+          },
+          "peakIdentificationSettings": {
+            "$ref": "#/components/schemas/PeakIdentificationSettings"
+          },
+          "recurringPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecurringPeriod"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PowerPrice": {
+        "description": "Prices with parameters that defines power peak identification and price calculation for the power component of the tariff.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "name": {
+            "$ref": "#/components/schemas/Name"
+          },
+          "description": {
+            "$ref": "#/components/schemas/Description"
+          },
+          "costFunction": {
+            "$ref": "#/components/schemas/CostFunction"
+          },
+          "unit": {
+            "$ref": "#/components/schemas/Unit"
+          },
+          "components": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PowerPriceComponent"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "Tariff": {
+        "description": "Information about the tariff that are static and does not change during at least a month.",
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "name": {
+            "description": "Descriptive short name of the grid tariff.",
+            "type": "string"
+          },
+          "description": {
+            "description": "Detailed description of the grid tariff.",
+            "type": "string"
+          },
+          "product": {
+            "description": "A persistent and unique (on company level) reference to identify a given product during its entire lifecycle. If set, the reference allows for a seamless transition when a products tariff definition gets updated.",
+            "type": "string",
+            "example": "net.consume.std.25"
+          },
+          "companyName": {
+            "description": "Name of the grid company.",
+            "type": "string"
+          },
+          "companyOrgNo": {
+            "description": "Organization number and unique identifier of the grid company.",
+            "type": "string"
+          },
+          "direction": {
+            "description": "Indicates if this is a tariff for consumption or production. Valid values are \"consumption\" and \"production\".",
+            "type": "string",
+            "pattern": "consumption|production",
+            "default": "consumption"
+          },
+          "timeZone": {
+            "$ref": "#/components/schemas/TimeZone"
+          },
+          "lastUpdated": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "validPeriod": {
+            "$ref": "#/components/schemas/DateTimeInterval"
+          },
+          "billingPeriod": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "fixedPrice": {
+            "$ref": "#/components/schemas/FixedPrice"
+          },
+          "energyPrice": {
+            "$ref": "#/components/schemas/EnergyPrice"
+          },
+          "powerPrice": {
+            "$ref": "#/components/schemas/PowerPrice"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Date": {
+        "type": "string",
+        "format": "date",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "example": "2025-05-25",
+        "description": "Date in ISO 8601 format."
+      },
+      "CalendarPattern": {
+        "type": "object",
+        "description": "A pattern of calendar events.",
+        "properties": {
+          "name": {
+            "$ref": "#/components/schemas/CalendarPatternName"
+          },
+          "frequency": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "days": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "dates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Date"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "MeteringPointId": {
+        "type": "string",
+        "description": "Identifier for a physical metering point (MPID)",
+        "example": "735999000000000001",
+        "additionalProperties": false
+      },
+      "TariffMapping": {
+        "type": "object",
+        "properties": {
+          "tariffId": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "meteringPointIds": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MeteringPointId"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "PriceListEntry": {
+        "description": "A timed price entry that belongs to a price list.",
+        "type": "object",
+        "properties": {
+          "timestamp": {
+            "$ref": "#/components/schemas/DateTime"
+          },
+          "priceExVat": {
+            "type": "number",
+            "format": "decimal",
+            "example": 100
+          },
+          "priceIncVat": {
+            "type": "number",
+            "format": "decimal",
+            "example": 125
+          },
+          "currency": {
+            "$ref": "#/components/schemas/Currency"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PriceList": {
+        "description": "Time differentiated prices for a price component.",
+        "type": "object",
+        "properties": {
+          "componentId": {
+            "$ref": "#/components/schemas/Uuid"
+          },
+          "resolution": {
+            "$ref": "#/components/schemas/Duration"
+          },
+          "prices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PriceListEntry"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "example": {
+              "status": 400,
+              "title": "Bad Request",
+              "detail": "The request object is invalid.",
+              "instance": "/endpoint"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "example": {
+              "status": 401,
+              "title": "Unauthorized",
+              "detail": "You do not have access to make this request.",
+              "instance": "/endpoint"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "Forbidden",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "example": {
+              "status": 403,
+              "title": "Forbidden",
+              "detail": "The request you made is not allowed.",
+              "instance": "/endpoint"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "Not Found",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "example": {
+              "status": 404,
+              "title": "Not Found",
+              "detail": "The requested resource could not be found.",
+              "instance": "/endpoint"
+            }
+          }
+        }
+      },
+      "NotImplemented": {
+        "description": "Not Implemented",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ProblemDetails"
+            },
+            "example": {
+              "status": 501,
+              "title": "Not Implemented",
+              "detail": "The request method is not yet implemented on this server.",
+              "instance": "/endpoint"
+            }
+          }
+        }
+      }
+    }
+  }
+}
