@@ -20,6 +20,8 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
 
     steps:
       - name: Checkout repo (default branch)
@@ -67,7 +69,6 @@ jobs:
       - name: Download openapi.json (from release assets)
         env:
           TAG: ${{ steps.resolve.outputs.tag }}
-          GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p work/input
           gh release download "$TAG" --pattern "openapi.json" --dir work/input
