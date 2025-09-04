@@ -1,6 +1,8 @@
 # Eltariff-API
 _Specification for an API for Electricity Grid Tariffs in Sweden._
 
+All versions if the API are documented on GitHub Pages: https://ri-se.github.io/Eltariff-API/
+
 __Please note that the provision of data in this API is in a development phase. It is likely not legally binding, used at your own risk, and does not entail any obligations for the grid operators unless otherwise stated. For more information, contact the respective grid company.__
 # Documentation
 
