@@ -123,10 +123,12 @@ jobs:
           cd work/site
           test -f versions.json || echo "[]" > versions.json
 
+          # Remove previous entry for this tag (idempotent)
+          jq --arg tag "$TAG" 'map(select(.tag != $tag))' versions.json > .tmp.json && mv .tmp.json versions.json
+
           jq --arg tag "$TAG" \
-             --arg path "/$TAG/" \
              --arg date "$COMMIT_DATE" \
-             '. + [{tag:$tag, path:$path, date:$date}]' versions.json > .tmp.json && mv .tmp.json versions.json
+             '. + [{tag:$tag, date:$date}]' versions.json > .tmp.json && mv .tmp.json versions.json
 
       - name: Commit & push
         run: |
