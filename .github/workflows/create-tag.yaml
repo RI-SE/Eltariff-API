@@ -31,7 +31,6 @@ jobs:
           fetch-depth: 0 # we need full history to create/push a tag cleanly
 
       - name: Validate version input
-        id: validate
         shell: bash
         run: |
           if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
