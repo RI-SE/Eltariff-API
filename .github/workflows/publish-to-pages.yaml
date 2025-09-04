@@ -120,11 +120,11 @@ jobs:
           jq --arg tag "$TAG" 'map(select(.tag != $tag))' versions.json > .tmp.json && mv .tmp.json versions.json
 
           # Get release publish time for index
-          PUBLISHED_AT="$(gh release view "$TAG" --json publishedAt --jq .publishedAt)"
+          COMMIT_DATE="$(git log -1 --format=%ai v0.1.0 | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')"
 
           jq --arg tag "$TAG" \
-             --arg path "/v/\($tag)/" \
-             --arg date "$PUBLISHED_AT" \
+             --arg path "/$TAG/" \
+             --arg date "$COMMIT_DATE" \
              '. + [{tag:$tag, path:$path, date:$date}]' versions.json > .tmp.json && mv .tmp.json versions.json
 
       - name: Commit & push
