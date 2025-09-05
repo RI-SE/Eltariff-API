@@ -417,15 +417,22 @@
         "example": "216783ff-5dda-4c38-b491-d6f0fcee9a9b",
         "additionalProperties": false
       },
-      "DateTimeInterval": {
+      "Date": {
+        "type": "string",
+        "format": "date",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+        "example": "2025-05-25",
+        "description": "Date in ISO 8601 format."
+      },
+      "DateInterval": {
         "type": "object",
-        "description": "A datetime interval where 'fromIncluding' is included and the interval is up until, but excluding, 'toExcluding'.",
+        "description": "A date only interval where 'fromIncluding' is included and the interval is up until, but excluding, 'toExcluding'.",
         "properties": {
           "fromIncluding": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/Date"
           },
           "toExcluding": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/Date"
           }
         },
         "additionalProperties": false
@@ -509,7 +516,7 @@
             "default": "main"
           },
           "validPeriod": {
-            "$ref": "#/components/schemas/DateTimeInterval"
+            "$ref": "#/components/schemas/DateInterval"
           },
           "price": {
             "$ref": "#/components/schemas/Price"
@@ -669,7 +676,7 @@
             "$ref": "#/components/schemas/SpotPriceSettings"
           },
           "validPeriod": {
-            "$ref": "#/components/schemas/DateTimeInterval"
+            "$ref": "#/components/schemas/DateInterval"
           },
           "recurringPeriods": {
             "type": "array",
@@ -774,7 +781,7 @@
             "$ref": "#/components/schemas/Url"
           },
           "validPeriod": {
-            "$ref": "#/components/schemas/DateTimeInterval"
+            "$ref": "#/components/schemas/DateInterval"
           },
           "peakIdentificationSettings": {
             "$ref": "#/components/schemas/PeakIdentificationSettings"
@@ -857,7 +864,7 @@
             "$ref": "#/components/schemas/DateTime"
           },
           "validPeriod": {
-            "$ref": "#/components/schemas/DateTimeInterval"
+            "$ref": "#/components/schemas/DateInterval"
           },
           "billingPeriod": {
             "$ref": "#/components/schemas/Duration"
@@ -873,13 +880,6 @@
           }
         },
         "additionalProperties": false
-      },
-      "Date": {
-        "type": "string",
-        "format": "date",
-        "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
-        "example": "2025-05-25",
-        "description": "Date in ISO 8601 format."
       },
       "CalendarPattern": {
         "type": "object",
