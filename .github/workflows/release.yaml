@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing tag (e.g. v1.2.3)
+        description: New or existing tag (e.g. v1.2.3)
         required: true
         type: string
 
@@ -42,13 +42,14 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
-            echo "Tag ${TAG} already exists on origin. Aborting."
-            exit 1
+            echo "Tag ${TAG} already exists on origin. Using ${TAG} to create new release."
+          else
+            echo "Pushing tag ${TAG} to repo and using it to create new release."
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a "${TAG}" -m "Release ${TAG}" "${GITHUB_SHA}"
+            git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "refs/tags/${TAG}"
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -a "${TAG}" -m "Release ${TAG}" "${GITHUB_SHA}"
-          git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "refs/tags/${TAG}"
 
       - name: Check out tag ref
         uses: actions/checkout@v4
