@@ -18,7 +18,7 @@ env:
   REDOC_HTML: dist/redoc.html
 
 jobs:
-  release:
+  tag:
     runs-on: ubuntu-latest
     env:
       TAG: "${{ github.event.inputs.tag }}"
