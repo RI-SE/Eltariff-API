@@ -41,6 +41,25 @@ jobs:
         with:
           fetch-depth: 0 # we need full history to create/push a tag cleanly
 
+      - name: Bundle OpenAPI
+        run: |
+          mkdir -p "$OUT_DIR"
+          npx --yes @redocly/cli@latest bundle "$OPENAPI_ENTRY" \
+            --output "$BUNDLED_JSON" \
+            --ext json
+
+      - name: Lint OpenAPI (bundled)
+        run: npx --yes @redocly/cli@latest lint "$BUNDLED_JSON"
+
+      - name: Verify info.version matches tag
+        run: |
+          version_in_tag=${TAG#v}
+          version_in_file=$(jq -r '.info.version' $BUNDLED_JSON)
+          if [ "$version_in_file" != "$version_in_tag" ]; then
+            echo "info.version ($version_in_file) does not match input version ($version_in_tag)"
+            exit 1
+          fi
+
       - if: ${{ github.event_name == 'workflow_dispatch' }}
         name: Create and push tag
         env:
@@ -65,25 +84,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Bundle OpenAPI
-        run: |
-          mkdir -p "$OUT_DIR"
-          npx --yes @redocly/cli@latest bundle "$OPENAPI_ENTRY" \
-            --output "$BUNDLED_JSON" \
-            --ext json
-
-      - name: Lint OpenAPI (bundled)
-        run: npx --yes @redocly/cli@latest lint "$BUNDLED_JSON"
-
-      - name: Verify info.version matches tag
-        run: |
-          version_in_tag=${TAG#v}
-          version_in_file=$(jq -r '.info.version' $BUNDLED_JSON)
-          if [ "$version_in_file" != "$version_in_tag" ]; then
-            echo "info.version ($version_in_file) does not match input version ($version_in_tag)"
-            exit 1
-          fi
 
       - name: Build Redoc HTML
         run: npx --yes @redocly/cli@latest build-docs "$BUNDLED_JSON" --output="$REDOC_HTML"
