@@ -42,7 +42,7 @@
           "$ref": "time.schema.json#/definitions/DateTime"
         },
         "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateTimeInterval"
+          "$ref": "time.schema.json#/definitions/DateInterval"
         },
         "billingPeriod": {
           "$ref": "time.schema.json#/definitions/Duration"

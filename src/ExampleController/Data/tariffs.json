@@ -11,8 +11,8 @@
             "timeZone": "Europe/Stockholm",
             "lastUpdated": "2025-01-01T00:00:00",
             "validPeriod": {
-                "fromIncluding": "2025-01-01T00:00:00",
-                "toExcluding": "2026-01-01T00:00:00"
+                "fromIncluding": "2025-01-01",
+                "toExcluding": "2026-01-01"
             },
             "billingPeriod": "P1M",
             "fixedPrice": {
@@ -28,8 +28,8 @@
                         "type": "fixed",
                         "reference": "main",
                         "validPeriod": {
-                            "fromIncluding": "2025-01-01T00:00:00",
-                            "toExcluding": "2026-01-01T00:00:00"
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
                         },
                         "price": {
                             "priceExVat": 1000,
@@ -60,8 +60,8 @@
                         },
                         "spotPriceSettings": null,
                         "validPeriod": {
-                            "fromIncluding": "2025-01-01T00:00:00",
-                            "toExcluding": "2026-01-01T00:00:00"
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
                         },
                         "recurringPeriods": []
                     },
@@ -78,8 +78,8 @@
                         },
                         "spotPriceSettings": null,
                         "validPeriod": {
-                            "fromIncluding": "2025-01-01T00:00:00",
-                            "toExcluding": "2026-01-01T00:00:00"
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
                         },
                         "recurringPeriods": []
                     }
@@ -104,8 +104,8 @@
                             "currency": "SEK"
                         },
                         "validPeriod": {
-                            "fromIncluding": "2025-01-01T00:00:00",
-                            "toExcluding": "2026-01-01T00:00:00"
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
                         },
                         "peakIdentificationSettings": {
                             "peakFunction": "peak(main)",
@@ -147,8 +147,8 @@
             "timeZone": "Europe/Stockholm",
             "lastUpdated": "2025-01-01T00:00:00",
             "validPeriod": {
-                "fromIncluding": "2025-01-01T00:00:00",
-                "toExcluding": "2026-01-01T00:00:00"
+                "fromIncluding": "2025-01-01",
+                "toExcluding": "2026-01-01"
             },
             "billingPeriod": "P1M",
             "fixedPrice": {
@@ -164,8 +164,8 @@
                         "type": "fixed",
                         "reference": "main",
                         "validPeriod": {
-                            "fromIncluding": "2025-01-01T00:00:00",
-                            "toExcluding": "2026-01-01T00:00:00"
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
                         },
                         "price": {
                             "priceExVat": 1000,
@@ -196,8 +196,8 @@
                         },
                         "spotPriceSettings": null,
                         "validPeriod": {
-                            "fromIncluding": "2025-01-01T00:00:00",
-                            "toExcluding": "2026-01-01T00:00:00"
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
                         },
                         "recurringPeriods": []
                     },
@@ -214,8 +214,8 @@
                         },
                         "spotPriceSettings": null,
                         "validPeriod": {
-                            "fromIncluding": "2025-01-01T00:00:00",
-                            "toExcluding": "2026-01-01T00:00:00"
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
                         },
                         "recurringPeriods": []
                     }
@@ -240,8 +240,8 @@
                             "currency": "SEK"
                         },
                         "validPeriod": {
-                            "fromIncluding": "2025-01-01T00:00:00",
-                            "toExcluding": "2026-01-01T00:00:00"
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
                         },
                         "peakIdentificationSettings": {
                             "peakFunction": "peak(main)",

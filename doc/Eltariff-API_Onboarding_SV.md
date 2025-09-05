@@ -42,6 +42,7 @@ Tarifferna struktureras enligt följande schema:
    - Effektbaserade komponenter (PowerPrice)
 
 2. **Tidsbaserade strukturer**
+   - Datumintervall (DateInterval)
    - Tidsintervall (DateTimeInterval)
    - Varaktighet (Duration)
    - Återkommande perioder (RecurringPeriod)
@@ -71,8 +72,8 @@ En komplett tariff innehåller:
   "direction": "consumption",
   "timeZone": "Europe/Stockholm",
   "validPeriod": {
-    "fromIncluding": "2024-01-01T00:00:00+01:00",
-    "toExcluding": "2025-01-01T00:00:00+01:00"
+    "fromIncluding": "2024-01-01",
+    "toExcluding": "2025-01-01"
   },
   "billingPeriod": "P1M",
   "fixedPrice": {...},
@@ -99,8 +100,8 @@ Används för avgifter som inte beror på förbrukning eller effekt:
       "type": "public",
       "reference": "main",
       "validPeriod": {
-        "fromIncluding": "2024-01-01T00:00:00+01:00",
-        "toExcluding": "2025-01-01T00:00:00+01:00"
+        "fromIncluding": "2024-01-01",
+        "toExcluding": "2025-01-01"
       },
       "price": {
         "priceExVat": 200.0,
@@ -137,8 +138,8 @@ Används för priser relaterade till energiförbrukning:
         "currency": "SEK"
       },
       "validPeriod": {
-        "fromIncluding": "2024-01-01T00:00:00+01:00",
-        "toExcluding": "2025-01-01T00:00:00+01:00"
+        "fromIncluding": "2024-01-01",
+        "toExcluding": "2025-01-01"
       },
       "recurringPeriods": [...]
     }
@@ -170,8 +171,8 @@ Används för priser relaterade till effektuttag:
         "currency": "SEK"
       },
       "validPeriod": {
-        "fromIncluding": "2024-01-01T00:00:00+01:00",
-        "toExcluding": "2025-01-01T00:00:00+01:00"
+        "fromIncluding": "2024-01-01",
+        "toExcluding": "2025-01-01"
       },
       "peakIdentificationSettings": {
         "peakFunction": "peak(main)",

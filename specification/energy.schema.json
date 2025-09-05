@@ -33,7 +33,7 @@
           "$ref": "energy.schema.json#/definitions/SpotPriceSettings"
         },
         "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateTimeInterval"
+          "$ref": "time.schema.json#/definitions/DateInterval"
         },
         "recurringPeriods": {
           "type": "array",
