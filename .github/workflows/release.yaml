@@ -1,9 +1,12 @@
-name: Create release on existing tag
+name: Release
 
 on:
   push:
     tags:
       - v*.*.*
+  workflow_run:
+    workflows: ["Tag"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       tag:

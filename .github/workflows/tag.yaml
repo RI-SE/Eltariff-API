@@ -1,4 +1,4 @@
-name: Create and push new tag
+name: Tag
 
 on:
   workflow_dispatch:
