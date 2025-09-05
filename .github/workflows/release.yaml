@@ -36,6 +36,11 @@ jobs:
             exit 1
           fi
 
+      - name: Check out repository with full history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # we need full history to create/push a tag cleanly
+
       - if: ${{ github.event_name == 'workflow_dispatch' }}
         name: Create and push tag
         env:
