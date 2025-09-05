@@ -12,7 +12,7 @@ on:
         type: string
 
 permissions:
-  contents: write # needed to create release
+  contents: write # needed to push tag and/or create release
 
 env:
   OPENAPI_ENTRY: specification/gridtariffapi.json
@@ -35,6 +35,20 @@ jobs:
             echo "Error: version must match vX.Y.Z (e.g., v1.2.3). Got: $TAG"
             exit 1
           fi
+
+      - if: ${{ github.event_name == 'workflow_dispatch' }}
+        name: Create and push tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
+            echo "Tag ${TAG} already exists on origin. Aborting."
+            exit 1
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "${TAG}" -m "Release ${TAG}" "${GITHUB_SHA}"
+          git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "refs/tags/${TAG}"
 
       - name: Check out tag ref
         uses: actions/checkout@v4
