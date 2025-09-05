@@ -11,11 +11,9 @@
   </ItemGroup>
 
   <Target Name="PrepareOpenApiFiles" BeforeTargets="Build">
-    <ItemGroup>
-      <ApiSpecifications Include="../../specification/releases/*.json" />
-    </ItemGroup>
     <RemoveDir Directories="wwwroot/swagger/specification" />
     <MakeDir Directories="wwwroot/swagger/specification" />
+    <Exec Command="bash ./fetch-all-versions.sh ./wwwroot/swagger/specification" />
     <Copy SourceFiles="../ControllerGenerator/build/gridtariffapi-wip.json"
       DestinationFolder="wwwroot/swagger/specification" />
     <Copy SourceFiles="@(ApiSpecifications)"

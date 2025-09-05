@@ -3,7 +3,6 @@ using SwaggerUI;
 string wwwrootSpecificationDir = Path.Combine("wwwroot", "swagger", "specification");
 Dictionary<string, string> swaggerUISpecifications = [];
 
-string uiSpecificationDir = Path.Combine("wwwroot", "swagger", "specification", "ui");
 foreach (var filePath in Directory.GetFiles(wwwrootSpecificationDir))
 {
     string version = OpenApiTools.GetVersion(filePath);
