@@ -33,7 +33,7 @@
           "$ref": "common.schema.json#/definitions/Url"
         },
         "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateTimeInterval"
+          "$ref": "time.schema.json#/definitions/DateInterval"
         },
         "peakIdentificationSettings": {
           "$ref": "power.schema.json#/definitions/PeakIdentificationSettings"

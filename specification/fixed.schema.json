@@ -28,7 +28,7 @@
           "default": "main"
         },
         "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateTimeInterval"
+          "$ref": "time.schema.json#/definitions/DateInterval"
         },
         "price": {
           "$ref": "price.schema.json#/definitions/Price"
