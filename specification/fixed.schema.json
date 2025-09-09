@@ -37,6 +37,16 @@
           "$ref": "time.schema.json#/definitions/Duration"
         }
       },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "type",
+        "reference",
+        "validPeriod",
+        "price",
+        "pricedPeriod"
+      ],
       "additionalProperties": false
     }
   }

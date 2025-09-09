@@ -26,14 +26,14 @@
           "example": "high",
           "default": "main"
         },
+        "validPeriod": {
+          "$ref": "time.schema.json#/definitions/DateInterval"
+        },
         "price": {
           "$ref": "price.schema.json#/definitions/Price"
         },
         "url": {
           "$ref": "common.schema.json#/definitions/Url"
-        },
-        "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateInterval"
         },
         "peakIdentificationSettings": {
           "$ref": "power.schema.json#/definitions/PeakIdentificationSettings"
@@ -45,6 +45,14 @@
           }
         }
       },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "type",
+        "reference",
+        "validPeriod"
+      ],
       "additionalProperties": false
     },
     "PeakIdentificationSettings": {
@@ -66,6 +74,12 @@
           "example": 3
         }
       },
+      "required": [
+        "peakFunction",
+        "peakIdentificationPeriod",
+        "peakDuration",
+        "numberOfPeaksForAverageCalculation"
+      ],
       "additionalProperties": false
     },
     "PeakFunction": {

@@ -11,7 +11,7 @@
     "Name": {
       "type": "string",
       "description": "A short human readable name.",
-      "example": "Fusesize 25A",
+      "example": "Descriptive name",
       "additionalProperties": false
     },
     "Description": {
@@ -45,6 +45,10 @@
           }
         }
       },
+      "required": [
+        "tariffId",
+        "meteringPointIds"
+      ],
       "additionalProperties": false
     },
     "Unit": {

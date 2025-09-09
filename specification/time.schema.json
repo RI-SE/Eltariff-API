@@ -12,6 +12,10 @@
           "$ref": "time.schema.json#/definitions/DateTime"
         }
       },
+      "required": [
+        "fromIncluding",
+        "toExcluding"
+      ],
       "additionalProperties": false
     },
     "DateInterval": {
@@ -25,6 +29,10 @@
           "$ref": "time.schema.json#/definitions/Date"
         }
       },
+      "required": [
+        "fromIncluding",
+        "toExcluding"
+      ],
       "additionalProperties": false
     },
     "TimeZone": {
@@ -63,15 +71,16 @@
     "CalendarPatternName": {
       "type": "string",
       "description": "A name of a calendar pattern.",
-      "pattern": "weekday|weekend|holiday",
       "example": "weekday"
     },
     "CalendarPattern": {
       "type": "object",
       "description": "A pattern of calendar events.",
       "properties": {
-        "name": {
-          "$ref": "time.schema.json#/definitions/CalendarPatternName"
+        "reference": {
+          "description": "Reference to be used to identify this CalendarPattern from an ActivePeriod object.",
+          "type": "string",
+          "example": "weekdays"
         },
         "frequency": {
           "$ref": "time.schema.json#/definitions/Duration"
@@ -89,6 +98,10 @@
           }
         }
       },
+      "required": [
+        "reference",
+        "frequency"
+      ],
       "additionalProperties": false
     },
     "CalendarPatternReferences": {
@@ -126,6 +139,11 @@
           "$ref": "time.schema.json#/definitions/CalendarPatternReferences"
         }
       },
+      "required": [
+        "fromIncluding",
+        "toExcluding",
+        "calendarPatternReferences"
+      ],
       "additionalProperties": false
     },
     "RecurringPeriod": {
@@ -148,6 +166,11 @@
           }
         }
       },
+      "required": [
+        "reference",
+        "frequency",
+        "activePeriods"
+      ],
       "additionalProperties": false
     }
   }
