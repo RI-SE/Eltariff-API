@@ -45,7 +45,6 @@
       "required": [
         "id",
         "name",
-        "description",
         "type",
         "reference",
         "validPeriod"
