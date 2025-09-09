@@ -3,7 +3,7 @@ set -Eeuo pipefail
 
 # Base URL and output directory (override OUT_DIR via env or first arg)
 BASE_URL="https://ri-se.github.io/Eltariff-API/releases"
-OUT_DIR="${1:-${OUT_DIR:-./openapi-cache}}"
+OUT_DIR="${1:-${OUT_DIR:-./build/openapi-cache}}"
 
 # Ensure we're inside a git repo
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
