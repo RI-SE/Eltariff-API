@@ -68,19 +68,17 @@
       "pattern": "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$",
       "additionalProperties": false
     },
-    "CalendarPatternName": {
+    "CalendarPatternReference": {
+      "description": "Reference to be used to identify this CalendarPattern from an ActivePeriod object.",
       "type": "string",
-      "description": "A name of a calendar pattern.",
-      "example": "weekday"
+      "example": "weekdays"
     },
     "CalendarPattern": {
       "type": "object",
       "description": "A pattern of calendar events.",
       "properties": {
         "reference": {
-          "description": "Reference to be used to identify this CalendarPattern from an ActivePeriod object.",
-          "type": "string",
-          "example": "weekdays"
+          "$ref": "time.schema.json#/definitions/CalendarPatternReference"
         },
         "frequency": {
           "$ref": "time.schema.json#/definitions/Duration"
@@ -112,14 +110,14 @@
           "description": "A list of calendar patterns to be included in the active period.",
           "type": "array",
           "items": {
-            "$ref": "time.schema.json#/definitions/CalendarPatternName"
+            "$ref": "time.schema.json#/definitions/CalendarPatternReference"
           }
         },
         "exclude": {
           "description": "A list of calendar patterns to be excluded from an active period.",
           "type": "array",
           "items": {
-            "$ref": "time.schema.json#/definitions/CalendarPatternName"
+            "$ref": "time.schema.json#/definitions/CalendarPatternReference"
           }
         }
       },
