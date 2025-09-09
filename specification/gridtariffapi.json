@@ -300,7 +300,6 @@
         "required": [
           "name",
           "apiVersion",
-          "implementationVersion",
           "lastUpdated",
           "operator",
           "timeZone"
