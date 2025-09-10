@@ -130,6 +130,18 @@ jobs:
           name: openapi-release-${{ env.TAG }}
           path: dist
 
+      - name: Check out tag ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Get commit date
+        id: resolve
+        run: |
+          commit_date="$(git show -s --format=%ai "$TAG^{commit}" | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')"
+          echo "commit_date=$commit_date" >> "$GITHUB_OUTPUT"
+          echo "Resolved tag $TAG with commit date $COMMIT_DATE"
+
       - name: Checkout gh-pages
         uses: actions/checkout@v4
         with:
