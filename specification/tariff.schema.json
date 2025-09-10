@@ -16,10 +16,14 @@
           "description": "Detailed description of the grid tariff.",
           "type": "string"
         },
-        "product": {
-          "description": "A persistent and unique (on company level) reference to identify a given product during its entire lifecycle. If set, the reference allows for a seamless transition when a products tariff definition gets updated.",
-          "type": "string",
-          "example": "net.consume.std.25"
+        "validPeriod": {
+          "$ref": "time.schema.json#/definitions/DateInterval"
+        },
+        "timeZone": {
+          "$ref": "time.schema.json#/definitions/TimeZone"
+        },
+        "lastUpdated": {
+          "$ref": "time.schema.json#/definitions/DateTime"
         },
         "companyName": {
           "description": "Name of the grid company.",
@@ -29,20 +33,16 @@
           "description": "Organization number and unique identifier of the grid company.",
           "type": "string"
         },
+        "product": {
+          "description": "A persistent and unique (on company level) reference to identify a given product during its entire lifecycle. If set, the reference allows for a seamless transition when a products tariff definition gets updated.",
+          "type": "string",
+          "example": "net.consume.std.25"
+        },
         "direction": {
           "description": "Indicates if this is a tariff for consumption or production. Valid values are \"consumption\" and \"production\".",
           "type": "string",
           "pattern": "consumption|production",
           "default": "consumption"
-        },
-        "timeZone": {
-          "$ref": "time.schema.json#/definitions/TimeZone"
-        },
-        "lastUpdated": {
-          "$ref": "time.schema.json#/definitions/DateTime"
-        },
-        "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateInterval"
         },
         "billingPeriod": {
           "$ref": "time.schema.json#/definitions/Duration"
@@ -57,6 +57,21 @@
           "$ref": "tariff.schema.json#/definitions/PowerPrice"
         }
       },
+      "required": [
+        "id",
+        "name",
+        "validPeriod",
+        "timeZone",
+        "lastUpdated",
+        "companyName",
+        "companyOrgNo",
+        "product",
+        "direction",
+        "billingPeriod",
+        "fixedPrice",
+        "energyPrice",
+        "powerPrice"
+      ],
       "additionalProperties": false
     },
     "FixedPrice": {
@@ -82,6 +97,12 @@
           }
         }
       },
+      "required": [
+        "id",
+        "name",
+        "costFunction",
+        "components"
+      ],
       "additionalProperties": false
     },
     "EnergyPrice": {
@@ -110,6 +131,13 @@
           }
         }
       },
+      "required": [
+        "id",
+        "name",
+        "costFunction",
+        "unit",
+        "components"
+      ],
       "additionalProperties": false
     },
     "PowerPrice": {
@@ -138,6 +166,13 @@
           }
         }
       },
+      "required": [
+        "id",
+        "name",
+        "costFunction",
+        "unit",
+        "components"
+      ],
       "additionalProperties": false
     }
   }

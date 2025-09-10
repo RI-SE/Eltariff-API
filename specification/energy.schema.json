@@ -26,14 +26,14 @@
           "example": "high",
           "default": "main"
         },
+        "validPeriod": {
+          "$ref": "time.schema.json#/definitions/DateInterval"
+        },
         "price": {
           "$ref": "price.schema.json#/definitions/Price"
         },
         "spotPriceSettings": {
           "$ref": "energy.schema.json#/definitions/SpotPriceSettings"
-        },
-        "validPeriod": {
-          "$ref": "time.schema.json#/definitions/DateInterval"
         },
         "recurringPeriods": {
           "type": "array",
@@ -42,6 +42,13 @@
           }
         }
       },
+      "required": [
+        "id",
+        "name",
+        "type",
+        "reference",
+        "validPeriod"
+      ],
       "additionalProperties": false
     },
     "SpotPriceSettings": {
@@ -57,6 +64,10 @@
           "$ref": "price.schema.json#/definitions/Currency"
         }
       },
+      "required": [
+        "multiplier",
+        "currency"
+      ],
       "additionalProperties": false
     }
   }

@@ -22,6 +22,12 @@
           "$ref": "price.schema.json#/definitions/Currency"
         }
       },
+      "required": [
+        "timestamp",
+        "priceExVat",
+        "priceIncVat",
+        "currency"
+      ],
       "additionalProperties": false
     },
     "Price": {
@@ -42,6 +48,11 @@
           "$ref": "price.schema.json#/definitions/Currency"
         }
       },
+      "required": [
+        "priceExVat",
+        "priceIncVat",
+        "currency"
+      ],
       "additionalProperties": false
     },
     "PriceList": {
@@ -61,6 +72,11 @@
           }
         }
       },
+      "required": [
+        "componentId",
+        "resolution",
+        "prices"
+      ],
       "additionalProperties": false
     },
     "CostFunction": {

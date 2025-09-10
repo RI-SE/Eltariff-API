@@ -12,6 +12,10 @@
           "$ref": "time.schema.json#/definitions/DateTime"
         }
       },
+      "required": [
+        "fromIncluding",
+        "toExcluding"
+      ],
       "additionalProperties": false
     },
     "DateInterval": {
@@ -25,6 +29,10 @@
           "$ref": "time.schema.json#/definitions/Date"
         }
       },
+      "required": [
+        "fromIncluding",
+        "toExcluding"
+      ],
       "additionalProperties": false
     },
     "TimeZone": {
@@ -53,25 +61,23 @@
       "description": "Time in ISO 8601 format without offset."
     },
     "Duration": {
-      "description": "A time duration in the format [ISO 8601 duration format](https://en.wikipedia.org/wiki/ISO_8601#Durations).\nExamples:\n- \"P1D\" for one day\n- \"P1M\" for one month\n- \"P2W\" for two weeks\n- \"P3Y6M4DT12H30M5S\" for a complex duration.",
+      "description": "A time duration in the format [ISO 8601 duration format](https://www.iso.org/standard/70907.html).\nExamples:\n- \"P1D\" for one day\n- \"P1M\" for one month\n- \"P2W\" for two weeks\n- \"P3Y6M4DT12H30M5S\" for a complex duration.",
       "type": "string",
       "format": "duration",
       "example": "PT15M",
-      "pattern": "^P(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$",
       "additionalProperties": false
     },
-    "CalendarPatternName": {
+    "CalendarPatternReference": {
+      "description": "Reference to be used to identify this CalendarPattern from an ActivePeriod object.",
       "type": "string",
-      "description": "A name of a calendar pattern.",
-      "pattern": "weekday|weekend|holiday",
-      "example": "weekday"
+      "example": "weekdays"
     },
     "CalendarPattern": {
       "type": "object",
       "description": "A pattern of calendar events.",
       "properties": {
-        "name": {
-          "$ref": "time.schema.json#/definitions/CalendarPatternName"
+        "reference": {
+          "$ref": "time.schema.json#/definitions/CalendarPatternReference"
         },
         "frequency": {
           "$ref": "time.schema.json#/definitions/Duration"
@@ -89,6 +95,10 @@
           }
         }
       },
+      "required": [
+        "reference",
+        "frequency"
+      ],
       "additionalProperties": false
     },
     "CalendarPatternReferences": {
@@ -99,14 +109,14 @@
           "description": "A list of calendar patterns to be included in the active period.",
           "type": "array",
           "items": {
-            "$ref": "time.schema.json#/definitions/CalendarPatternName"
+            "$ref": "time.schema.json#/definitions/CalendarPatternReference"
           }
         },
         "exclude": {
           "description": "A list of calendar patterns to be excluded from an active period.",
           "type": "array",
           "items": {
-            "$ref": "time.schema.json#/definitions/CalendarPatternName"
+            "$ref": "time.schema.json#/definitions/CalendarPatternReference"
           }
         }
       },
@@ -126,6 +136,11 @@
           "$ref": "time.schema.json#/definitions/CalendarPatternReferences"
         }
       },
+      "required": [
+        "fromIncluding",
+        "toExcluding",
+        "calendarPatternReferences"
+      ],
       "additionalProperties": false
     },
     "RecurringPeriod": {
@@ -148,6 +163,11 @@
           }
         }
       },
+      "required": [
+        "reference",
+        "frequency",
+        "activePeriods"
+      ],
       "additionalProperties": false
     }
   }
