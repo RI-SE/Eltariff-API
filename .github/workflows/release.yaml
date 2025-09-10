@@ -101,7 +101,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: openapi-release-${{ TAG }}
+          name: openapi-release-${{ env.TAG }}
           path: dist
 
       - name: Create GitHub Release
@@ -127,7 +127,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: openapi-release-${{ TAG }}
+          name: openapi-release-${{ env.TAG }}
           path: dist
 
       - name: Checkout gh-pages
@@ -137,8 +137,6 @@ jobs:
           path: site
 
       - name: Copy versioned files
-        env:
-          TAG: ${{ steps.resolve.outputs.tag }}
         run: |
           set -e
           release_dir="site/releases/$TAG"
@@ -148,7 +146,6 @@ jobs:
 
       - name: Update versions.json
         env:
-          TAG: ${{ steps.resolve.outputs.tag }}
           COMMIT_DATE: ${{ steps.resolve.outputs.commit_date }}
         run: |
           set -e
