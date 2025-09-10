@@ -90,7 +90,7 @@ jobs:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: openapi-release-${{ TAG }}
+          name: openapi-release-${{ env.TAG }}
           path: |
             dist/openapi.json
             dist/redoc.html
