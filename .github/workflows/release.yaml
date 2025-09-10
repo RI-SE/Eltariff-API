@@ -125,18 +125,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: release
     steps:
-      - uses: actions/download-artifact@v4
-        with:
-          name: openapi-release-${{ env.TAG }}
-          path: dist
-
       - name: Check out tag ref
         uses: actions/checkout@v4
         with:
           ref: ${{ env.TAG }}
 
       - name: Get commit date
-        id: resolve
+        id: tag_info
         run: |
           commit_date="$(git show -s --format=%ai "$TAG^{commit}" | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')"
           echo "commit_date=$commit_date" >> "$GITHUB_OUTPUT"
@@ -148,17 +143,23 @@ jobs:
           ref: gh-pages
           path: site
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: openapi-release-${{ env.TAG }}
+          path: dist
+
       - name: Copy versioned files
         run: |
           set -e
           release_dir="site/releases/$TAG"
           mkdir -p "$release_dir"
+          ls -la
           cp dist/openapi.json "$release_dir/openapi.json"
           cp dist/redoc.html "$release_dir/redoc.html"
 
       - name: Update versions.json
         env:
-          COMMIT_DATE: ${{ steps.resolve.outputs.commit_date }}
+          COMMIT_DATE: ${{ steps.tag_info.outputs.commit_date }}
         run: |
           set -e
           cd site
