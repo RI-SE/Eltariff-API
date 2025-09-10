@@ -16,17 +16,15 @@ permissions:
 
 env:
   OPENAPI_ENTRY: specification/gridtariffapi.json
-  OUT_DIR: dist
+  WORK_DIR: dist
   BUNDLED_JSON: dist/openapi.json
   REDOC_HTML: dist/redoc.html
   REDOCLY_VERSION: 2.0.8
+  TAG: "${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
 
 jobs:
-  release:
+  tag:
     runs-on: ubuntu-latest
-    env:
-      TAG: "${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}"
-
     steps:
       - name: Validate tag format
         id: validate
@@ -37,14 +35,39 @@ jobs:
             exit 1
           fi
 
-      - name: Check out repository with full history
+      - if: ${{ github.event_name == 'workflow_dispatch' }}
+        name: Check out repository with full history
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # we need full history to create/push a tag cleanly
 
+      - if: ${{ github.event_name == 'workflow_dispatch' }}
+        name: Create and push tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
+            echo "Tag ${TAG} already exists on origin. Using ${TAG} to create new release."
+          else
+            echo "Pushing tag ${TAG} to repo and using it to create new release."
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git tag -a "${TAG}" -m "Release ${TAG}" "${GITHUB_SHA}"
+            git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "refs/tags/${TAG}"
+          fi
+
+  build:
+    runs-on: ubuntu-latest
+    needs: tag
+    steps:
+      - name: Check out tag ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
       - name: Bundle OpenAPI
         run: |
-          mkdir -p "$OUT_DIR"
+          mkdir -p "$WORK_DIR"
           npx --yes @redocly/cli@$REDOCLY_VERSION bundle "$OPENAPI_ENTRY" \
             --output "$BUNDLED_JSON" \
             --ext json
@@ -64,30 +87,22 @@ jobs:
             exit 1
           fi
 
-      - if: ${{ github.event_name == 'workflow_dispatch' }}
-        name: Create and push tag
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if git ls-remote --tags origin | grep -q "refs/tags/${TAG}$"; then
-            echo "Tag ${TAG} already exists on origin. Using ${TAG} to create new release."
-          else
-            echo "Pushing tag ${TAG} to repo and using it to create new release."
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git tag -a "${TAG}" -m "Release ${TAG}" "${GITHUB_SHA}"
-            git push "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" "refs/tags/${TAG}"
-          fi
-
-      - name: Check out tag ref
-        uses: actions/checkout@v4
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
         with:
-          ref: ${{ env.TAG }}
+          name: openapi-release-${{ TAG }}
+          path: |
+            dist/openapi.json
+            dist/redoc.html
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
         with:
-          node-version: "20"
+          name: openapi-release-${{ TAG }}
+          path: dist
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -106,11 +121,56 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # (Nice to have) Upload the files as workflow run artifacts as well
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+  publish:
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - uses: actions/download-artifact@v4
         with:
-          name: openapi-release-${{ steps.validate.outputs.tag }}
-          path: |
-            dist/openapi.json
-            dist/redoc.html
+          name: openapi-release-${{ TAG }}
+          path: dist
+
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          path: site
+
+      - name: Copy versioned files
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+        run: |
+          set -e
+          release_dir="site/releases/$TAG"
+          mkdir -p "$release_dir"
+          cp dist/openapi.json "$release_dir/openapi.json"
+          cp dist/redoc.html "$release_dir/redoc.html"
+
+      - name: Update versions.json
+        env:
+          TAG: ${{ steps.resolve.outputs.tag }}
+          COMMIT_DATE: ${{ steps.resolve.outputs.commit_date }}
+        run: |
+          set -e
+          cd site
+          test -f versions.json || echo "[]" > versions.json
+
+          # Remove previous entry for this tag (idempotent)
+          jq --arg tag "$TAG" 'map(select(.tag != $tag))' versions.json > .tmp.json && mv .tmp.json versions.json
+
+          jq --arg tag "$TAG" \
+             --arg date "$COMMIT_DATE" \
+             '. + [{tag:$tag, date:$date}]' versions.json > .tmp.json && mv .tmp.json versions.json
+
+      - name: Commit & push
+        run: |
+          cd site
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Publish ${{ steps.resolve.outputs.tag }}"
+            git push origin gh-pages
+          fi
