@@ -19,6 +19,7 @@ env:
   OUT_DIR: dist
   BUNDLED_JSON: dist/openapi.json
   REDOC_HTML: dist/redoc.html
+  REDOCLY_VERSION: 2.0.8
 
 jobs:
   release:
@@ -44,12 +45,15 @@ jobs:
       - name: Bundle OpenAPI
         run: |
           mkdir -p "$OUT_DIR"
-          npx --yes @redocly/cli@latest bundle "$OPENAPI_ENTRY" \
+          npx --yes @redocly/cli@$REDOCLY_VERSION bundle "$OPENAPI_ENTRY" \
             --output "$BUNDLED_JSON" \
             --ext json
 
       - name: Lint OpenAPI (bundled)
-        run: npx --yes @redocly/cli@latest lint "$BUNDLED_JSON"
+        run: npx --yes @redocly/cli@$REDOCLY_VERSION lint "$BUNDLED_JSON"
+
+      - name: Build Redoc HTML
+        run: npx --yes @redocly/cli@$REDOCLY_VERSION build-docs "$BUNDLED_JSON" --output="$REDOC_HTML"
 
       - name: Verify info.version matches tag
         run: |
@@ -84,9 +88,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
-
-      - name: Build Redoc HTML
-        run: npx --yes @redocly/cli@latest build-docs "$BUNDLED_JSON" --output="$REDOC_HTML"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
