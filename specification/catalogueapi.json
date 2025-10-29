@@ -2,18 +2,38 @@
   "openapi": "3.0.1",
   "info": {
     "title": "ElTariffKatalog",
-    "version": "v0.6.1"
+    "version": "v0.7.0"
   },
   "servers": [
     {
       "url": "https://eltariff.deplide.org",
-      "description": "Sandbox catalogue"
+      "description": "Project catalogue"
     },
     {
       "url": "http://localhost:8080",
       "description": "Local developer instance"
     }
   ],
+  "components": {
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://id.deplide.org/realms/deplide/protocol/openid-connect/token",
+            "scopes": {
+              "register:write": "Permission to register, update, and delete supplier API information"
+            }
+          }
+        }
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
   "paths": {
     "/tariffcatalogue/register": {
       "description": "Update API info for a range of MPIDs. The format of the intro is based on https://github.com/3lbits/API-nettleie-for-styring/blob/main/doc/DiginGridTariffAPI.gridcompany-mapping.json with the addition of an ID field",
@@ -23,6 +43,14 @@
           "register-service"
         ],
         "operationId": "createSupplierAPIInfo",
+        "security": [
+          {
+            "oauth2": ["register:write"]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -39,6 +67,12 @@
           },
           "400": {
             "description": "BAD REQUEST: Submitted invalid JSON"
+          },
+          "401": {
+            "description": "UNAUTHORIZED: Missing or invalid authentication token"
+          },
+          "403": {
+            "description": "FORBIDDEN: Valid token but insufficient permissions"
           },
           "409": {
             "description": "CONFLICT: 'Supplier entry mpid range overlaps with existing entry' or 'SupplierEntry already exists (with same id)'"
@@ -50,6 +84,14 @@
           "register-service"
         ],
         "operationId": "updateSupplierAPIInfo",
+        "security": [
+          {
+            "oauth2": ["register:write"]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -66,6 +108,12 @@
           },
           "400": {
             "description": "BAD REQUEST: Submitted invalid JSON"
+          },
+          "401": {
+            "description": "UNAUTHORIZED: Missing or invalid authentication token"
+          },
+          "403": {
+            "description": "FORBIDDEN: Valid token but insufficient permissions"
           },
           "404": {
             "description": "NOT FOUND: 'No entry matching the supplied entry's id exists'"
@@ -83,6 +131,14 @@
           "register-service"
         ],
         "operationId": "deleteSupplierAPIInfo",
+        "security": [
+          {
+            "oauth2": ["register:write"]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "supplierEntryId",
@@ -96,6 +152,12 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "401": {
+            "description": "UNAUTHORIZED: Missing or invalid authentication token"
+          },
+          "403": {
+            "description": "FORBIDDEN: Valid token but insufficient permissions"
           },
           "404": {
             "description": "NOT FOUND: 'No entry matching the supplied id exists'"
