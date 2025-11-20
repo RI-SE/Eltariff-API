@@ -187,6 +187,15 @@
           }
         },
         {
+          "name": "date",
+          "description": "Get all defined prices for the given date.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "time.schema.json#/definitions/Date"
+          }
+        },
+        {
           "name": "fromIncluding",
           "description": "Get all defined prices from this time and forward. Default is today midnight.",
           "in": "query",
