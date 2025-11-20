@@ -32,6 +32,9 @@
         "price": {
           "$ref": "price.schema.json#/definitions/Price"
         },
+        "unit": {
+          "$ref": "common.schema.json#/definitions/Unit"
+        },
         "url": {
           "$ref": "common.schema.json#/definitions/Url"
         },
@@ -50,7 +53,8 @@
         "name",
         "type",
         "reference",
-        "validPeriod"
+        "validPeriod",
+        "unit"
       ],
       "additionalProperties": false
     },
