@@ -51,7 +51,6 @@
       },
       "required": [
         "componentId",
-        "timeZone",
         "currency",
         "resolution",
         "prices"
@@ -88,7 +87,7 @@
       "additionalProperties": false
     },
     "CostFunction": {
-      "description": "A pseudo code function that describes how to calculate the cost for a set of price components. Usage examples at https://someexamples.",
+      "description": "A pseudo code function that describes how to calculate the cost for a set of price components. Check DEVELOPER_GUIDE.md for usage examples (https://github.com/RI-SE/Eltariff-API/blob/main/DEVELOPER_GUIDE.md)",
       "type": "string",
       "example": "sum(energy(c)*price(c))",
       "additionalProperties": false
