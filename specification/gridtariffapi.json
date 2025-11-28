@@ -187,6 +187,15 @@
           }
         },
         {
+          "name": "date",
+          "description": "Get all defined prices for the given date.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "time.schema.json#/definitions/Date"
+          }
+        },
+        {
           "name": "fromIncluding",
           "description": "Get all defined prices from this time and forward. Default is today midnight.",
           "in": "query",
@@ -210,8 +219,8 @@
           "Price"
         ],
         "operationId": "GetPrices",
-        "summary": "Returns prices for a price component for a given timeperiod.",
-        "description": "Returns prices for a price component for a given timeperiod.",
+        "summary": "Get prices for a price component.",
+        "description": "Returns prices for a price component for a given time period. The time period defaults to fromIncluding = today 00:00 and toExcluding = today 00:00 plus 7 full days. By looking 7 days ahead, forecasted prices are also returned.",
         "responses": {
           "200": {
             "description": "The prices for the provided component id and time period.",
@@ -323,7 +332,8 @@
           }
         },
         "required": [
-          "tariffs"
+          "tariffs",
+          "calendarPatterns"
         ],
         "additionalProperties": false
       },
@@ -332,10 +342,17 @@
         "properties": {
           "tariff": {
             "$ref": "tariff.schema.json#/definitions/Tariff"
+          },
+          "calendarPatterns": {
+            "type": "array",
+            "items": {
+              "$ref": "time.schema.json#/definitions/CalendarPattern"
+            }
           }
         },
         "required": [
-          "tariff"
+          "tariff",
+          "calendarPatterns"
         ],
         "additionalProperties": false
       },

@@ -121,9 +121,6 @@
         "costFunction": {
           "$ref": "price.schema.json#/definitions/CostFunction"
         },
-        "unit": {
-          "$ref": "common.schema.json#/definitions/Unit"
-        },
         "components": {
           "type": "array",
           "items": {
@@ -135,7 +132,6 @@
         "id",
         "name",
         "costFunction",
-        "unit",
         "components"
       ],
       "additionalProperties": false
@@ -156,9 +152,6 @@
         "costFunction": {
           "$ref": "price.schema.json#/definitions/CostFunction"
         },
-        "unit": {
-          "$ref": "common.schema.json#/definitions/Unit"
-        },
         "components": {
           "type": "array",
           "items": {
@@ -170,7 +163,6 @@
         "id",
         "name",
         "costFunction",
-        "unit",
         "components"
       ],
       "additionalProperties": false

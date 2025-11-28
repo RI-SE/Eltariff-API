@@ -1,35 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
   "definitions": {
-    "PriceListEntry": {
-      "description": "A timed price entry that belongs to a price list.",
-      "type": "object",
-      "properties": {
-        "timestamp": {
-          "$ref": "time.schema.json#/definitions/DateTime"
-        },
-        "priceExVat": {
-          "type": "number",
-          "format": "decimal",
-          "example": 100
-        },
-        "priceIncVat": {
-          "type": "number",
-          "format": "decimal",
-          "example": 125
-        },
-        "currency": {
-          "$ref": "price.schema.json#/definitions/Currency"
-        }
-      },
-      "required": [
-        "timestamp",
-        "priceExVat",
-        "priceIncVat",
-        "currency"
-      ],
-      "additionalProperties": false
-    },
     "Price": {
       "description": "Price, VAT and currency.",
       "type": "object",
@@ -62,6 +33,12 @@
         "componentId": {
           "$ref": "common.schema.json#/definitions/Uuid"
         },
+        "timeZone": {
+          "$ref": "time.schema.json#/definitions/TimeZone"
+        },
+        "currency": {
+          "$ref": "price.schema.json#/definitions/Currency"
+        },
         "resolution": {
           "$ref": "time.schema.json#/definitions/Duration"
         },
@@ -74,13 +51,47 @@
       },
       "required": [
         "componentId",
+        "currency",
         "resolution",
         "prices"
       ],
       "additionalProperties": false
     },
+    "PriceListEntry": {
+      "description": "A timed price entry that belongs to a price list.",
+      "type": "object",
+      "properties": {
+        "created": {
+          "$ref": "time.schema.json#/definitions/DateTime"
+        },
+        "start": {
+          "$ref": "time.schema.json#/definitions/DateTime"
+        },
+        "end": {
+          "$ref": "time.schema.json#/definitions/DateTime"
+        },
+        "priceExVat": {
+          "type": "number",
+          "format": "decimal",
+          "example": 100
+        },
+        "priceIncVat": {
+          "type": "number",
+          "format": "decimal",
+          "example": 125
+        }
+      },
+      "required": [
+        "created",
+        "start",
+        "end",
+        "priceExVat",
+        "priceIncVat"
+      ],
+      "additionalProperties": false
+    },
     "CostFunction": {
-      "description": "A pseudo code function that describes how to calculate the cost for a set of price components. Usage examples at https://someexamples.",
+      "description": "A pseudo code function that describes how to calculate the cost for a set of price components. Check DEVELOPER_GUIDE.md for usage examples (https://github.com/RI-SE/Eltariff-API/blob/main/DEVELOPER_GUIDE.md)",
       "type": "string",
       "example": "sum(energy(c)*price(c))",
       "additionalProperties": false

@@ -32,6 +32,9 @@
         "price": {
           "$ref": "price.schema.json#/definitions/Price"
         },
+        "unit": {
+          "$ref": "common.schema.json#/definitions/Unit"
+        },
         "spotPriceSettings": {
           "$ref": "energy.schema.json#/definitions/SpotPriceSettings"
         },
@@ -47,7 +50,8 @@
         "name",
         "type",
         "reference",
-        "validPeriod"
+        "validPeriod",
+        "unit"
       ],
       "additionalProperties": false
     },
