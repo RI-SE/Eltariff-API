@@ -45,19 +45,19 @@
                 "name": "Energy prices",
                 "description": "Energy price components.",
                 "costFunction": "sum(energy(c)*price(c))",
-                "unit": "kWh",
                 "components": [
                     {
                         "id": "95e18bbb-0a7b-475b-a3fc-b141240fa42b",
                         "name": "Energy transfer fee",
                         "description": "Fee per kWh to transfer electric energy.",
-                        "type": "kwh",
+                        "type": "fixed",
                         "reference": "main",
                         "price": {
                             "priceExVat": 0.2,
                             "priceIncVat": 0.25,
                             "currency": "SEK"
                         },
+                        "unit": "kWh",
                         "spotPriceSettings": null,
                         "validPeriod": {
                             "fromIncluding": "2025-01-01",
@@ -69,13 +69,14 @@
                         "id": "2da4e077-a17e-4c9e-98f2-55e6ce7a4a64",
                         "name": "Energy tax",
                         "description": "Energy tax for every consumed kWh.",
-                        "type": "kwh",
+                        "type": "fixed",
                         "reference": "tax",
                         "price": {
                             "priceExVat": 0.439,
                             "priceIncVat": 0.54875,
                             "currency": "SEK"
                         },
+                        "unit": "kWh",
                         "spotPriceSettings": null,
                         "validPeriod": {
                             "fromIncluding": "2025-01-01",
@@ -90,7 +91,6 @@
                 "name": "Power prices",
                 "description": "Power price components.",
                 "costFunction": "sum(peak(c)*price(c))",
-                "unit": "kW",
                 "components": [
                     {
                         "id": "1776252a-7857-496d-ae7b-f7487349e3a4",
@@ -103,6 +103,7 @@
                             "priceIncVat": 45,
                             "currency": "SEK"
                         },
+                        "unit": "kW",
                         "validPeriod": {
                             "fromIncluding": "2025-01-01",
                             "toExcluding": "2026-01-01"
@@ -181,19 +182,19 @@
                 "name": "Energy prices",
                 "description": "Energy price components.",
                 "costFunction": "sum(energy(c)*price(c))",
-                "unit": "kWh",
                 "components": [
                     {
                         "id": "95e18bbb-0a7b-475b-a3fc-b141240fa42b",
                         "name": "Energy transfer fee",
                         "description": "Fee per kWh to transfer electric energy.",
-                        "type": "kwh",
+                        "type": "fixed",
                         "reference": "main",
                         "price": {
                             "priceExVat": 0.2,
                             "priceIncVat": 0.25,
                             "currency": "SEK"
                         },
+                        "unit": "kWh",
                         "spotPriceSettings": null,
                         "validPeriod": {
                             "fromIncluding": "2025-01-01",
@@ -205,13 +206,14 @@
                         "id": "2da4e077-a17e-4c9e-98f2-55e6ce7a4a64",
                         "name": "Energy tax",
                         "description": "Energy tax for every consumed kWh.",
-                        "type": "kwh",
+                        "type": "fixed",
                         "reference": "tax",
                         "price": {
                             "priceExVat": 0.439,
                             "priceIncVat": 0.54875,
                             "currency": "SEK"
                         },
+                        "unit": "kWh",
                         "spotPriceSettings": null,
                         "validPeriod": {
                             "fromIncluding": "2025-01-01",
@@ -226,7 +228,6 @@
                 "name": "Power prices 14kW",
                 "description": "Power price components.",
                 "costFunction": "sum(peak(c)*price(c))",
-                "unit": "kW",
                 "components": [
                     {
                         "id": "e33307b6-77b2-4d7d-b33f-908d2cc9ebbb",
@@ -239,6 +240,7 @@
                             "priceIncVat": 25,
                             "currency": "SEK"
                         },
+                        "unit": "kW",
                         "validPeriod": {
                             "fromIncluding": "2025-01-01",
                             "toExcluding": "2026-01-01"
@@ -270,6 +272,114 @@
                                 ]
                             }
                         ]
+                    }
+                ]
+            }
+        },
+        {
+            "id": "f9cfb2ec-ef80-46a3-8868-e2e8b7185418",
+            "name": "Hourly power price",
+            "description": "Tariff with a dynamic hourly power prices.",
+            "product": "ProductCode3",
+            "companyName": "The Grid Company AB",
+            "companyOrgNo": "123456-7890",
+            "direction": "consumption",
+            "timeZone": "Europe/Stockholm",
+            "lastUpdated": "2025-01-01T00:00:00",
+            "validPeriod": {
+                "fromIncluding": "2025-01-01",
+                "toExcluding": "2026-01-01"
+            },
+            "billingPeriod": "P1M",
+            "fixedPrice": {
+                "id": "68b397da-6721-48a8-b03c-9cda74f68fd8",
+                "name": "Fixed prices",
+                "description": "Fixed price components.",
+                "costFunction": "sum(price(c))",
+                "components": [
+                    {
+                        "id": "3fe8b51d-f4bc-4057-a0b8-2239a39604ff",
+                        "name": "Subscription fee",
+                        "description": "Fee for the subscription for one full year.",
+                        "type": "fixed",
+                        "reference": "main",
+                        "validPeriod": {
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
+                        },
+                        "price": {
+                            "priceExVat": 1000,
+                            "priceIncVat": 1250,
+                            "currency": "SEK"
+                        },
+                        "pricedPeriod": "P1Y"
+                    }
+                ]
+            },
+            "energyPrice": {
+                "id": "d97c5b80-7abd-4ec4-bd9c-8f5db7e93eb7",
+                "name": "Energy prices",
+                "description": "Energy price components.",
+                "costFunction": "sum(energy(c)*price(c))",
+                "components": [
+                    {
+                        "id": "95e18bbb-0a7b-475b-a3fc-b141240fa42b",
+                        "name": "Energy transfer fee",
+                        "description": "Fee per kWh to transfer electric energy.",
+                        "type": "fixed",
+                        "reference": "main",
+                        "price": {
+                            "priceExVat": 0.2,
+                            "priceIncVat": 0.25,
+                            "currency": "SEK"
+                        },
+                        "unit": "kWh",
+                        "spotPriceSettings": null,
+                        "validPeriod": {
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
+                        },
+                        "recurringPeriods": []
+                    },
+                    {
+                        "id": "2da4e077-a17e-4c9e-98f2-55e6ce7a4a64",
+                        "name": "Energy tax",
+                        "description": "Energy tax for every consumed kWh.",
+                        "type": "fixed",
+                        "reference": "tax",
+                        "price": {
+                            "priceExVat": 0.439,
+                            "priceIncVat": 0.54875,
+                            "currency": "SEK"
+                        },
+                        "unit": "kWh",
+                        "spotPriceSettings": null,
+                        "validPeriod": {
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
+                        },
+                        "recurringPeriods": []
+                    }
+                ]
+            },
+            "powerPrice": {
+                "id": "9826e74e-34bd-4c06-8c35-b0f6655609b7",
+                "name": "Power prices 14kW",
+                "description": "Power price components.",
+                "costFunction": "sum(power(p)*price(p))",
+                "components": [
+                    {
+                        "id": "e33307b6-77b2-4d7d-b33f-908d2cc9ebbb",
+                        "name": "Hourly power price",
+                        "description": "Dynamically set power prices for each individual hour.",
+                        "type": "dynamic",
+                        "reference": "main",
+                        "unit": "kW",
+                        "validPeriod": {
+                            "fromIncluding": "2025-01-01",
+                            "toExcluding": "2026-01-01"
+                        },
+                        "url": "/prices/e33307b6-77b2-4d7d-b33f-908d2cc9ebbb"
                     }
                 ]
             }

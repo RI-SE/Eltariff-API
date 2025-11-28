@@ -43,26 +43,39 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
 
     public override async Task<ActionResult<PricesResponse>> GetPrices(
         [BindRequired] Guid componentId,
+        [FromQuery] DateOnly? date,
         [FromQuery] DateTime? fromIncluding,
         [FromQuery] DateTime? toExcluding)
     {
+        if (!componentId.Equals(Guid.Parse("e33307b6-77b2-4d7d-b33f-908d2cc9ebbb")))
+        {
+            return NotFound($"Found no price list with id {componentId}");
+        }
 
-        var today = DateTime.Today;
+        DateTime from = fromIncluding ?? DateTime.Today;
+        DateTime to = toExcluding ?? from.AddDays(7);
+
+        var timespan = to - from;
+        int numberOfHours = timespan.Days * 24 + timespan.Hours;
+
         List<PriceListEntry> prices = [];
-        for (int i = 0; i < 24; i++)
+        for (int i = 0; i < numberOfHours; i++)
         {
             prices.Add(new PriceListEntry
             {
-                Timestamp = today.AddHours(i),
+                Created = from.Date.AddHours(-12),
+                Start = from.AddHours(i),
+                End = from.AddHours(i + 1),
                 PriceExVat = i * 0.1m,
                 PriceIncVat = i * 0.1m * 1.25m,
-                Currency = "SEK"
             });
         }
 
         PriceList priceList = new()
         {
             ComponentId = componentId,
+            TimeZone = "Europe/Stockholm",
+            Currency = "SEK",
             Resolution = "PT1H",
             Prices = prices
         };
