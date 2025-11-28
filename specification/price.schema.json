@@ -61,10 +61,13 @@
       "description": "A timed price entry that belongs to a price list.",
       "type": "object",
       "properties": {
-        "timestamp": {
+        "created": {
           "$ref": "time.schema.json#/definitions/DateTime"
         },
-        "created": {
+        "start": {
+          "$ref": "time.schema.json#/definitions/DateTime"
+        },
+        "end": {
           "$ref": "time.schema.json#/definitions/DateTime"
         },
         "priceExVat": {
@@ -79,8 +82,9 @@
         }
       },
       "required": [
-        "timestamp",
         "created",
+        "start",
+        "end",
         "priceExVat",
         "priceIncVat"
       ],
