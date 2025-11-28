@@ -33,7 +33,7 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
             Operator = "The Grid Company AB",
             TimeZone = "Europe/Stockholm",
             IdentityProviderUrl = "https://idp.gridcompany.se/oath2/token",
-            LastUpdated = DateTime.Parse("2025-06-13"),
+            LastUpdated = DateTime.Parse("2025-11-28"),
             AdditionalProperties = additionalProperties
         };
 
