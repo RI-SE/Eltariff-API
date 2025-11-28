@@ -17,7 +17,7 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
         JsonNode json = JsonDataLoader.LoadApiSpecification(filePath);
         string? apiName = json["info"]?["title"]?.ToString();
         string? apiVersion = json["info"]?["version"]?.ToString();
-        string implementationRevision = "r1";
+        string implementationRevision = "0.5.3";
 
         var additionalProperties = new Dictionary<string, object>
         {
