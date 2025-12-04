@@ -14,7 +14,7 @@
     <RemoveDir Directories="wwwroot/swagger/specification" />
     <MakeDir Directories="wwwroot/swagger/specification" />
     <Exec Command="bash ./fetch-all-versions.sh ./wwwroot/swagger/specification" />
-    <Copy SourceFiles="../ControllerGenerator/build/gridtariffapi-wip.json"
+    <Copy SourceFiles="../ControllerGenerator/Generated/gridtariffapi-bundle.json"
       DestinationFolder="wwwroot/swagger/specification" />
     <Copy SourceFiles="@(ApiSpecifications)"
       DestinationFolder="wwwroot/swagger/specification" />
