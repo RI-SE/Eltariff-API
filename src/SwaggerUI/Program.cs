@@ -26,7 +26,7 @@ app.UseSwaggerUI(o =>
     bool isLatest = true;
     foreach (var (version, uiSpecificationFileName) in swaggerUISpecifications.OrderBy(x => x.Key).Reverse())
     {
-        if (uiSpecificationFileName.Contains("-wip"))
+        if (uiSpecificationFileName.Contains("-bundle"))
         {
             wipSpecification = new KeyValuePair<string, string>(version, uiSpecificationFileName);
         }
