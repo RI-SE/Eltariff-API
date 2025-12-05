@@ -52,37 +52,52 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
             return NotFound($"Found no price list with id {componentId}");
         }
 
-        DateTime from = fromIncluding ?? DateTime.Today;
+        DateTime now = DateTime.Now;
+        DateTime today = now.Date;
+        DateTime from = fromIncluding ?? today;
         DateTime to = toExcluding ?? from.AddDays(7);
+        if (date is DateOnly d)
+        {
+            from = d.ToDateTime(TimeOnly.MinValue);
+            to = from.AddDays(1);
+        }
 
         var timespan = to - from;
         int numberOfHours = timespan.Days * 24 + timespan.Hours;
+        DateTime tomorrow = today.AddDays(1);
 
-        List<PriceListEntry> prices = [];
+        List<PriceListEntry> actual = [];
+        List<PriceListEntry> forecast = [];
         for (int i = 0; i < numberOfHours; i++)
         {
-            prices.Add(new PriceListEntry
+            DateTime start = from.AddHours(i);
+            PriceListEntry price = new()
             {
                 Created = from.Date.AddHours(-12),
-                Start = from.AddHours(i),
-                End = from.AddHours(i + 1),
+                Start = start,
+                End = start.AddHours(1),
                 PriceExVat = i * 0.1m,
                 PriceIncVat = i * 0.1m * 1.25m,
-            });
+            };
+
+            if (start.Date <= tomorrow.Date && now.Hour >= 12)
+            {
+                actual.Add(price);
+            }
+            else
+            {
+                forecast.Add(price);
+            }
         }
 
-        PriceList priceList = new()
+        PricesResponse response = new()
         {
             ComponentId = componentId,
             TimeZone = "Europe/Stockholm",
             Currency = "SEK",
             Resolution = "PT1H",
-            Prices = prices
-        };
-
-        PricesResponse response = new()
-        {
-            PriceList = priceList
+            Actual = actual,
+            Forecast = forecast
         };
 
         await Task.CompletedTask;

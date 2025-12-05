@@ -3,7 +3,7 @@
   "info": {
     "title": "Grid Tariff API",
     "description": "Provides grid tariffs from Swedish DSOs.",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "contact": {
       "name": "Grid Tariff API",
       "url": "https://github.com/RI-SE/Eltariff-API"
@@ -59,6 +59,9 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
+          },
+          "501": {
+            "$ref": "#/components/responses/NotImplemented"
           }
         }
       }
@@ -223,23 +226,10 @@
         "description": "Returns prices for a price component for a given time period. The time period defaults to fromIncluding = today 00:00 and toExcluding = today 00:00 plus 7 full days. By looking 7 days ahead, forecasted prices are also returned.",
         "responses": {
           "200": {
-            "description": "The prices for the provided component id and time period.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PricesResponse"
-                }
-              }
-            }
+            "$ref": "#/components/responses/Prices"
           },
           "400": {
             "$ref": "#/components/responses/BadRequest"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized"
-          },
-          "403": {
-            "$ref": "#/components/responses/Forbidden"
           },
           "404": {
             "$ref": "#/components/responses/NotFound"
@@ -394,18 +384,6 @@
         ],
         "additionalProperties": false
       },
-      "PricesResponse": {
-        "type": "object",
-        "properties": {
-          "priceList": {
-            "$ref": "price.schema.json#/definitions/PriceList"
-          }
-        },
-        "required": [
-          "priceList"
-        ],
-        "additionalProperties": false
-      },
       "ProblemDetails": {
         "type": "object",
         "properties": {
@@ -431,6 +409,16 @@
       }
     },
     "responses": {
+      "Prices": {
+        "description": "The prices for the provided component id and time period.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "price.schema.json#/definitions/PricesResponse"
+            }
+          }
+        }
+      },
       "BadRequest": {
         "description": "Bad Request",
         "content": {

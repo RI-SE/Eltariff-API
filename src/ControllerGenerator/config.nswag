@@ -3,7 +3,7 @@
   "defaultVariables": null,
   "documentGenerator": {
     "fromDocument": {
-      "url": "build/gridtariffapi-wip.json",
+      "url": "Generated/gridtariffapi-bundle.json",
       "output": null,
       "newLineBehavior": "Auto"
     }
@@ -11,7 +11,7 @@
   "codeGenerators": {
     "openApiToCSharpController": {
       "namespace": "GeneratedController",
-      "output": "build/GeneratedControllerBase.cs",
+      "output": "Generated/GeneratedControllerBase.cs",
       "className": "Generated{controller}",
       "controllerStyle": "Abstract",
       "controllerTarget": "AspNetCore",

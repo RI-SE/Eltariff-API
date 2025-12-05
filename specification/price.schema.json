@@ -26,7 +26,7 @@
       ],
       "additionalProperties": false
     },
-    "PriceList": {
+    "PricesResponse": {
       "description": "Time differentiated prices for a price component.",
       "type": "object",
       "properties": {
@@ -42,7 +42,13 @@
         "resolution": {
           "$ref": "time.schema.json#/definitions/Duration"
         },
-        "prices": {
+        "actual": {
+          "type": "array",
+          "items": {
+            "$ref": "price.schema.json#/definitions/PriceListEntry"
+          }
+        },
+        "forecast": {
           "type": "array",
           "items": {
             "$ref": "price.schema.json#/definitions/PriceListEntry"
@@ -53,7 +59,7 @@
         "componentId",
         "currency",
         "resolution",
-        "prices"
+        "actual"
       ],
       "additionalProperties": false
     },

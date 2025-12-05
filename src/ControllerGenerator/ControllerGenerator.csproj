@@ -11,7 +11,7 @@
 
   <Target Name="CreateBundle" BeforeTargets="BeforeBuild">
     <Exec
-      Command="npx @redocly/cli bundle ../../specification/gridtariffapi.json -o build/gridtariffapi-wip.json" />
+      Command="npx @redocly/cli bundle ../../specification/gridtariffapi.json -o Generated/gridtariffapi-bundle.json" />
   </Target>
 
   <Target Name="NSwagDebug" BeforeTargets="BeforeBuild" DependsOnTargets="CreateBundle"
