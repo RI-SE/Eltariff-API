@@ -16,8 +16,6 @@
     <Exec Command="bash ./fetch-all-versions.sh ./wwwroot/swagger/specification" />
     <Copy SourceFiles="../ControllerGenerator/Generated/gridtariffapi-bundle.json"
       DestinationFolder="wwwroot/swagger/specification" />
-    <Copy SourceFiles="@(ApiSpecifications)"
-      DestinationFolder="wwwroot/swagger/specification" />
   </Target>
 
 </Project>
