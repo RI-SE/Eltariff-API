@@ -104,17 +104,10 @@ jobs:
           name: openapi-release-${{ env.TAG }}
           path: ${{ env.WORK_DIR }}
 
-      - name: Create GitHub Release
+      - name: Append assets to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG }}
-          name: ${{ env.TAG }}
-          body: |
-            Automated release for ${{ env.TAG }}.
-
-            - Linted source OpenAPI (`${{ env.OPENAPI_ENTRY }}`)
-            - Bundled to `${{ env.BUNDLED_JSON }}`
-            - Generated Redoc `${{ env.REDOC_HTML }}`
           files: |
             ${{ env.BUNDLED_JSON }}
             ${{ env.REDOC_HTML }}
