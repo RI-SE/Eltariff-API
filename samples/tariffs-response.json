@@ -16,16 +16,26 @@
         "id": "93ec592b-f153-4203-ac35-7a96b9861c26",
         "name": "Maxpower 14 kW",
         "description": "Fixed price component for a max power contract at 14 kW.",
-        "validPeriod": {
-          "fromIncluding": "2024-01-01",
-          "toExcluding": "2025-01-01"
-        },
-        "price": {
-          "priceExVat": 200,
-          "priceIncVat": 250,
-          "currency": "SEK"
-        },
-        "pricedPeriod": "P1M"
+        "costFunction": "sum(price(c))",
+        "components": [
+          {
+            "id": "93ec592b-f153-4203-ac35-7a96b9861c27",
+            "name": "Maxpower 14 kW",
+            "description": "Fixed price component for a max power contract at 14 kW.",
+            "type": "public",
+            "reference": "main",
+            "validPeriod": {
+              "fromIncluding": "2024-01-01",
+              "toExcluding": "2025-01-01"
+            },
+            "price": {
+              "priceExVat": 200,
+              "priceIncVat": 250,
+              "currency": "SEK"
+            },
+            "pricedPeriod": "P1M"
+          }
+        ]
       },
       "energyPrice": {
         "id": "e1f09299-03d6-4d60-a047-81295f1483f6",
@@ -132,16 +142,26 @@
         "id": "93ec592b-f153-4203-ac35-7a96b9861c26",
         "name": "Maxpower 14 kW",
         "description": "Fixed price component for a max power contract at 14 kW.",
-        "validPeriod": {
-          "fromIncluding": "2024-01-01",
-          "toExcluding": "2025-01-01"
-        },
-        "price": {
-          "priceExVat": 200,
-          "priceIncVat": 250,
-          "currency": "SEK"
-        },
-        "pricedPeriod": "P1M"
+        "costFunction": "sum(price(c))",
+        "components": [
+          {
+            "id": "93ec592b-f153-4203-ac35-7a96b9861c27",
+            "name": "Maxpower 14 kW",
+            "description": "Fixed price component for a max power contract at 14 kW.",
+            "type": "public",
+            "reference": "main",
+            "validPeriod": {
+              "fromIncluding": "2024-01-01",
+              "toExcluding": "2025-01-01"
+            },
+            "price": {
+              "priceExVat": 200,
+              "priceIncVat": 250,
+              "currency": "SEK"
+            },
+            "pricedPeriod": "P1M"
+          }
+        ]
       },
       "energyPrice": {
         "id": "09958810-50d6-470e-8114-97b5dd5f5eaa",
@@ -303,16 +323,26 @@
         "id": "93ec592b-f153-4203-ac35-7a96b9861c26",
         "name": "Maxpower 14 kW",
         "description": "Fixed price component for a max power contract at 14 kW.",
-        "validPeriod": {
-          "fromIncluding": "2024-01-01",
-          "toExcluding": "2025-01-01"
-        },
-        "price": {
-          "priceExVat": 200,
-          "priceIncVat": 250,
-          "currency": "SEK"
-        },
-        "pricedPeriod": "P1M"
+        "costFunction": "sum(price(c))",
+        "components": [
+          {
+            "id": "93ec592b-f153-4203-ac35-7a96b9861c27",
+            "name": "Maxpower 14 kW",
+            "description": "Fixed price component for a max power contract at 14 kW.",
+            "type": "public",
+            "reference": "main",
+            "validPeriod": {
+              "fromIncluding": "2024-01-01",
+              "toExcluding": "2025-01-01"
+            },
+            "price": {
+              "priceExVat": 200,
+              "priceIncVat": 250,
+              "currency": "SEK"
+            },
+            "pricedPeriod": "P1M"
+          }
+        ]
       },
       "energyPrice": {
         "id": "78384b77-49ed-48cf-8107-d39b3165102c",
@@ -477,16 +507,26 @@
         "id": "39328002-bb47-4a7f-8614-a4060829c531",
         "name": "Fusesize 16 A",
         "description": "Fixed price component for a fuse size contract at 16 A.",
-        "validPeriod": {
-          "fromIncluding": "2024-01-01",
-          "toExcluding": "2025-01-01"
-        },
-        "price": {
-          "priceExVat": 100,
-          "priceIncVat": 125,
-          "currency": "SEK"
-        },
-        "pricedPeriod": "P1Y"
+        "costFunction": "sum(price(c))",
+        "components": [
+          {
+            "id": "39328002-bb47-4a7f-8614-a4060829c532",
+            "name": "Fusesize 16 A",
+            "description": "Fixed price component for a fuse size contract at 16 A.",
+            "type": "public",
+            "reference": "main",
+            "validPeriod": {
+              "fromIncluding": "2024-01-01",
+              "toExcluding": "2025-01-01"
+            },
+            "price": {
+              "priceExVat": 100,
+              "priceIncVat": 125,
+              "currency": "SEK"
+            },
+            "pricedPeriod": "P1Y"
+          }
+        ]
       },
       "energyPrice": {
         "id": "e1f09299-03d6-4d60-a047-81295f1483f6",

@@ -1,270 +1,151 @@
 {
-  "componentPrices": {
+  "priceList": {
     "componentId": "ede83c10-cf70-4398-9a37-fe8dfe307bc6",
+    "resolution": "PT1H",
     "prices": [
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T00:00:00+01:00",
-          "toExcluding": "2024-11-20T01:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.5604,
-          "priceIncVat": 0.7005,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T00:00:00+01:00",
+        "priceExVat": 0.5604,
+        "priceIncVat": 0.7005,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T01:00:00+01:00",
-          "toExcluding": "2024-11-20T02:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.3881,
-          "priceIncVat": 0.4851,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T01:00:00+01:00",
+        "priceExVat": 0.3881,
+        "priceIncVat": 0.4851,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T02:00:00+01:00",
-          "toExcluding": "2024-11-20T03:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.0662,
-          "priceIncVat": 0.0828,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T02:00:00+01:00",
+        "priceExVat": 0.0662,
+        "priceIncVat": 0.0828,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T03:00:00+01:00",
-          "toExcluding": "2024-11-20T04:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.4945,
-          "priceIncVat": 0.6182,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T03:00:00+01:00",
+        "priceExVat": 0.4945,
+        "priceIncVat": 0.6182,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T04:00:00+01:00",
-          "toExcluding": "2024-11-20T05:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.102,
-          "priceIncVat": 0.1275,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T04:00:00+01:00",
+        "priceExVat": 0.102,
+        "priceIncVat": 0.1275,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T05:00:00+01:00",
-          "toExcluding": "2024-11-20T06:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.484,
-          "priceIncVat": 0.605,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T05:00:00+01:00",
+        "priceExVat": 0.484,
+        "priceIncVat": 0.605,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T06:00:00+01:00",
-          "toExcluding": "2024-11-20T07:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.7813,
-          "priceIncVat": 0.9766,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T06:00:00+01:00",
+        "priceExVat": 0.7813,
+        "priceIncVat": 0.9766,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T07:00:00+01:00",
-          "toExcluding": "2024-11-20T08:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.8556,
-          "priceIncVat": 1.0695,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T07:00:00+01:00",
+        "priceExVat": 0.8556,
+        "priceIncVat": 1.0695,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T08:00:00+01:00",
-          "toExcluding": "2024-11-20T09:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.3177,
-          "priceIncVat": 0.3971,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T08:00:00+01:00",
+        "priceExVat": 0.3177,
+        "priceIncVat": 0.3971,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T09:00:00+01:00",
-          "toExcluding": "2024-11-20T10:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.0737,
-          "priceIncVat": 0.0921,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T09:00:00+01:00",
+        "priceExVat": 0.0737,
+        "priceIncVat": 0.0921,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T10:00:00+01:00",
-          "toExcluding": "2024-11-20T11:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.095,
-          "priceIncVat": 0.1187,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T10:00:00+01:00",
+        "priceExVat": 0.095,
+        "priceIncVat": 0.1187,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T11:00:00+01:00",
-          "toExcluding": "2024-11-20T12:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.4062,
-          "priceIncVat": 0.5078,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T11:00:00+01:00",
+        "priceExVat": 0.4062,
+        "priceIncVat": 0.5078,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T12:00:00+01:00",
-          "toExcluding": "2024-11-20T13:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.8849,
-          "priceIncVat": 1.1062,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T12:00:00+01:00",
+        "priceExVat": 0.8849,
+        "priceIncVat": 1.1062,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T13:00:00+01:00",
-          "toExcluding": "2024-11-20T14:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.898,
-          "priceIncVat": 1.1226,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T13:00:00+01:00",
+        "priceExVat": 0.898,
+        "priceIncVat": 1.1226,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T14:00:00+01:00",
-          "toExcluding": "2024-11-20T15:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.3823,
-          "priceIncVat": 0.4779,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T14:00:00+01:00",
+        "priceExVat": 0.3823,
+        "priceIncVat": 0.4779,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T15:00:00+01:00",
-          "toExcluding": "2024-11-20T16:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.5465,
-          "priceIncVat": 0.6831,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T15:00:00+01:00",
+        "priceExVat": 0.5465,
+        "priceIncVat": 0.6831,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T16:00:00+01:00",
-          "toExcluding": "2024-11-20T17:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.462,
-          "priceIncVat": 0.5775,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T16:00:00+01:00",
+        "priceExVat": 0.462,
+        "priceIncVat": 0.5775,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T17:00:00+01:00",
-          "toExcluding": "2024-11-20T18:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.1915,
-          "priceIncVat": 0.2394,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T17:00:00+01:00",
+        "priceExVat": 0.1915,
+        "priceIncVat": 0.2394,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T18:00:00+01:00",
-          "toExcluding": "2024-11-20T19:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.4738,
-          "priceIncVat": 0.5922,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T18:00:00+01:00",
+        "priceExVat": 0.4738,
+        "priceIncVat": 0.5922,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T19:00:00+01:00",
-          "toExcluding": "2024-11-20T20:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.7741,
-          "priceIncVat": 0.9676,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T19:00:00+01:00",
+        "priceExVat": 0.7741,
+        "priceIncVat": 0.9676,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T20:00:00+01:00",
-          "toExcluding": "2024-11-20T21:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.2402,
-          "priceIncVat": 0.3003,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T20:00:00+01:00",
+        "priceExVat": 0.2402,
+        "priceIncVat": 0.3003,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T21:00:00+01:00",
-          "toExcluding": "2024-11-20T22:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.5776,
-          "priceIncVat": 0.722,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T21:00:00+01:00",
+        "priceExVat": 0.5776,
+        "priceIncVat": 0.722,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T22:00:00+01:00",
-          "toExcluding": "2024-11-20T23:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.1335,
-          "priceIncVat": 0.1669,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T22:00:00+01:00",
+        "priceExVat": 0.1335,
+        "priceIncVat": 0.1669,
+        "currency": "SEK"
       },
       {
-        "validPeriod": {
-          "fromIncluding": "2024-11-20T23:00:00+01:00",
-          "toExcluding": "2024-11-21T00:00:00+01:00"
-        },
-        "price": {
-          "priceExVat": 0.8398,
-          "priceIncVat": 1.0498,
-          "currency": "SEK"
-        }
+        "timestamp": "2024-11-20T23:00:00+01:00",
+        "priceExVat": 0.8398,
+        "priceIncVat": 1.0498,
+        "currency": "SEK"
       }
     ]
   }
