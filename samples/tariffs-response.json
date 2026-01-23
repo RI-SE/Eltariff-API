@@ -89,40 +89,198 @@
       "powerPrice": {
         "id": "e1c1b1f2-4025-4c31-b052-d1760455cdc5",
         "name": "Power prices",
-        "description": "Power price components.",
+        "description": "Power price where each 15 min has its own price. The price is multipliead with the average power that is above 4 kW. So the power for each 15 min is max(avg(power) - 4, 0).",
         "costFunction": "sum(peak(c)*price(c))",
         "components": [
           {
             "id": "1776252a-7857-496d-ae7b-f7487349e3a4",
             "name": "Power peak fee",
-            "description": "Power fee for the monthly maximum power usage.",
+            "description": "Power fee per 15 min during high price periods.",
             "type": "peak",
+            "reference": "high",
+            "validPeriod": {
+              "fromIncluding": "2025-12-01",
+              "toExcluding": "2026-02-28"
+            },
+            "price": {
+              "priceExVat": 0.1,
+              "priceIncVat": 0.125,
+              "currency": "SEK"
+            },
+            "unit": "kW",
+            "peakIdentificationSettings": {
+              "peakFunction": "max(avg(high_price_periods) - 4, 0)",
+              "peakIdentificationPeriod": "PT15M",
+              "peakDuration": "PT15M",
+              "numberOfPeaksForAverageCalculation": 1
+            },
+            "recurringPeriods": [
+              {
+                "reference": "high_price_periods",
+                "frequency": "P1D",
+                "activePeriods": [
+                  {
+                    "fromIncluding": "07:45:00",
+                    "toExcluding": "11:15:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays",
+                        "weekends"
+                      ],
+                      "exclude": []
+                    }
+                  },
+                  {
+                    "fromIncluding": "15:45:00",
+                    "toExcluding": "20:15:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays",
+                        "weekends"
+                      ],
+                      "exclude": []
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "75fe9a72-fa94-4873-9c0f-2834a28fca76",
+      "name": "House 63A 15 min power",
+      "description": "Grid tariff for houses with max 63 Amps fuse.",
+      "validPeriod": {
+        "fromIncluding": "2025-01-01",
+        "toExcluding": "2026-01-01"
+      },
+      "timeZone": "Europe/Stockholm",
+      "lastUpdated": "2025-01-01T00:00:00",
+      "companyName": "The Grid Company AB",
+      "companyOrgNo": "123456-7890",
+      "product": "ProductCode11",
+      "direction": "consumption",
+      "billingPeriod": "P1M",
+      "fixedPrice": {
+        "id": "68b397da-6721-48a8-b03c-9cda74f68fd8",
+        "name": "Fixed prices",
+        "description": "Fixed price components.",
+        "costFunction": "sum(price(c))",
+        "components": [
+          {
+            "id": "3fe8b51d-f4bc-4057-a0b8-2239a39604ff",
+            "name": "Subscription fee",
+            "description": "Fee for the subscription for one full year.",
+            "type": "fixed",
             "reference": "main",
             "validPeriod": {
               "fromIncluding": "2025-01-01",
               "toExcluding": "2026-01-01"
             },
             "price": {
-              "priceExVat": 36,
-              "priceIncVat": 45,
+              "priceExVat": 1000,
+              "priceIncVat": 1250,
+              "currency": "SEK"
+            },
+            "pricedPeriod": "P1Y"
+          }
+        ]
+      },
+      "energyPrice": {
+        "id": "d97c5b80-7abd-4ec4-bd9c-8f5db7e93eb7",
+        "name": "Energy prices",
+        "description": "Energy price components.",
+        "costFunction": "sum(energy(c)*price(c))",
+        "components": [
+          {
+            "id": "95e18bbb-0a7b-475b-a3fc-b141240fa42b",
+            "name": "Energy transfer fee",
+            "description": "Fee per kWh to transfer electric energy.",
+            "type": "fixed",
+            "reference": "main",
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2026-01-01"
+            },
+            "price": {
+              "priceExVat": 0.2,
+              "priceIncVat": 0.25,
+              "currency": "SEK"
+            },
+            "unit": "kWh",
+            "spotPriceSettings": null,
+            "recurringPeriods": []
+          },
+          {
+            "id": "2da4e077-a17e-4c9e-98f2-55e6ce7a4a64",
+            "name": "Energy tax",
+            "description": "Energy tax for every consumed kWh.",
+            "type": "fixed",
+            "reference": "tax",
+            "validPeriod": {
+              "fromIncluding": "2025-01-01",
+              "toExcluding": "2026-01-01"
+            },
+            "price": {
+              "priceExVat": 0.439,
+              "priceIncVat": 0.54875,
+              "currency": "SEK"
+            },
+            "unit": "kWh",
+            "spotPriceSettings": null,
+            "recurringPeriods": []
+          }
+        ]
+      },
+      "powerPrice": {
+        "id": "52e22b4e-a9a4-4980-a837-429c78c7e973",
+        "name": "Power prices",
+        "description": "Power price where each 15 min has its own price. The price is multipliead with the average power that is above 4 kW. So the power for each 15 min is max(avg(power) - 4, 0).",
+        "costFunction": "sum(peak(c)*price(c))",
+        "components": [
+          {
+            "id": "32c0a143-fa83-4e55-85f5-36bcd63acf87",
+            "name": "Power peak fee",
+            "description": "Power fee per 15 min during high price periods.",
+            "type": "peak",
+            "reference": "high",
+            "validPeriod": {
+              "fromIncluding": "2025-12-01",
+              "toExcluding": "2026-02-28"
+            },
+            "price": {
+              "priceExVat": 0.1,
+              "priceIncVat": 0.125,
               "currency": "SEK"
             },
             "unit": "kW",
-            "url": null,
             "peakIdentificationSettings": {
-              "peakFunction": "peak(main)",
-              "peakIdentificationPeriod": "P1D",
-              "peakDuration": "PT1H",
-              "numberOfPeaksForAverageCalculation": 3
+              "peakFunction": "max(avg(high_price_periods) - 4, 0)",
+              "peakIdentificationPeriod": "PT15M",
+              "peakDuration": "PT15M",
+              "numberOfPeaksForAverageCalculation": 1
             },
             "recurringPeriods": [
               {
-                "reference": "main",
+                "reference": "high_price_periods",
                 "frequency": "P1D",
                 "activePeriods": [
                   {
-                    "fromIncluding": "00:00:00",
-                    "toExcluding": "00:00:00",
+                    "fromIncluding": "07:45:00",
+                    "toExcluding": "11:15:00",
+                    "calendarPatternReferences": {
+                      "include": [
+                        "weekdays",
+                        "weekends"
+                      ],
+                      "exclude": []
+                    }
+                  },
+                  {
+                    "fromIncluding": "15:45:00",
+                    "toExcluding": "20:15:00",
                     "calendarPatternReferences": {
                       "include": [
                         "weekdays",
