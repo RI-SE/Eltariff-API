@@ -2,12 +2,12 @@
   "openapi": "3.0.1",
   "info": {
     "title": "ElTariffKatalog",
-    "version": "v0.7.0"
+    "version": "v0.7.1"
   },
   "servers": [
     {
-      "url": "https://eltariff.deplide.org",
-      "description": "Project catalogue"
+      "url": "https://eltariff.se",
+      "description": "Live project catalogue"
     },
     {
       "url": "http://localhost:8080",
