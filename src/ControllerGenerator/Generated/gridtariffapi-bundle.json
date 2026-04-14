@@ -204,7 +204,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           }
         },
         {
@@ -213,7 +213,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           }
         }
       ],
@@ -279,9 +279,6 @@
             "description": "Version of the implementation. The format is set by the operator and can differ. In this example -r4 is the revision number of the implementation and the first three numbers the API version.",
             "example": "1.2.3-r4"
           },
-          "lastUpdated": {
-            "$ref": "#/components/schemas/DateTime"
-          },
           "operator": {
             "type": "string",
             "description": "Name of the company or organization operating this server.",
@@ -299,7 +296,7 @@
         "required": [
           "name",
           "apiVersion",
-          "lastUpdated",
+          "implementationVersion",
           "operator",
           "timeZone"
         ],
@@ -407,13 +404,6 @@
         ],
         "additionalProperties": true
       },
-      "DateTime": {
-        "type": "string",
-        "format": "date-time",
-        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
-        "example": "2025-05-25T01:00:00",
-        "description": "Date-time in ISO 8601 format without offset."
-      },
       "TimeZone": {
         "type": "string",
         "description": "Time zone as described in the IANA Time Zone Database (https://www.iana.org/time-zones) e.g., 'Europe/Stockholm'.",
@@ -425,6 +415,13 @@
         "description": "Globally unique identifier",
         "example": "216783ff-5dda-4c38-b491-d6f0fcee9a9b",
         "additionalProperties": false
+      },
+      "DateTimeOffset": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:Z|[+-]\\d{2}:\\d{2})$",
+        "example": "2025-05-25T01:00:00+01:00",
+        "description": "Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM."
       },
       "Date": {
         "type": "string",
@@ -917,14 +914,14 @@
             "description": "Detailed description of the grid tariff.",
             "type": "string"
           },
+          "published": {
+            "$ref": "#/components/schemas/DateTimeOffset"
+          },
           "validPeriod": {
             "$ref": "#/components/schemas/DateInterval"
           },
           "timeZone": {
             "$ref": "#/components/schemas/TimeZone"
-          },
-          "lastUpdated": {
-            "$ref": "#/components/schemas/DateTime"
           },
           "companyName": {
             "description": "Name of the grid company.",
@@ -961,9 +958,9 @@
         "required": [
           "id",
           "name",
+          "published",
           "validPeriod",
           "timeZone",
-          "lastUpdated",
           "companyName",
           "companyOrgNo",
           "product",
@@ -1034,13 +1031,13 @@
         "type": "object",
         "properties": {
           "created": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           },
           "start": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           },
           "end": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           },
           "priceExVat": {
             "type": "number",

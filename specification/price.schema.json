@@ -68,13 +68,13 @@
       "type": "object",
       "properties": {
         "created": {
-          "$ref": "time.schema.json#/definitions/DateTime"
+          "$ref": "time.schema.json#/definitions/DateTimeOffset"
         },
         "start": {
-          "$ref": "time.schema.json#/definitions/DateTime"
+          "$ref": "time.schema.json#/definitions/DateTimeOffset"
         },
         "end": {
-          "$ref": "time.schema.json#/definitions/DateTime"
+          "$ref": "time.schema.json#/definitions/DateTimeOffset"
         },
         "priceExVat": {
           "type": "number",

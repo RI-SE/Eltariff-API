@@ -80,7 +80,7 @@ namespace GeneratedController
         /// <param name="toExcluding">Get all defined prices up to this time. Default is fromIncluding + 7 days.</param>
         /// <returns>The prices for the provided component id and time period.</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("prices/{componentId}", Name = "GetPrices")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<PricesResponse>> GetPrices([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] System.Guid componentId, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateOnly? date, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTime? fromIncluding, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTime? toExcluding);
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<PricesResponse>> GetPrices([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] System.Guid componentId, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateOnly? date, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? fromIncluding, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? toExcluding);
 
     }
 
@@ -104,13 +104,9 @@ namespace GeneratedController
         /// <summary>
         /// Version of the implementation. The format is set by the operator and can differ. In this example -r4 is the revision number of the implementation and the first three numbers the API version.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("implementationVersion", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string ImplementationVersion { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("lastUpdated", Required = Newtonsoft.Json.Required.Always)]
+        [Newtonsoft.Json.JsonProperty("implementationVersion", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$")]
-        public System.DateTime LastUpdated { get; set; }
+        public string ImplementationVersion { get; set; }
 
         /// <summary>
         /// Name of the company or organization operating this server.
@@ -618,6 +614,11 @@ namespace GeneratedController
         [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Description { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("published", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
+        public System.DateTimeOffset Published { get; set; }
+
         [Newtonsoft.Json.JsonProperty("validPeriod", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         public DateInterval ValidPeriod { get; set; } = new DateInterval();
@@ -625,11 +626,6 @@ namespace GeneratedController
         [Newtonsoft.Json.JsonProperty("timeZone", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string TimeZone { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("lastUpdated", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$")]
-        public System.DateTime LastUpdated { get; set; }
 
         /// <summary>
         /// Name of the grid company.
@@ -721,18 +717,18 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$")]
-        public System.DateTime Created { get; set; }
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
+        public System.DateTimeOffset Created { get; set; }
 
         [Newtonsoft.Json.JsonProperty("start", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$")]
-        public System.DateTime Start { get; set; }
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
+        public System.DateTimeOffset Start { get; set; }
 
         [Newtonsoft.Json.JsonProperty("end", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$")]
-        public System.DateTime End { get; set; }
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
+        public System.DateTimeOffset End { get; set; }
 
         [Newtonsoft.Json.JsonProperty("priceExVat", Required = Newtonsoft.Json.Required.Always)]
         public decimal PriceExVat { get; set; }

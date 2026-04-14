@@ -16,14 +16,14 @@
           "description": "Detailed description of the grid tariff.",
           "type": "string"
         },
+        "published": {
+          "$ref": "time.schema.json#/definitions/DateTimeOffset"
+        },
         "validPeriod": {
           "$ref": "time.schema.json#/definitions/DateInterval"
         },
         "timeZone": {
           "$ref": "time.schema.json#/definitions/TimeZone"
-        },
-        "lastUpdated": {
-          "$ref": "time.schema.json#/definitions/DateTime"
         },
         "companyName": {
           "description": "Name of the grid company.",
@@ -60,9 +60,9 @@
       "required": [
         "id",
         "name",
+        "published",
         "validPeriod",
         "timeZone",
-        "lastUpdated",
         "companyName",
         "companyOrgNo",
         "product",
