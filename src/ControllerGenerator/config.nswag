@@ -37,7 +37,7 @@
       "jsonConverters": null,
       "anyType": "object",
       "dateType": "System.DateOnly",
-      "dateTimeType": "System.DateTime",
+      "dateTimeType": "System.DateTimeOffset",
       "timeType": "System.TimeOnly",
       "timeSpanType": "System.String",
       "arrayType": "System.Collections.Generic.List",

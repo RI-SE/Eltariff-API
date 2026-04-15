@@ -30,12 +30,12 @@
       "example": "2025-05-25",
       "description": "Date in ISO 8601 format."
     },
-    "DateTime": {
+    "DateTimeOffset": {
       "type": "string",
       "format": "date-time",
-      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
-      "example": "2025-05-25T01:00:00",
-      "description": "Date-time in ISO 8601 format without offset."
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:Z|[+-]\\d{2}:\\d{2})$",
+      "example": "2025-05-25T01:00:00+01:00",
+      "description": "Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM."
     },
     "Time": {
       "type": "string",

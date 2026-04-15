@@ -33,7 +33,6 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
             Operator = "The Grid Company AB",
             TimeZone = "Europe/Stockholm",
             IdentityProviderUrl = "https://idp.gridcompany.se/oath2/token",
-            LastUpdated = DateTime.Parse("2025-11-28"),
             AdditionalProperties = additionalProperties
         };
 
@@ -42,20 +41,32 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
     }
 
     public override async Task<ActionResult<PricesResponse>> GetPrices(
-        [BindRequired] Guid componentId,
+        [FromQuery] Guid? componentId,
+        [FromQuery] string? product,
         [FromQuery] DateOnly? date,
-        [FromQuery] DateTime? fromIncluding,
-        [FromQuery] DateTime? toExcluding)
+        [FromQuery] DateTimeOffset? fromIncluding,
+        [FromQuery] DateTimeOffset? toExcluding)
     {
-        if (!componentId.Equals(Guid.Parse("e33307b6-77b2-4d7d-b33f-908d2cc9ebbb")))
+        if (componentId == null || componentId == Guid.Empty)
+        {
+            if (product == null || product == string.Empty)
+            {
+                return BadRequest("Must specify either componentId or product.");
+            }
+            else if (!product.Equals("ProductCode3"))
+            {
+                return NotFound($"Found no price list with id {componentId}");
+            }
+        }
+        else if (!componentId.Equals(Guid.Parse("e33307b6-77b2-4d7d-b33f-908d2cc9ebbb")))
         {
             return NotFound($"Found no price list with id {componentId}");
         }
 
         DateTime now = DateTime.Now;
         DateTime today = now.Date;
-        DateTime from = fromIncluding ?? today;
-        DateTime to = toExcluding ?? from.AddDays(7);
+        DateTimeOffset from = fromIncluding ?? today;
+        DateTimeOffset to = toExcluding ?? from.AddDays(7);
         if (date is DateOnly d)
         {
             from = d.ToDateTime(TimeOnly.MinValue);
@@ -67,10 +78,10 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
         DateTime tomorrow = today.AddDays(1);
 
         List<PriceListEntry> actual = [];
-        List<PriceListEntry> forecast = [];
+        List<PriceListEntry> preview = [];
         for (int i = 0; i < numberOfHours; i++)
         {
-            DateTime start = from.AddHours(i);
+            DateTimeOffset start = from.AddHours(i);
             PriceListEntry price = new()
             {
                 Created = from.Date.AddHours(-12),
@@ -86,18 +97,15 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
             }
             else
             {
-                forecast.Add(price);
+                preview.Add(price);
             }
         }
 
         PricesResponse response = new()
         {
-            ComponentId = componentId,
-            TimeZone = "Europe/Stockholm",
             Currency = "SEK",
-            Resolution = "PT1H",
             Actual = actual,
-            Forecast = forecast
+            Preview = preview
         };
 
         await Task.CompletedTask;

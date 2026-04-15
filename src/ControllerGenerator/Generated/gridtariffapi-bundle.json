@@ -178,15 +178,27 @@
         }
       }
     },
-    "/prices/{componentId}": {
+    "/prices": {
       "parameters": [
         {
           "name": "componentId",
           "description": "A price component id.",
-          "in": "path",
-          "required": true,
+          "in": "query",
+          "required": false,
           "schema": {
             "$ref": "#/components/schemas/Uuid"
+          }
+        },
+        {
+          "name": "product",
+          "description": "The product defined in the parent tariff object of the power price component.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "description": "The tariff product.",
+            "example": "HOUR_63A_HOUSE",
+            "additionalProperties": false
           }
         },
         {
@@ -204,7 +216,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           }
         },
         {
@@ -213,7 +225,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           }
         }
       ],
@@ -279,9 +291,6 @@
             "description": "Version of the implementation. The format is set by the operator and can differ. In this example -r4 is the revision number of the implementation and the first three numbers the API version.",
             "example": "1.2.3-r4"
           },
-          "lastUpdated": {
-            "$ref": "#/components/schemas/DateTime"
-          },
           "operator": {
             "type": "string",
             "description": "Name of the company or organization operating this server.",
@@ -299,7 +308,7 @@
         "required": [
           "name",
           "apiVersion",
-          "lastUpdated",
+          "implementationVersion",
           "operator",
           "timeZone"
         ],
@@ -407,13 +416,6 @@
         ],
         "additionalProperties": true
       },
-      "DateTime": {
-        "type": "string",
-        "format": "date-time",
-        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$",
-        "example": "2025-05-25T01:00:00",
-        "description": "Date-time in ISO 8601 format without offset."
-      },
       "TimeZone": {
         "type": "string",
         "description": "Time zone as described in the IANA Time Zone Database (https://www.iana.org/time-zones) e.g., 'Europe/Stockholm'.",
@@ -425,6 +427,13 @@
         "description": "Globally unique identifier",
         "example": "216783ff-5dda-4c38-b491-d6f0fcee9a9b",
         "additionalProperties": false
+      },
+      "DateTimeOffset": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:Z|[+-]\\d{2}:\\d{2})$",
+        "example": "2025-05-25T01:00:00+01:00",
+        "description": "Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM."
       },
       "Date": {
         "type": "string",
@@ -774,12 +783,6 @@
         ],
         "additionalProperties": false
       },
-      "Url": {
-        "type": "string",
-        "description": "A URL string.",
-        "example": "/prices/216783ff-5dda-4c38-b491-d6f0fcee9a9b",
-        "additionalProperties": false
-      },
       "PeakFunction": {
         "description": "A pseudo code function that describes how to identify a power peak for one power price component. Usage examples at https://someexamples.",
         "type": "string",
@@ -849,7 +852,10 @@
             "$ref": "#/components/schemas/Unit"
           },
           "url": {
-            "$ref": "#/components/schemas/Url"
+            "type": "string",
+            "description": "URL string that is either a root relative or absolute path to the prices endpoint. It must follow the /prices path defined in this specification.",
+            "example": "/prices?product=HOUR_63A_HOUSE",
+            "additionalProperties": false
           },
           "peakIdentificationSettings": {
             "$ref": "#/components/schemas/PeakIdentificationSettings"
@@ -917,14 +923,14 @@
             "description": "Detailed description of the grid tariff.",
             "type": "string"
           },
+          "published": {
+            "$ref": "#/components/schemas/DateTimeOffset"
+          },
           "validPeriod": {
             "$ref": "#/components/schemas/DateInterval"
           },
           "timeZone": {
             "$ref": "#/components/schemas/TimeZone"
-          },
-          "lastUpdated": {
-            "$ref": "#/components/schemas/DateTime"
           },
           "companyName": {
             "description": "Name of the grid company.",
@@ -961,9 +967,9 @@
         "required": [
           "id",
           "name",
+          "published",
           "validPeriod",
           "timeZone",
-          "lastUpdated",
           "companyName",
           "companyOrgNo",
           "product",
@@ -1034,13 +1040,13 @@
         "type": "object",
         "properties": {
           "created": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           },
           "start": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           },
           "end": {
-            "$ref": "#/components/schemas/DateTime"
+            "$ref": "#/components/schemas/DateTimeOffset"
           },
           "priceExVat": {
             "type": "number",
@@ -1054,7 +1060,6 @@
           }
         },
         "required": [
-          "created",
           "start",
           "end",
           "priceExVat",
@@ -1066,17 +1071,8 @@
         "description": "Time differentiated prices for a price component.",
         "type": "object",
         "properties": {
-          "componentId": {
-            "$ref": "#/components/schemas/Uuid"
-          },
-          "timeZone": {
-            "$ref": "#/components/schemas/TimeZone"
-          },
           "currency": {
             "$ref": "#/components/schemas/Currency"
-          },
-          "resolution": {
-            "$ref": "#/components/schemas/Duration"
           },
           "actual": {
             "type": "array",
@@ -1084,7 +1080,7 @@
               "$ref": "#/components/schemas/PriceListEntry"
             }
           },
-          "forecast": {
+          "preview": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PriceListEntry"
@@ -1092,12 +1088,10 @@
           }
         },
         "required": [
-          "componentId",
           "currency",
-          "resolution",
           "actual"
         ],
-        "additionalProperties": false
+        "additionalProperties": true
       }
     },
     "responses": {

@@ -540,7 +540,7 @@
             },
             "price": null,
             "unit": "kW",
-            "url": "/prices/e33307b6-77b2-4d7d-b33f-908d2cc9ebbb",
+            "url": "/prices?product=ProductCode3",
             "peakIdentificationSettings": null,
             "recurringPeriods": null
           }

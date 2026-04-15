@@ -178,15 +178,27 @@
         }
       }
     },
-    "/prices/{componentId}": {
+    "/prices": {
       "parameters": [
         {
           "name": "componentId",
           "description": "A price component id.",
-          "in": "path",
-          "required": true,
+          "in": "query",
+          "required": false,
           "schema": {
             "$ref": "common.schema.json#/definitions/Uuid"
+          }
+        },
+        {
+          "name": "product",
+          "description": "The product defined in the parent tariff object of the power price component.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "description": "The tariff product.",
+            "example": "HOUR_63A_HOUSE",
+            "additionalProperties": false
           }
         },
         {
@@ -204,7 +216,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "time.schema.json#/definitions/DateTime"
+            "$ref": "time.schema.json#/definitions/DateTimeOffset"
           }
         },
         {
@@ -213,7 +225,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "time.schema.json#/definitions/DateTime"
+            "$ref": "time.schema.json#/definitions/DateTimeOffset"
           }
         }
       ],
@@ -279,9 +291,6 @@
             "description": "Version of the implementation. The format is set by the operator and can differ. In this example -r4 is the revision number of the implementation and the first three numbers the API version.",
             "example": "1.2.3-r4"
           },
-          "lastUpdated": {
-            "$ref": "time.schema.json#/definitions/DateTime"
-          },
           "operator": {
             "type": "string",
             "description": "Name of the company or organization operating this server.",
@@ -299,7 +308,7 @@
         "required": [
           "name",
           "apiVersion",
-          "lastUpdated",
+          "implementationVersion",
           "operator",
           "timeZone"
         ],
