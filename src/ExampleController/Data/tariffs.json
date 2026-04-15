@@ -230,7 +230,7 @@
                 "costFunction": "sum(peak(c)*price(c))",
                 "components": [
                     {
-                        "id": "e33307b6-77b2-4d7d-b33f-908d2cc9ebbb",
+                        "id": "dfe1618d-a6b7-4406-a7be-eacbf0a6ad6a",
                         "name": "Power peak fee",
                         "description": "Power fee for the monthly maximum power usage.",
                         "type": "peak",
@@ -379,7 +379,7 @@
                             "fromIncluding": "2025-01-01",
                             "toExcluding": "2026-01-01"
                         },
-                        "url": "/prices/e33307b6-77b2-4d7d-b33f-908d2cc9ebbb"
+                        "url": "/prices?product=ProductCode3"
                     }
                 ]
             }

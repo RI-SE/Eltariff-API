@@ -36,7 +36,10 @@
           "$ref": "common.schema.json#/definitions/Unit"
         },
         "url": {
-          "$ref": "common.schema.json#/definitions/Url"
+          "type": "string",
+          "description": "URL string that is either a root relative or absolute path to the prices endpoint. It must follow the /prices path defined in this specification.",
+          "example": "/prices?product=HOUR_63A_HOUSE",
+          "additionalProperties": false
         },
         "peakIdentificationSettings": {
           "$ref": "power.schema.json#/definitions/PeakIdentificationSettings"

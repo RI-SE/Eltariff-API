@@ -30,17 +30,8 @@
       "description": "Time differentiated prices for a price component.",
       "type": "object",
       "properties": {
-        "componentId": {
-          "$ref": "common.schema.json#/definitions/Uuid"
-        },
-        "timeZone": {
-          "$ref": "time.schema.json#/definitions/TimeZone"
-        },
         "currency": {
           "$ref": "price.schema.json#/definitions/Currency"
-        },
-        "resolution": {
-          "$ref": "time.schema.json#/definitions/Duration"
         },
         "actual": {
           "type": "array",
@@ -48,7 +39,7 @@
             "$ref": "price.schema.json#/definitions/PriceListEntry"
           }
         },
-        "forecast": {
+        "preview": {
           "type": "array",
           "items": {
             "$ref": "price.schema.json#/definitions/PriceListEntry"
@@ -56,12 +47,10 @@
         }
       },
       "required": [
-        "componentId",
         "currency",
-        "resolution",
         "actual"
       ],
-      "additionalProperties": false
+      "additionalProperties": true
     },
     "PriceListEntry": {
       "description": "A timed price entry that belongs to a price list.",
@@ -88,7 +77,6 @@
         }
       },
       "required": [
-        "created",
         "start",
         "end",
         "priceExVat",

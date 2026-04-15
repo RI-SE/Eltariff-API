@@ -178,15 +178,27 @@
         }
       }
     },
-    "/prices/{componentId}": {
+    "/prices": {
       "parameters": [
         {
           "name": "componentId",
           "description": "A price component id.",
-          "in": "path",
-          "required": true,
+          "in": "query",
+          "required": false,
           "schema": {
             "$ref": "#/components/schemas/Uuid"
+          }
+        },
+        {
+          "name": "product",
+          "description": "The product defined in the parent tariff object of the power price component.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "type": "string",
+            "description": "The tariff product.",
+            "example": "HOUR_63A_HOUSE",
+            "additionalProperties": false
           }
         },
         {
@@ -771,12 +783,6 @@
         ],
         "additionalProperties": false
       },
-      "Url": {
-        "type": "string",
-        "description": "A URL string.",
-        "example": "/prices/216783ff-5dda-4c38-b491-d6f0fcee9a9b",
-        "additionalProperties": false
-      },
       "PeakFunction": {
         "description": "A pseudo code function that describes how to identify a power peak for one power price component. Usage examples at https://someexamples.",
         "type": "string",
@@ -846,7 +852,10 @@
             "$ref": "#/components/schemas/Unit"
           },
           "url": {
-            "$ref": "#/components/schemas/Url"
+            "type": "string",
+            "description": "URL string that is either a root relative or absolute path to the prices endpoint. It must follow the /prices path defined in this specification.",
+            "example": "/prices?product=HOUR_63A_HOUSE",
+            "additionalProperties": false
           },
           "peakIdentificationSettings": {
             "$ref": "#/components/schemas/PeakIdentificationSettings"
@@ -1051,7 +1060,6 @@
           }
         },
         "required": [
-          "created",
           "start",
           "end",
           "priceExVat",
@@ -1063,17 +1071,8 @@
         "description": "Time differentiated prices for a price component.",
         "type": "object",
         "properties": {
-          "componentId": {
-            "$ref": "#/components/schemas/Uuid"
-          },
-          "timeZone": {
-            "$ref": "#/components/schemas/TimeZone"
-          },
           "currency": {
             "$ref": "#/components/schemas/Currency"
-          },
-          "resolution": {
-            "$ref": "#/components/schemas/Duration"
           },
           "actual": {
             "type": "array",
@@ -1081,7 +1080,7 @@
               "$ref": "#/components/schemas/PriceListEntry"
             }
           },
-          "forecast": {
+          "preview": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/PriceListEntry"
@@ -1089,12 +1088,10 @@
           }
         },
         "required": [
-          "componentId",
           "currency",
-          "resolution",
           "actual"
         ],
-        "additionalProperties": false
+        "additionalProperties": true
       }
     },
     "responses": {

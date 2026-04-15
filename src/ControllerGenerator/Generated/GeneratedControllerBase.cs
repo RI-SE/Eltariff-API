@@ -75,12 +75,13 @@ namespace GeneratedController
         /// Returns prices for a price component for a given time period. The time period defaults to fromIncluding = today 00:00 and toExcluding = today 00:00 plus 7 full days. By looking 7 days ahead, forecasted prices are also returned.
         /// </remarks>
         /// <param name="componentId">A price component id.</param>
+        /// <param name="product">The product defined in the parent tariff object of the power price component.</param>
         /// <param name="date">Get all defined prices for the given date.</param>
         /// <param name="fromIncluding">Get all defined prices from this time and forward. Default is today midnight.</param>
         /// <param name="toExcluding">Get all defined prices up to this time. Default is fromIncluding + 7 days.</param>
         /// <returns>The prices for the provided component id and time period.</returns>
-        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("prices/{componentId}", Name = "GetPrices")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<PricesResponse>> GetPrices([Microsoft.AspNetCore.Mvc.ModelBinding.BindRequired] System.Guid componentId, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateOnly? date, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? fromIncluding, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? toExcluding);
+        [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("prices", Name = "GetPrices")]
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<PricesResponse>> GetPrices([Microsoft.AspNetCore.Mvc.FromQuery] System.Guid? componentId, [Microsoft.AspNetCore.Mvc.FromQuery] string product, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateOnly? date, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? fromIncluding, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? toExcluding);
 
     }
 
@@ -553,6 +554,9 @@ namespace GeneratedController
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Unit { get; set; }
 
+        /// <summary>
+        /// URL string that is either a root relative or absolute path to the prices endpoint. It must follow the /prices path defined in this specification.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("url", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Url { get; set; }
 
@@ -715,8 +719,7 @@ namespace GeneratedController
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class PriceListEntry
     {
-        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
         public System.DateTimeOffset Created { get; set; }
 
@@ -744,27 +747,25 @@ namespace GeneratedController
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class PricesResponse
     {
-        [Newtonsoft.Json.JsonProperty("componentId", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid ComponentId { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("timeZone", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string TimeZone { get; set; }
-
         [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Currency { get; set; }
-
-        [Newtonsoft.Json.JsonProperty("resolution", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.String Resolution { get; set; }
 
         [Newtonsoft.Json.JsonProperty("actual", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         public System.Collections.Generic.List<PriceListEntry> Actual { get; set; } = new System.Collections.Generic.List<PriceListEntry>();
 
-        [Newtonsoft.Json.JsonProperty("forecast", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<PriceListEntry> Forecast { get; set; }
+        [Newtonsoft.Json.JsonProperty("preview", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<PriceListEntry> Preview { get; set; }
+
+        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
 
     }
 
