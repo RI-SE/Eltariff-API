@@ -17,7 +17,7 @@
           "type": "string"
         },
         "published": {
-          "$ref": "time.schema.json#/definitions/DateTimeOffset"
+          "$ref": "time.schema.json#/definitions/DateTimeWithOffset"
         },
         "validPeriod": {
           "$ref": "time.schema.json#/definitions/DateInterval"

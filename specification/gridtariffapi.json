@@ -216,7 +216,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "time.schema.json#/definitions/DateTimeOffset"
+            "$ref": "time.schema.json#/definitions/DateTimeWithOffset"
           }
         },
         {
@@ -225,7 +225,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "time.schema.json#/definitions/DateTimeOffset"
+            "$ref": "time.schema.json#/definitions/DateTimeWithOffset"
           }
         }
       ],

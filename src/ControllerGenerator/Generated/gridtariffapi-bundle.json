@@ -216,7 +216,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           }
         },
         {
@@ -225,7 +225,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           }
         }
       ],
@@ -428,7 +428,7 @@
         "example": "216783ff-5dda-4c38-b491-d6f0fcee9a9b",
         "additionalProperties": false
       },
-      "DateTimeOffset": {
+      "DateTimeWithOffset": {
         "type": "string",
         "format": "date-time",
         "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:Z|[+-]\\d{2}:\\d{2})$",
@@ -924,7 +924,7 @@
             "type": "string"
           },
           "published": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           },
           "validPeriod": {
             "$ref": "#/components/schemas/DateInterval"
@@ -1040,13 +1040,13 @@
         "type": "object",
         "properties": {
           "created": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           },
           "start": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           },
           "end": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           },
           "priceExVat": {
             "type": "number",

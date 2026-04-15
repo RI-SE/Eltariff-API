@@ -30,7 +30,7 @@
       "example": "2025-05-25",
       "description": "Date in ISO 8601 format."
     },
-    "DateTimeOffset": {
+    "DateTimeWithOffset": {
       "type": "string",
       "format": "date-time",
       "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:Z|[+-]\\d{2}:\\d{2})$",
