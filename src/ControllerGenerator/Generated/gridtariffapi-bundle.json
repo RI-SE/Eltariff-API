@@ -292,7 +292,12 @@
             "example": "1.2.3-r4"
           },
           "tariffDataLastUpdated": {
-            "$ref": "#/components/schemas/DateTimeWithOffset"
+            "description": "Timestamp that defines when the tariff data in /tariffs was last updated. Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DateTimeWithOffset"
+              }
+            ]
           },
           "operator": {
             "type": "string",
