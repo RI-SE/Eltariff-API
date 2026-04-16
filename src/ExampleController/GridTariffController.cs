@@ -13,11 +13,10 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
 
     public override async Task<ActionResult<InfoResponse>> GetInfo()
     {
-        string filePath = Path.Combine(_hostEnvironment.WebRootPath, "swagger/specification", "gridtariffapi-wip.json");
+        string filePath = Path.Combine(_hostEnvironment.WebRootPath, "swagger/specification", "gridtariffapi-bundle.json");
         JsonNode json = JsonDataLoader.LoadApiSpecification(filePath);
         string? apiName = json["info"]?["title"]?.ToString();
         string? apiVersion = json["info"]?["version"]?.ToString();
-        string implementationRevision = "0.5.3";
 
         var additionalProperties = new Dictionary<string, object>
         {
@@ -29,7 +28,8 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
         {
             Name = apiName,
             ApiVersion = apiVersion,
-            ImplementationVersion = implementationRevision,
+            ImplementationVersion = "1.2.3",
+            TariffDataLastUpdated = DateTimeOffset.Parse("2026-04-16T09:30:00+01:00"),
             Operator = "The Grid Company AB",
             TimeZone = "Europe/Stockholm",
             IdentityProviderUrl = "https://idp.gridcompany.se/oath2/token",
@@ -55,12 +55,12 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
             }
             else if (!product.Equals("ProductCode3"))
             {
-                return NotFound($"Found no price list with id {componentId}");
+                return NotFound($"Found no price list related to product {product}");
             }
         }
         else if (!componentId.Equals(Guid.Parse("e33307b6-77b2-4d7d-b33f-908d2cc9ebbb")))
         {
-            return NotFound($"Found no price list with id {componentId}");
+            return NotFound($"Found no price list related to componentId {componentId}");
         }
 
         DateTime now = DateTime.Now;

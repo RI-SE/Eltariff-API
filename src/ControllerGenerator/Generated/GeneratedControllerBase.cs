@@ -109,6 +109,11 @@ namespace GeneratedController
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string ImplementationVersion { get; set; }
 
+        [Newtonsoft.Json.JsonProperty("tariffDataLastUpdated", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
+        public System.DateTimeOffset TariffDataLastUpdated { get; set; }
+
         /// <summary>
         /// Name of the company or organization operating this server.
         /// </summary>
