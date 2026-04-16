@@ -3,7 +3,7 @@
   "info": {
     "title": "Grid Tariff API",
     "description": "Provides grid tariffs from Swedish DSOs.",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "contact": {
       "name": "Grid Tariff API",
       "url": "https://github.com/RI-SE/Eltariff-API"
@@ -216,7 +216,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           }
         },
         {
@@ -225,7 +225,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           }
         }
       ],
@@ -291,6 +291,14 @@
             "description": "Version of the implementation. The format is set by the operator and can differ. In this example -r4 is the revision number of the implementation and the first three numbers the API version.",
             "example": "1.2.3-r4"
           },
+          "tariffDataLastUpdated": {
+            "description": "Timestamp that defines when the tariff data in /tariffs was last updated. Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/DateTimeWithOffset"
+              }
+            ]
+          },
           "operator": {
             "type": "string",
             "description": "Name of the company or organization operating this server.",
@@ -309,6 +317,7 @@
           "name",
           "apiVersion",
           "implementationVersion",
+          "tariffDataLastUpdated",
           "operator",
           "timeZone"
         ],
@@ -416,6 +425,13 @@
         ],
         "additionalProperties": true
       },
+      "DateTimeWithOffset": {
+        "type": "string",
+        "format": "date-time",
+        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:Z|[+-]\\d{2}:\\d{2})$",
+        "example": "2025-05-25T01:00:00+01:00",
+        "description": "Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM."
+      },
       "TimeZone": {
         "type": "string",
         "description": "Time zone as described in the IANA Time Zone Database (https://www.iana.org/time-zones) e.g., 'Europe/Stockholm'.",
@@ -427,13 +443,6 @@
         "description": "Globally unique identifier",
         "example": "216783ff-5dda-4c38-b491-d6f0fcee9a9b",
         "additionalProperties": false
-      },
-      "DateTimeOffset": {
-        "type": "string",
-        "format": "date-time",
-        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:Z|[+-]\\d{2}:\\d{2})$",
-        "example": "2025-05-25T01:00:00+01:00",
-        "description": "Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM."
       },
       "Date": {
         "type": "string",
@@ -924,7 +933,7 @@
             "type": "string"
           },
           "published": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           },
           "validPeriod": {
             "$ref": "#/components/schemas/DateInterval"
@@ -1040,13 +1049,13 @@
         "type": "object",
         "properties": {
           "created": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           },
           "start": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           },
           "end": {
-            "$ref": "#/components/schemas/DateTimeOffset"
+            "$ref": "#/components/schemas/DateTimeWithOffset"
           },
           "priceExVat": {
             "type": "number",

@@ -3,7 +3,7 @@
   "info": {
     "title": "Grid Tariff API",
     "description": "Provides grid tariffs from Swedish DSOs.",
-    "version": "0.3.1",
+    "version": "0.3.2",
     "contact": {
       "name": "Grid Tariff API",
       "url": "https://github.com/RI-SE/Eltariff-API"
@@ -216,7 +216,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "time.schema.json#/definitions/DateTimeOffset"
+            "$ref": "time.schema.json#/definitions/DateTimeWithOffset"
           }
         },
         {
@@ -225,7 +225,7 @@
           "in": "query",
           "required": false,
           "schema": {
-            "$ref": "time.schema.json#/definitions/DateTimeOffset"
+            "$ref": "time.schema.json#/definitions/DateTimeWithOffset"
           }
         }
       ],
@@ -291,6 +291,12 @@
             "description": "Version of the implementation. The format is set by the operator and can differ. In this example -r4 is the revision number of the implementation and the first three numbers the API version.",
             "example": "1.2.3-r4"
           },
+          "tariffDataLastUpdated": {
+            "description": "Timestamp that defines when the tariff data in /tariffs was last updated. Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM.",
+            "allOf": [
+              { "$ref": "time.schema.json#/definitions/DateTimeWithOffset" }
+            ]
+          },
           "operator": {
             "type": "string",
             "description": "Name of the company or organization operating this server.",
@@ -309,6 +315,7 @@
           "name",
           "apiVersion",
           "implementationVersion",
+          "tariffDataLastUpdated",
           "operator",
           "timeZone"
         ],

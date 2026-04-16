@@ -110,6 +110,14 @@ namespace GeneratedController
         public string ImplementationVersion { get; set; }
 
         /// <summary>
+        /// Timestamp that defines when the tariff data in /tariffs was last updated. Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("tariffDataLastUpdated", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
+        public System.DateTimeOffset TariffDataLastUpdated { get; set; }
+
+        /// <summary>
         /// Name of the company or organization operating this server.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("operator", Required = Newtonsoft.Json.Required.Always)]
