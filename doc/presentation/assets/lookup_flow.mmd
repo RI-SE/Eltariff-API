@@ -1,0 +1,31 @@
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontFamily": "Lato, sans-serif",
+    "fontSize": "16px",
+    "primaryColor": "#0e4e65",
+    "primaryTextColor": "#ffffff",
+    "primaryBorderColor": "#0e4e65",
+    "actorBkg": "#0e4e65",
+    "actorBorder": "#0e4e65",
+    "actorTextColor": "#ffffff",
+    "actorLineColor": "#8dc8c7",
+    "signalColor": "#232323",
+    "signalTextColor": "#232323",
+    "labelBoxBkgColor": "#ffe500",
+    "labelBoxBorderColor": "#ffe500",
+    "labelTextColor": "#232323",
+    "noteBkgColor": "#ffe500",
+    "noteBorderColor": "#ffe500",
+    "noteTextColor": "#232323"
+  }
+}}%%
+sequenceDiagram
+    autonumber
+    participant C as Client
+    participant K as Catalogue
+    participant G as Grid operator
+    C->>K: lookup(mpid)
+    K-->>C: operator apiUrl
+    C->>G: GET /tariffs
+    G-->>C: full list of tariffs
