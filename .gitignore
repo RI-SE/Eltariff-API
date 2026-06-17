@@ -378,3 +378,7 @@ FodyWeavers.xsd
 **/.claude/settings.local.json
 /specification/.postman/config.json
 /specification/postman/globals/workspace.postman_globals.json
+
+# Local working notes
+PULL_SUMMARY.md
+CONFORMANCE_REPORT.md
