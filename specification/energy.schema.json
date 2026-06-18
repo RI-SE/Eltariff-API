@@ -33,7 +33,10 @@
           "$ref": "price.schema.json#/definitions/Price"
         },
         "unit": {
-          "$ref": "common.schema.json#/definitions/Unit"
+          "description": "Unit of energy measurement for the price rate (e.g., kWh).",
+          "type": "string",
+          "example": "kWh",
+          "additionalProperties": false
         },
         "spotPriceSettings": {
           "$ref": "energy.schema.json#/definitions/SpotPriceSettings"
