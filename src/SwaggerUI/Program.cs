@@ -6,7 +6,8 @@ Dictionary<string, string> swaggerUISpecifications = [];
 foreach (var filePath in Directory.GetFiles(wwwrootSpecificationDir))
 {
     string version = OpenApiTools.GetVersion(filePath);
-    swaggerUISpecifications[version] = Path.GetFileName(filePath);
+    if (!filePath.Contains("-bundle") || !swaggerUISpecifications.ContainsKey(version))
+        swaggerUISpecifications[version] = Path.GetFileName(filePath);
 }
 
 var builder = WebApplication.CreateBuilder(args);
