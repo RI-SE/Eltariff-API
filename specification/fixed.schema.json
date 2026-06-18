@@ -17,8 +17,7 @@
         "type": {
           "description": "Type describes if the price component is a publicly available price or customer specific.",
           "type": "string",
-          "pattern": "public|specific",
-          "example": "public",
+          "enum": ["public", "specific"],
           "default": "public"
         },
         "reference": {

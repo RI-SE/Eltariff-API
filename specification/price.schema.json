@@ -91,8 +91,9 @@
       "additionalProperties": false
     },
     "Currency": {
-      "description": "The currency for all related prices.",
+      "description": "ISO 4217 currency code for all related prices.",
       "type": "string",
+      "pattern": "^[A-Z]{3}$",
       "example": "SEK",
       "additionalProperties": false
     }

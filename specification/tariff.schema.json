@@ -39,9 +39,9 @@
           "example": "net.consume.std.25"
         },
         "direction": {
-          "description": "Indicates if this is a tariff for consumption or production. Valid values are \"consumption\" and \"production\".",
+          "description": "Indicates if this is a tariff for consumption or production.",
           "type": "string",
-          "pattern": "consumption|production",
+          "enum": ["consumption", "production"],
           "default": "consumption"
         },
         "billingPeriod": {

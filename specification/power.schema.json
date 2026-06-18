@@ -15,9 +15,9 @@
           "$ref": "common.schema.json#/definitions/Description"
         },
         "type": {
+          "description": "Indicates if the power price is based on identified peak hours or dynamically calculated.",
           "type": "string",
-          "pattern": "peak|dynamic",
-          "example": "peak",
+          "enum": ["peak", "dynamic"],
           "default": "peak"
         },
         "reference": {
@@ -89,7 +89,7 @@
       "additionalProperties": false
     },
     "PeakFunction": {
-      "description": "A pseudo code function that describes how to identify a power peak for one power price component. Usage examples at https://someexamples.",
+      "description": "A pseudo code function that describes how to identify a power peak for one power price component. Check DEVELOPER_GUIDE.md for usage examples (https://github.com/RI-SE/Eltariff-API/blob/main/DEVELOPER_GUIDE.md).",
       "type": "string",
       "example": "max(peak(high),peak(low)/2)",
       "default": "peak(main)",

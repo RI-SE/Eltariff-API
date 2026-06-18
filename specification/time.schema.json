@@ -66,9 +66,12 @@
           "$ref": "time.schema.json#/definitions/Duration"
         },
         "days": {
+          "description": "ISO 8601 weekday numbers where 1 = Monday and 7 = Sunday.",
           "type": "array",
           "items": {
-            "type": "integer"
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
           }
         },
         "dates": {
@@ -133,7 +136,7 @@
         "reference": {
           "description": "Reference to be used to identify this recurring period in a function.",
           "type": "string",
-          "example": "high",
+          "example": "main",
           "default": "main"
         },
         "frequency": {

@@ -22,7 +22,8 @@
     },
     "MeteringPointId": {
       "type": "string",
-      "description": "Identifier for a physical metering point (MPID)",
+      "description": "Identifier for a physical metering point (MPID). Must be an 18-digit numeric string.",
+      "pattern": "^[0-9]{18}$",
       "example": "735999000000000001",
       "additionalProperties": false
     },
@@ -46,8 +47,9 @@
       "additionalProperties": false
     },
     "Unit": {
-      "description": "The unit of a measurement or price calculation.",
+      "description": "The unit of a measurement or price calculation. Common values: kWh (energy), kW (power), MWh (energy), MW (power).",
       "type": "string",
+      "enum": ["kWh", "MWh", "kW", "MW"],
       "example": "kWh",
       "additionalProperties": false
     }

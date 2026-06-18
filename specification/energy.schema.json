@@ -15,9 +15,9 @@
           "$ref": "common.schema.json#/definitions/Description"
         },
         "type": {
+          "description": "Indicates if the energy price is fixed for the validity period or spot-price relative.",
           "type": "string",
-          "pattern": "fixed|spot",
-          "example": "fixed",
+          "enum": ["fixed", "spot"],
           "default": "fixed"
         },
         "reference": {
@@ -34,6 +34,13 @@
         },
         "unit": {
           "$ref": "common.schema.json#/definitions/Unit"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri-reference",
+          "description": "URL string that is either a root relative or absolute path to the prices endpoint. It must follow the /prices path defined in this specification.",
+          "example": "/prices?componentId=216783ff-5dda-4c38-b491-d6f0fcee9a9b",
+          "additionalProperties": false
         },
         "spotPriceSettings": {
           "$ref": "energy.schema.json#/definitions/SpotPriceSettings"
