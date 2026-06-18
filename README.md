@@ -30,3 +30,11 @@ This will create a C# controller based on the OpenAPI specification `specificati
 
 Run the `SwaggerUI` project with the above command, which will use the `ExampleController` as a server so that you can test the requests.
 Access the Swagger UI by going to http://localhost:5000/swagger.
+
+## Release
+- Navigate to Actions tab in your repository on GitHub.com
+- Click on "Release" workflow
+- Click "Run workflow" to open the drop-down menu
+- Select the main branch
+- Write which tag to create the release from (new tag will be created if it does not exist)
+- Click "Run workflow" in the drop-down menu to start the release workflow
