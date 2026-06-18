@@ -44,12 +44,6 @@
         "meteringPointIds"
       ],
       "additionalProperties": false
-    },
-    "Unit": {
-      "description": "The unit of a measurement or price calculation.",
-      "type": "string",
-      "example": "kWh",
-      "additionalProperties": false
     }
   }
 }

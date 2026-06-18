@@ -104,6 +104,7 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
         PricesResponse response = new()
         {
             Currency = "SEK",
+            Unit = "kW",
             Actual = actual,
             Preview = preview
         };

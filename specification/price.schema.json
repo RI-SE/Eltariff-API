@@ -33,6 +33,12 @@
         "currency": {
           "$ref": "price.schema.json#/definitions/Currency"
         },
+        "unit": {
+          "description": "Unit for the price rate (e.g., kW, kWh) for each entry in the actual and preview price lists. Can represent average power over a fixed interval (e.g., 4 kW over 15 min) or equivalent energy consumption within that interval (e.g., 1 kWh per 15 min).",
+          "type": "string",
+          "example": "kW",
+          "additionalProperties": false
+        },
         "actual": {
           "type": "array",
           "items": {
@@ -48,6 +54,7 @@
       },
       "required": [
         "currency",
+        "unit",
         "actual"
       ],
       "additionalProperties": true

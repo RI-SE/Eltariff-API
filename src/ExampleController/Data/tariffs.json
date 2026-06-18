@@ -374,7 +374,6 @@
                         "description": "Dynamically set power prices for each individual hour.",
                         "type": "dynamic",
                         "reference": "main",
-                        "unit": "kW",
                         "validPeriod": {
                             "fromIncluding": "2025-01-01",
                             "toExcluding": "2026-01-01"

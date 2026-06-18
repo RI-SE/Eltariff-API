@@ -457,6 +457,9 @@ namespace GeneratedController
         [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public Price Price { get; set; }
 
+        /// <summary>
+        /// Unit of energy measurement for the price rate (e.g., kWh).
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Unit { get; set; }
@@ -558,8 +561,10 @@ namespace GeneratedController
         [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public Price Price { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        /// <summary>
+        /// Unit for the power price rate (e.g., kW, kWh). Can represent average power over a fixed interval (e.g., 4 kW over 15 min) or equivalent energy consumption within that interval (e.g., 1 kWh per 15 min).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public string Unit { get; set; }
 
         /// <summary>
@@ -758,6 +763,13 @@ namespace GeneratedController
         [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Currency { get; set; }
+
+        /// <summary>
+        /// Unit for the price rate (e.g., kW, kWh) for each entry in the actual and preview price lists. Can represent average power over a fixed interval (e.g., 4 kW over 15 min) or equivalent energy consumption within that interval (e.g., 1 kWh per 15 min).
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string Unit { get; set; }
 
         [Newtonsoft.Json.JsonProperty("actual", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]

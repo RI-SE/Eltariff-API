@@ -33,7 +33,10 @@
           "$ref": "price.schema.json#/definitions/Price"
         },
         "unit": {
-          "$ref": "common.schema.json#/definitions/Unit"
+          "description": "Unit for the power price rate (e.g., kW, kWh). Can represent average power over a fixed interval (e.g., 4 kW over 15 min) or equivalent energy consumption within that interval (e.g., 1 kWh per 15 min).",
+          "type": "string",
+          "example": "kW",
+          "additionalProperties": false
         },
         "url": {
           "type": "string",
@@ -56,8 +59,7 @@
         "name",
         "type",
         "reference",
-        "validPeriod",
-        "unit"
+        "validPeriod"
       ],
       "additionalProperties": false
     },
