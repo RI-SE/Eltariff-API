@@ -35,6 +35,40 @@
     }
   },
   "paths": {
+    "/tariffcatalogue/info": {
+      "get": {
+        "summary": "Get information about the catalogue service implementation.",
+        "description": "Get the name and version of the running catalogue service implementation. Requires no authentication.",
+        "tags": [
+          "info-service"
+        ],
+        "operationId": "getVersion",
+        "responses": {
+          "200": {
+            "description": "OK. Name and version of the catalogue service implementation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "description": "Name of the catalogue service implementation",
+                      "example": "eltariff-service"
+                    },
+                    "version": {
+                      "type": "string",
+                      "description": "Version of the running catalogue service implementation",
+                      "example": "0.7.1"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/tariffcatalogue/register": {
       "description": "Update API info for a range of MPIDs. The format of the intro is based on https://github.com/3lbits/API-nettleie-for-styring/blob/main/doc/DiginGridTariffAPI.gridcompany-mapping.json with the addition of an ID field",
       "post": {
@@ -161,6 +195,33 @@
           },
           "404": {
             "description": "NOT FOUND: 'No entry matching the supplied id exists'"
+          }
+        }
+      }
+    },
+    "/tariffcatalogue/all": {
+      "get": {
+        "description": "Retrieve every SupplierEntry currently registered in the catalogue. Entries are returned in no particular order and the response is not paginated.",
+        "tags": [
+          "supplier-service"
+        ],
+        "operationId": "getAllSuppliers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "catalogue.schema.json#/SupplierEntry"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "NOT FOUND: The catalogue contains no entries"
           }
         }
       }
