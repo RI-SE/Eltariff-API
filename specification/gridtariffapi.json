@@ -235,7 +235,7 @@
         ],
         "operationId": "GetPrices",
         "summary": "Get prices for a price component.",
-        "description": "Returns prices for a price component for a given time period. The time period defaults to fromIncluding = today 00:00 and toExcluding = today 00:00 plus 7 full days. By looking 7 days ahead, forecasted prices are also returned.",
+        "description": "Returns prices for a price component for a given time period. The response is split into two lists: `actual` contains confirmed, published prices and `preview` contains estimated or forecasted prices. The implementation must return as many actual prices as available within the requested range. After the last actual price, preview prices fill the remaining time up to `toExcluding`, or until no more preview prices are available. Together, the two lists cover the requested time range as completely as possible. The time period defaults to `fromIncluding` = today 00:00 and `toExcluding` = today 00:00 plus 7 full days.",
         "responses": {
           "200": {
             "$ref": "#/components/responses/Prices"

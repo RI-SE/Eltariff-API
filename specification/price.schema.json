@@ -40,12 +40,14 @@
           "additionalProperties": false
         },
         "actual": {
+          "description": "Confirmed prices published by the DSO. Covers as much of the requested time range as available, starting from `fromIncluding`. Must be present; may be empty if no actual prices exist for the period.",
           "type": "array",
           "items": {
             "$ref": "price.schema.json#/definitions/PriceListEntry"
           }
         },
         "preview": {
+          "description": "Estimated or forecasted prices that fill the time after the last actual price up to `toExcluding`, or until no more preview prices are available. Omitted or empty when all prices in the range are actual, or when no preview prices exist.",
           "type": "array",
           "items": {
             "$ref": "price.schema.json#/definitions/PriceListEntry"
