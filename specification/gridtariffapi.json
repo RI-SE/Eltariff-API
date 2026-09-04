@@ -3,7 +3,7 @@
   "info": {
     "title": "Grid Tariff API",
     "description": "Provides grid tariffs from Swedish DSOs.",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "contact": {
       "name": "Grid Tariff API",
       "url": "https://github.com/RI-SE/Eltariff-API"
@@ -196,6 +196,7 @@
           "required": false,
           "schema": {
             "type": "string",
+            "nullable": true,
             "description": "The tariff product.",
             "example": "HOUR_63A_HOUSE",
             "additionalProperties": false
@@ -226,6 +227,15 @@
           "required": false,
           "schema": {
             "$ref": "time.schema.json#/definitions/DateTimeWithOffset"
+          }
+        },
+        {
+          "name": "resolution",
+          "description": "The resolution for price entries as an ISO 8601 duration. When specified, price entries are split into smaller slices of the given duration, each carrying the same price as the original entry. The default resolution is the one the DSO uses for billing and business logic. Supported values depend on the specific DSO implementation.",
+          "in": "query",
+          "required": false,
+          "schema": {
+            "$ref": "time.schema.json#/definitions/Duration"
           }
         }
       ],

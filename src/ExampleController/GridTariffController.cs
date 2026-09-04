@@ -26,8 +26,8 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
 
         var info = new InfoResponse
         {
-            Name = apiName,
-            ApiVersion = apiVersion,
+            Name = apiName!,
+            ApiVersion = apiVersion!,
             ImplementationVersion = "1.2.3",
             TariffDataLastUpdated = DateTimeOffset.Parse("2026-04-16T09:30:00+01:00"),
             Operator = "The Grid Company AB",
@@ -45,7 +45,8 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
         [FromQuery] string? product,
         [FromQuery] DateOnly? date,
         [FromQuery] DateTimeOffset? fromIncluding,
-        [FromQuery] DateTimeOffset? toExcluding)
+        [FromQuery] DateTimeOffset? toExcluding,
+        [FromQuery] string? resolution)
     {
         if (componentId == null || componentId == Guid.Empty)
         {
@@ -62,6 +63,13 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
         {
             return NotFound($"Found no price list related to componentId {componentId}");
         }
+
+        if (resolution != null && resolution != "PT1H" && resolution != "PT15M")
+        {
+            return BadRequest($"Invalid resolution '{resolution}'. Supported values are PT1H and PT15M.");
+        }
+
+        bool quarterHourly = resolution == "PT15M";
 
         DateTime now = DateTime.Now;
         DateTime today = now.Date;
@@ -101,6 +109,12 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
             }
         }
 
+        if (quarterHourly)
+        {
+            actual = SplitIntoQuarterHours(actual);
+            preview = SplitIntoQuarterHours(preview);
+        }
+
         PricesResponse response = new()
         {
             Currency = "SEK",
@@ -111,6 +125,28 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
 
         await Task.CompletedTask;
         return Ok(response);
+    }
+
+    private static List<PriceListEntry> SplitIntoQuarterHours(List<PriceListEntry> hourlyPrices)
+    {
+        List<PriceListEntry> quarterHourlyPrices = new(hourlyPrices.Count * 4);
+        foreach (PriceListEntry hourlyPrice in hourlyPrices)
+        {
+            for (int quarter = 0; quarter < 4; quarter++)
+            {
+                DateTimeOffset start = hourlyPrice.Start.AddMinutes(quarter * 15);
+                quarterHourlyPrices.Add(new PriceListEntry
+                {
+                    Created = hourlyPrice.Created,
+                    Start = start,
+                    End = start.AddMinutes(15),
+                    PriceExVat = hourlyPrice.PriceExVat,
+                    PriceIncVat = hourlyPrice.PriceIncVat,
+                });
+            }
+        }
+
+        return quarterHourlyPrices;
     }
 
     public override async Task<ActionResult<TariffResponse>> GetTariffById([BindRequired] Guid id)

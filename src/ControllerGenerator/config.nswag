@@ -62,7 +62,7 @@
       "inlineNamedAny": false,
       "generateDtoTypes": true,
       "generateOptionalPropertiesAsNullable": false,
-      "generateNullableReferenceTypes": false,
+      "generateNullableReferenceTypes": true,
       "templateDirectory": null,
       "serviceHost": null,
       "serviceSchemes": null,
