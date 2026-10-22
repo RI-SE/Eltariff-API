@@ -110,23 +110,27 @@ jobs:
           path: ${{ env.WORK_DIR }}
 
       - name: Extract release notes from CHANGELOG.md
+        id: notes
         run: |
           version=${TAG#v}
           awk -v v="$version" '
             /^## \[/ { if (found) exit; if (index($0, "## [" v "]") == 1) { found=1; next } }
+            /^\[[^]]+\]: / { if (found) exit }
             found { print }
-          ' CHANGELOG.md > release-notes.md 2>/dev/null || true
-          if [ ! -s release-notes.md ]; then
+          ' CHANGELOG.md > release-notes.md
+          if [ -z "$(tr -d '[:space:]' < release-notes.md)" ]; then
             echo "No CHANGELOG.md section found for $version, falling back to generated release notes."
-            rm -f release-notes.md
+            echo "path=" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=release-notes.md" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Append assets to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG }}
-          body_path: release-notes.md
-          generate_release_notes: ${{ hashFiles('release-notes.md') == '' }}
+          body_path: ${{ steps.notes.outputs.path }}
+          generate_release_notes: ${{ steps.notes.outputs.path == '' }}
           files: |
             ${{ env.BUNDLED_JSON }}
             ${{ env.REDOC_HTML }}
