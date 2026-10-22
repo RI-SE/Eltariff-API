@@ -500,7 +500,7 @@ namespace GeneratedController
     }
 
     /// <summary>
-    /// Settings that defines how to identify a power peak during a billing period.
+    /// Settings that defines how to identify a power peak during a peak reset period.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class PeakIdentificationSettings
@@ -509,16 +509,29 @@ namespace GeneratedController
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string PeakFunction { get; set; }
 
-        [Newtonsoft.Json.JsonProperty("peakIdentificationPeriod", Required = Newtonsoft.Json.Required.Always)]
+        /// <summary>
+        /// The period over which power peaks are collected and billed, for example P1M for monthly peaks. The peaks are reset at the start of every peak reset period and a new measuring period begins.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("peakResetPeriod", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.String PeakIdentificationPeriod { get; set; }
+        public System.String PeakResetPeriod { get; set; }
 
+        /// <summary>
+        /// The period within which a single peak is identified, for example P1D for one peak per day. Must not be longer than peakResetPeriod. Within each period, the highest value averaged over peakDuration is selected as one peak.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("peakSelectionPeriod", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.String PeakSelectionPeriod { get; set; }
+
+        /// <summary>
+        /// The length of one peak, which is the time over which the power is averaged to get one power value that can be selected as a peak, for example PT1H for the average power during one hour.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("peakDuration", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public System.String PeakDuration { get; set; }
 
         /// <summary>
-        /// The number of peaks within a peak pricing period for calculating average peak for that period.
+        /// The number of highest peaks within the peakResetPeriod that are averaged to give the peak used for billing, for example 3. Use 1 if only the single highest peak is used.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("numberOfPeaksForAverageCalculation", Required = Newtonsoft.Json.Required.Always)]
         public int NumberOfPeaksForAverageCalculation { get; set; }
@@ -673,8 +686,10 @@ namespace GeneratedController
         [System.ComponentModel.DataAnnotations.RegularExpression(@"consumption|production")]
         public string Direction { get; set; } = "consumption";
 
-        [Newtonsoft.Json.JsonProperty("billingPeriod", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        /// <summary>
+        /// Informational only: the period between invoices, if it is fixed for the tariff. Optional, since the billing period may differ between customers and is not part of the tariff as such. It does not affect how power peaks are calculated, see peakResetPeriod.
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("billingPeriod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.String BillingPeriod { get; set; }
 
         [Newtonsoft.Json.JsonProperty("fixedPrice", Required = Newtonsoft.Json.Required.Always)]

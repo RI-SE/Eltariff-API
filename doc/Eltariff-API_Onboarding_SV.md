@@ -176,7 +176,8 @@ Används för priser relaterade till effektuttag:
       },
       "peakIdentificationSettings": {
         "peakFunction": "peak(main)",
-        "peakIdentificationPeriod": "P1M",
+        "peakResetPeriod": "P1M",
+        "peakSelectionPeriod": "P1D",
         "peakDuration": "PT1H",
         "numberOfPeaksForAverageCalculation": 3
       },
