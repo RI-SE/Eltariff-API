@@ -15,8 +15,8 @@ public class GridTariffController(IWebHostEnvironment hostEnvironment) : Generat
     {
         string filePath = Path.Combine(_hostEnvironment.WebRootPath, "swagger/specification", "gridtariffapi-bundle.json");
         JsonNode json = JsonDataLoader.LoadApiSpecification(filePath);
-        string? apiName = json["info"]?["title"]?.ToString();
-        string? apiVersion = json["info"]?["version"]?.ToString();
+        string apiName = json["info"]?["title"]?.ToString() ?? string.Empty;
+        string apiVersion = json["info"]?["version"]?.ToString() ?? string.Empty;
 
         var additionalProperties = new Dictionary<string, object>
         {
