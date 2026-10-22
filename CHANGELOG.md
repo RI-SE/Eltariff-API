@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-Changes below are for version 0.4.0 of the Grid Tariff API (`specification/gridtariffapi.json`).
+## [0.4.0] - 2026-10-22
 
 ### Added
 - `peakSelectionPeriod` in `PeakIdentificationSettings`: the period within which a single peak is identified, e.g. `P1D` for one peak per day. It is required and must not be longer than `peakResetPeriod`.
@@ -29,4 +29,5 @@ Changes below are for version 0.4.0 of the Grid Tariff API (`specification/gridt
 
 Changes in releases before 0.4.0 are not listed here, see the [tags](https://github.com/RI-SE/Eltariff-API/tags) for earlier versions.
 
-[Unreleased]: https://github.com/RI-SE/Eltariff-API/compare/v0.3.2...HEAD
+[Unreleased]: https://github.com/RI-SE/Eltariff-API/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/RI-SE/Eltariff-API/compare/v0.3.2...v0.4.0
