@@ -74,13 +74,13 @@ namespace GeneratedController
         /// Get prices for a price component.
         /// </summary>
         /// <remarks>
-        /// Returns prices for a price component for a given time period. The time period defaults to fromIncluding = today 00:00 and toExcluding = today 00:00 plus 7 full days. By looking 7 days ahead, forecasted prices are also returned.
+        /// Returns prices for a price component for a given time period. The response is split into two lists: `actual` contains confirmed, published prices and `preview` contains estimated or forecasted prices. The implementation must return as many actual prices as available within the requested range. After the last actual price, preview prices fill the remaining time up to `toExcluding`, or until no more preview prices are available. Together, the two lists cover the requested time range as completely as possible.
         /// </remarks>
         /// <param name="componentId">A price component id.</param>
         /// <param name="product">The product defined in the parent tariff object of the power price component.</param>
         /// <param name="date">Get all defined prices for the given date.</param>
-        /// <param name="fromIncluding">Get all defined prices from this time and forward. Default is today midnight.</param>
-        /// <param name="toExcluding">Get all defined prices up to this time. Default is fromIncluding + 7 days.</param>
+        /// <param name="fromIncluding">Get all defined prices from this time and forward. If omitted, the implementation chooses the default.</param>
+        /// <param name="toExcluding">Get all defined prices up to this time. If omitted, the implementation chooses the default.</param>
         /// <returns>The prices for the provided component id and time period.</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("prices", Name = "GetPrices")]
         public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<PricesResponse>> GetPrices([Microsoft.AspNetCore.Mvc.FromQuery] System.Guid? componentId, [Microsoft.AspNetCore.Mvc.FromQuery] string? product, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateOnly? date, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? fromIncluding, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? toExcluding);
@@ -785,10 +785,16 @@ namespace GeneratedController
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         public string Unit { get; set; } = default!;
 
+        /// <summary>
+        /// Confirmed prices published by the DSO. Covers as much of the requested time range as available, starting from `fromIncluding`. Must be present; may be empty if no actual prices exist for the period.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("actual", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         public System.Collections.Generic.List<PriceListEntry> Actual { get; set; } = new System.Collections.Generic.List<PriceListEntry>();
 
+        /// <summary>
+        /// Estimated or forecasted prices that fill the time after the last actual price up to `toExcluding`, or until no more preview prices are available. Omitted or empty when all prices in the range are actual, or when no preview prices exist.
+        /// </summary>
         [Newtonsoft.Json.JsonProperty("preview", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         public System.Collections.Generic.List<PriceListEntry>? Preview { get; set; } = default!;
 
