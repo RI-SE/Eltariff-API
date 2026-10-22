@@ -32,6 +32,13 @@ Run the `SwaggerUI` project with the above command, which will use the `ExampleC
 Access the Swagger UI by going to http://localhost:5000/swagger.
 
 ## Release
+Before running the release workflow, make sure the following is merged to `main`:
+- `info.version` in `specification/gridtariffapi.json` is set to the new version (the workflow fails if it does not match the tag)
+- `CHANGELOG.md` is finalized: rename `[Unreleased]` to `[X.Y.Z] - YYYY-MM-DD`, add a new empty `[Unreleased]` section and update the link references at the bottom
+
+The tag must have the format `vX.Y.Z`. The workflow creates the tag on the head of `main`, builds and lints the bundled specification, creates the GitHub release with the matching `CHANGELOG.md` section as release notes (generated notes are used if no section is found) and publishes the Redoc documentation to GitHub Pages.
+
+To run the workflow:
 - Navigate to Actions tab in your repository on GitHub.com
 - Click on "Release" workflow
 - Click "Run workflow" to open the drop-down menu
