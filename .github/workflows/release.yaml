@@ -99,15 +99,34 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - name: Check out tag ref
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
       - uses: actions/download-artifact@v4
         with:
           name: openapi-release-${{ env.TAG }}
           path: ${{ env.WORK_DIR }}
 
+      - name: Extract release notes from CHANGELOG.md
+        run: |
+          version=${TAG#v}
+          awk -v v="$version" '
+            /^## \[/ { if (found) exit; if (index($0, "## [" v "]") == 1) { found=1; next } }
+            found { print }
+          ' CHANGELOG.md > release-notes.md 2>/dev/null || true
+          if [ ! -s release-notes.md ]; then
+            echo "No CHANGELOG.md section found for $version, falling back to generated release notes."
+            rm -f release-notes.md
+          fi
+
       - name: Append assets to release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ env.TAG }}
+          body_path: release-notes.md
+          generate_release_notes: ${{ hashFiles('release-notes.md') == '' }}
           files: |
             ${{ env.BUNDLED_JSON }}
             ${{ env.REDOC_HTML }}
@@ -128,7 +147,7 @@ jobs:
         run: |
           commit_date="$(git show -s --format=%ai "$TAG^{commit}" | sed -E 's/([0-9-]+) ([0-9:]+) .*/\1T\2/')"
           echo "commit_date=$commit_date" >> "$GITHUB_OUTPUT"
-          echo "Resolved tag $TAG with commit date $COMMIT_DATE"
+          echo "Resolved tag $TAG with commit date $commit_date"
 
       - name: Checkout gh-pages
         uses: actions/checkout@v4
@@ -174,6 +193,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit."
           else
-            git commit -m "Publish ${{ steps.resolve.outputs.tag }}"
+            git commit -m "Publish ${{ env.TAG }}"
             git push origin gh-pages
           fi
