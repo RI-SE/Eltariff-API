@@ -64,27 +64,34 @@
       "additionalProperties": false
     },
     "PeakIdentificationSettings": {
-      "description": "Settings that defines how to identify a power peak during a billing period.",
+      "description": "Settings that defines how to identify a power peak during a peak reset period.",
       "type": "object",
       "properties": {
         "peakFunction": {
           "$ref": "power.schema.json#/definitions/PeakFunction"
         },
-        "peakIdentificationPeriod": {
+        "peakResetPeriod": {
+          "description": "The period over which power peaks are collected and billed, for example P1M for monthly peaks. The peaks are reset at the start of every peak reset period and a new measuring period begins.",
+          "$ref": "time.schema.json#/definitions/Duration"
+        },
+        "peakSelectionPeriod": {
+          "description": "The period within which a single peak is identified, for example P1D for one peak per day. Must not be longer than peakResetPeriod. Within each period, the highest value averaged over peakDuration is selected as one peak.",
           "$ref": "time.schema.json#/definitions/Duration"
         },
         "peakDuration": {
+          "description": "The length of one peak, which is the time over which the power is averaged to get one power value that can be selected as a peak, for example PT1H for the average power during one hour.",
           "$ref": "time.schema.json#/definitions/Duration"
         },
         "numberOfPeaksForAverageCalculation": {
-          "description": "The number of peaks within a peak pricing period for calculating average peak for that period.",
+          "description": "The number of highest peaks within the peakResetPeriod that are averaged to give the peak used for billing, for example 3. Use 1 if only the single highest peak is used.",
           "type": "integer",
           "example": 3
         }
       },
       "required": [
         "peakFunction",
-        "peakIdentificationPeriod",
+        "peakResetPeriod",
+        "peakSelectionPeriod",
         "peakDuration",
         "numberOfPeaksForAverageCalculation"
       ],

@@ -3,7 +3,7 @@
   "info": {
     "title": "Grid Tariff API",
     "description": "Provides grid tariffs from Swedish DSOs.",
-    "version": "0.3.2",
+    "version": "0.4.0",
     "contact": {
       "name": "Grid Tariff API",
       "url": "https://github.com/RI-SE/Eltariff-API"
@@ -797,27 +797,34 @@
         "additionalProperties": false
       },
       "PeakIdentificationSettings": {
-        "description": "Settings that defines how to identify a power peak during a billing period.",
+        "description": "Settings that defines how to identify a power peak during a peak reset period.",
         "type": "object",
         "properties": {
           "peakFunction": {
             "$ref": "#/components/schemas/PeakFunction"
           },
-          "peakIdentificationPeriod": {
+          "peakResetPeriod": {
+            "description": "The period over which power peaks are collected and billed, for example P1M for monthly peaks. The peaks are reset at the start of every peak reset period and a new measuring period begins.",
+            "$ref": "#/components/schemas/Duration"
+          },
+          "peakSelectionPeriod": {
+            "description": "The period within which a single peak is identified, for example P1D for one peak per day. Must not be longer than peakResetPeriod. Within each period, the highest value averaged over peakDuration is selected as one peak.",
             "$ref": "#/components/schemas/Duration"
           },
           "peakDuration": {
+            "description": "The length of one peak, which is the time over which the power is averaged to get one power value that can be selected as a peak, for example PT1H for the average power during one hour.",
             "$ref": "#/components/schemas/Duration"
           },
           "numberOfPeaksForAverageCalculation": {
-            "description": "The number of peaks within a peak pricing period for calculating average peak for that period.",
+            "description": "The number of highest peaks within the peakResetPeriod that are averaged to give the peak used for billing, for example 3. Use 1 if only the single highest peak is used.",
             "type": "integer",
             "example": 3
           }
         },
         "required": [
           "peakFunction",
-          "peakIdentificationPeriod",
+          "peakResetPeriod",
+          "peakSelectionPeriod",
           "peakDuration",
           "numberOfPeaksForAverageCalculation"
         ],
@@ -960,6 +967,7 @@
             "default": "consumption"
           },
           "billingPeriod": {
+            "description": "Informational only: the period between invoices, if it is fixed for the tariff. Optional, since the billing period may differ between customers and is not part of the tariff as such. It does not affect how power peaks are calculated, see peakResetPeriod.",
             "$ref": "#/components/schemas/Duration"
           },
           "fixedPrice": {
@@ -982,7 +990,6 @@
           "companyOrgNo",
           "product",
           "direction",
-          "billingPeriod",
           "fixedPrice",
           "energyPrice",
           "powerPrice"
