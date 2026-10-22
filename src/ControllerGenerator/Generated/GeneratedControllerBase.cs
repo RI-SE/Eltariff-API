@@ -4,6 +4,8 @@
 // </auto-generated>
 //----------------------
 
+#nullable enable
+
 #pragma warning disable 108 // Disable "CS0108 '{derivedDto}.ToJson()' hides inherited member '{dtoBase}.ToJson()'. Use the new keyword if hiding was intended."
 #pragma warning disable 114 // Disable "CS0114 '{derivedDto}.RaisePropertyChanged(String)' hides inherited member 'dtoBase.RaisePropertyChanged(String)'. To make the current member override that implementation, add the override keyword. Otherwise add the new keyword."
 #pragma warning disable 472 // Disable "CS0472 The result of the expression is always 'false' since a value of type 'Int32' is never equal to 'null' of type 'Int32?'
@@ -81,7 +83,7 @@ namespace GeneratedController
         /// <param name="toExcluding">Get all defined prices up to this time. Default is fromIncluding + 7 days.</param>
         /// <returns>The prices for the provided component id and time period.</returns>
         [Microsoft.AspNetCore.Mvc.HttpGet, Microsoft.AspNetCore.Mvc.Route("prices", Name = "GetPrices")]
-        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<PricesResponse>> GetPrices([Microsoft.AspNetCore.Mvc.FromQuery] System.Guid? componentId, [Microsoft.AspNetCore.Mvc.FromQuery] string product, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateOnly? date, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? fromIncluding, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? toExcluding);
+        public abstract System.Threading.Tasks.Task<Microsoft.AspNetCore.Mvc.ActionResult<PricesResponse>> GetPrices([Microsoft.AspNetCore.Mvc.FromQuery] System.Guid? componentId, [Microsoft.AspNetCore.Mvc.FromQuery] string? product, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateOnly? date, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? fromIncluding, [Microsoft.AspNetCore.Mvc.FromQuery] System.DateTimeOffset? toExcluding);
 
     }
 
@@ -100,14 +102,14 @@ namespace GeneratedController
         /// </summary>
         [Newtonsoft.Json.JsonProperty("apiVersion", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ApiVersion { get; set; }
+        public string ApiVersion { get; set; } = default!;
 
         /// <summary>
         /// Version of the implementation. The format is set by the operator and can differ. In this example -r4 is the revision number of the implementation and the first three numbers the API version.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("implementationVersion", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string ImplementationVersion { get; set; }
+        public string ImplementationVersion { get; set; } = default!;
 
         /// <summary>
         /// Timestamp that defines when the tariff data in /tariffs was last updated. Date-time in ISO 8601 / RFC 3339 style with required numeric offset in the form ±HH:MM.
@@ -115,26 +117,26 @@ namespace GeneratedController
         [Newtonsoft.Json.JsonProperty("tariffDataLastUpdated", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
-        public System.DateTimeOffset TariffDataLastUpdated { get; set; }
+        public System.DateTimeOffset TariffDataLastUpdated { get; set; } = default!;
 
         /// <summary>
         /// Name of the company or organization operating this server.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("operator", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Operator { get; set; }
+        public string Operator { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("timeZone", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string TimeZone { get; set; }
+        public string TimeZone { get; set; } = default!;
 
         /// <summary>
         /// URL to the identity provider server which provides access tokens.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("identityProviderUrl", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string IdentityProviderUrl { get; set; }
+        [Newtonsoft.Json.JsonProperty("identityProviderUrl", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? IdentityProviderUrl { get; set; } = default!;
 
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
         [Newtonsoft.Json.JsonExtensionData]
         public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
@@ -203,22 +205,22 @@ namespace GeneratedController
         /// HTTP status code of the error.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("status", Required = Newtonsoft.Json.Required.Always)]
-        public int Status { get; set; }
+        public int Status { get; set; } = default!;
 
         /// <summary>
         /// A short, human-readable summary of the problem.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("title", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Title { get; set; }
+        public string Title { get; set; } = default!;
 
         /// <summary>
         /// A detailed message explaining the error. May include an URL to a help page.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("detail", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Detail { get; set; }
+        [Newtonsoft.Json.JsonProperty("detail", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Detail { get; set; } = default!;
 
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
         [Newtonsoft.Json.JsonExtensionData]
         public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
@@ -238,12 +240,12 @@ namespace GeneratedController
         [Newtonsoft.Json.JsonProperty("fromIncluding", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}$")]
-        public System.DateOnly FromIncluding { get; set; }
+        public System.DateOnly FromIncluding { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("toExcluding", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}$")]
-        public System.DateOnly ToExcluding { get; set; }
+        public System.DateOnly ToExcluding { get; set; } = default!;
 
     }
 
@@ -254,14 +256,14 @@ namespace GeneratedController
     public partial class Price
     {
         [Newtonsoft.Json.JsonProperty("priceExVat", Required = Newtonsoft.Json.Required.Always)]
-        public decimal PriceExVat { get; set; }
+        public decimal PriceExVat { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("priceIncVat", Required = Newtonsoft.Json.Required.Always)]
-        public decimal PriceIncVat { get; set; }
+        [Newtonsoft.Json.JsonProperty("priceIncVat", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public decimal? PriceIncVat { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Currency { get; set; }
+        public string Currency { get; set; } = default!;
 
     }
 
@@ -273,14 +275,14 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Description { get; set; }
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Description { get; set; } = default!;
 
         /// <summary>
         /// Type describes if the price component is a publicly available price or customer specific.
@@ -307,7 +309,7 @@ namespace GeneratedController
 
         [Newtonsoft.Json.JsonProperty("pricedPeriod", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.String PricedPeriod { get; set; }
+        public System.String PricedPeriod { get; set; } = default!;
 
     }
 
@@ -319,18 +321,18 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Description { get; set; }
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("costFunction", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string CostFunction { get; set; }
+        public string CostFunction { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("components", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -348,11 +350,11 @@ namespace GeneratedController
         /// A number used to multiply the electricity markets spot price to get a price for this price component.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("multiplier", Required = Newtonsoft.Json.Required.Always)]
-        public double Multiplier { get; set; }
+        public double Multiplier { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Currency { get; set; }
+        public string Currency { get; set; } = default!;
 
     }
 
@@ -365,14 +367,14 @@ namespace GeneratedController
         /// <summary>
         /// A list of calendar patterns to be included in the active period.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("include", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<string> Include { get; set; }
+        [Newtonsoft.Json.JsonProperty("include", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<string>? Include { get; set; } = default!;
 
         /// <summary>
         /// A list of calendar patterns to be excluded from an active period.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("exclude", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<string> Exclude { get; set; }
+        [Newtonsoft.Json.JsonProperty("exclude", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<string>? Exclude { get; set; } = default!;
 
     }
 
@@ -385,12 +387,12 @@ namespace GeneratedController
         [Newtonsoft.Json.JsonProperty("fromIncluding", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{2}:\d{2}:\d{2}$")]
-        public string FromIncluding { get; set; }
+        public string FromIncluding { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("toExcluding", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{2}:\d{2}:\d{2}$")]
-        public string ToExcluding { get; set; }
+        public string ToExcluding { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("calendarPatternReferences", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -413,7 +415,7 @@ namespace GeneratedController
 
         [Newtonsoft.Json.JsonProperty("frequency", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.String Frequency { get; set; }
+        public System.String Frequency { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("activePeriods", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -429,14 +431,14 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Description { get; set; }
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
@@ -454,21 +456,21 @@ namespace GeneratedController
         [System.ComponentModel.DataAnnotations.Required]
         public DateInterval ValidPeriod { get; set; } = new DateInterval();
 
-        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public Price Price { get; set; }
+        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Price? Price { get; set; } = default!;
 
         /// <summary>
         /// Unit of energy measurement for the price rate (e.g., kWh).
         /// </summary>
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Unit { get; set; }
+        public string Unit { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("spotPriceSettings", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public SpotPriceSettings SpotPriceSettings { get; set; }
+        [Newtonsoft.Json.JsonProperty("spotPriceSettings", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public SpotPriceSettings? SpotPriceSettings { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("recurringPeriods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<RecurringPeriod> RecurringPeriods { get; set; }
+        [Newtonsoft.Json.JsonProperty("recurringPeriods", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<RecurringPeriod>? RecurringPeriods { get; set; } = default!;
 
     }
 
@@ -480,18 +482,18 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Description { get; set; }
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("costFunction", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string CostFunction { get; set; }
+        public string CostFunction { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("components", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -507,34 +509,34 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("peakFunction", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string PeakFunction { get; set; }
+        public string PeakFunction { get; set; } = default!;
 
         /// <summary>
         /// The period over which power peaks are collected and billed, for example P1M for monthly peaks. The peaks are reset at the start of every peak reset period and a new measuring period begins.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("peakResetPeriod", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.String PeakResetPeriod { get; set; }
+        public System.String PeakResetPeriod { get; set; } = default!;
 
         /// <summary>
         /// The period within which a single peak is identified, for example P1D for one peak per day. Must not be longer than peakResetPeriod. Within each period, the highest value averaged over peakDuration is selected as one peak.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("peakSelectionPeriod", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.String PeakSelectionPeriod { get; set; }
+        public System.String PeakSelectionPeriod { get; set; } = default!;
 
         /// <summary>
         /// The length of one peak, which is the time over which the power is averaged to get one power value that can be selected as a peak, for example PT1H for the average power during one hour.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("peakDuration", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.String PeakDuration { get; set; }
+        public System.String PeakDuration { get; set; } = default!;
 
         /// <summary>
         /// The number of highest peaks within the peakResetPeriod that are averaged to give the peak used for billing, for example 3. Use 1 if only the single highest peak is used.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("numberOfPeaksForAverageCalculation", Required = Newtonsoft.Json.Required.Always)]
-        public int NumberOfPeaksForAverageCalculation { get; set; }
+        public int NumberOfPeaksForAverageCalculation { get; set; } = default!;
 
     }
 
@@ -546,14 +548,14 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Description { get; set; }
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("type", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
@@ -571,26 +573,26 @@ namespace GeneratedController
         [System.ComponentModel.DataAnnotations.Required]
         public DateInterval ValidPeriod { get; set; } = new DateInterval();
 
-        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public Price Price { get; set; }
+        [Newtonsoft.Json.JsonProperty("price", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public Price? Price { get; set; } = default!;
 
         /// <summary>
         /// Unit for the power price rate (e.g., kW, kWh). Can represent average power over a fixed interval (e.g., 4 kW over 15 min) or equivalent energy consumption within that interval (e.g., 1 kWh per 15 min).
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Unit { get; set; }
+        [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Unit { get; set; } = default!;
 
         /// <summary>
         /// URL string that is either a root relative or absolute path to the prices endpoint. It must follow the /prices path defined in this specification.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("url", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Url { get; set; }
+        [Newtonsoft.Json.JsonProperty("url", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Url { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("peakIdentificationSettings", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public PeakIdentificationSettings PeakIdentificationSettings { get; set; }
+        [Newtonsoft.Json.JsonProperty("peakIdentificationSettings", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PeakIdentificationSettings? PeakIdentificationSettings { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("recurringPeriods", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<RecurringPeriod> RecurringPeriods { get; set; }
+        [Newtonsoft.Json.JsonProperty("recurringPeriods", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<RecurringPeriod>? RecurringPeriods { get; set; } = default!;
 
     }
 
@@ -602,18 +604,18 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Description { get; set; }
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("costFunction", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string CostFunction { get; set; }
+        public string CostFunction { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("components", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -629,25 +631,25 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("id", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid Id { get; set; }
+        public System.Guid Id { get; set; } = default!;
 
         /// <summary>
         /// Descriptive short name of the grid tariff.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("name", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Name { get; set; }
+        public string Name { get; set; } = default!;
 
         /// <summary>
         /// Detailed description of the grid tariff.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public string Description { get; set; }
+        [Newtonsoft.Json.JsonProperty("description", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public string? Description { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("published", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
-        public System.DateTimeOffset Published { get; set; }
+        public System.DateTimeOffset Published { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("validPeriod", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -655,28 +657,28 @@ namespace GeneratedController
 
         [Newtonsoft.Json.JsonProperty("timeZone", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string TimeZone { get; set; }
+        public string TimeZone { get; set; } = default!;
 
         /// <summary>
         /// Name of the grid company.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("companyName", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string CompanyName { get; set; }
+        public string CompanyName { get; set; } = default!;
 
         /// <summary>
         /// Organization number and unique identifier of the grid company.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("companyOrgNo", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string CompanyOrgNo { get; set; }
+        public string CompanyOrgNo { get; set; } = default!;
 
         /// <summary>
         /// A persistent and unique (on company level) reference to identify a given product during its entire lifecycle. If set, the reference allows for a seamless transition when a products tariff definition gets updated.
         /// </summary>
         [Newtonsoft.Json.JsonProperty("product", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Product { get; set; }
+        public string Product { get; set; } = default!;
 
         /// <summary>
         /// Indicates if this is a tariff for consumption or production. Valid values are "consumption" and "production".
@@ -689,20 +691,17 @@ namespace GeneratedController
         /// <summary>
         /// Informational only: the period between invoices, if it is fixed for the tariff. Optional, since the billing period may differ between customers and is not part of the tariff as such. It does not affect how power peaks are calculated, see peakResetPeriod.
         /// </summary>
-        [Newtonsoft.Json.JsonProperty("billingPeriod", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.String BillingPeriod { get; set; }
+        [Newtonsoft.Json.JsonProperty("billingPeriod", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.String? BillingPeriod { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("fixedPrice", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required]
-        public FixedPrice FixedPrice { get; set; } = new FixedPrice();
+        [Newtonsoft.Json.JsonProperty("fixedPrice", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public FixedPrice? FixedPrice { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("energyPrice", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required]
-        public EnergyPrice EnergyPrice { get; set; } = new EnergyPrice();
+        [Newtonsoft.Json.JsonProperty("energyPrice", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public EnergyPrice? EnergyPrice { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("powerPrice", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required]
-        public PowerPrice PowerPrice { get; set; } = new PowerPrice();
+        [Newtonsoft.Json.JsonProperty("powerPrice", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public PowerPrice? PowerPrice { get; set; } = default!;
 
     }
 
@@ -714,17 +713,17 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("reference", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Reference { get; set; }
+        public string Reference { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("frequency", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.String Frequency { get; set; }
+        public System.String Frequency { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("days", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<int> Days { get; set; }
+        [Newtonsoft.Json.JsonProperty("days", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<int>? Days { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("dates", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<System.DateOnly> Dates { get; set; }
+        [Newtonsoft.Json.JsonProperty("dates", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<System.DateOnly>? Dates { get; set; } = default!;
 
     }
 
@@ -733,7 +732,7 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("tariffId", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.Guid TariffId { get; set; }
+        public System.Guid TariffId { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("meteringPointIds", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
@@ -747,25 +746,25 @@ namespace GeneratedController
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.2.0.0 (NJsonSchema v11.1.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class PriceListEntry
     {
-        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        [Newtonsoft.Json.JsonProperty("created", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
-        public System.DateTimeOffset Created { get; set; }
+        public System.DateTimeOffset? Created { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("start", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
-        public System.DateTimeOffset Start { get; set; }
+        public System.DateTimeOffset Start { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("end", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
         [System.ComponentModel.DataAnnotations.RegularExpression(@"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:Z|[+-]\d{2}:\d{2})$")]
-        public System.DateTimeOffset End { get; set; }
+        public System.DateTimeOffset End { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("priceExVat", Required = Newtonsoft.Json.Required.Always)]
-        public decimal PriceExVat { get; set; }
+        public decimal PriceExVat { get; set; } = default!;
 
-        [Newtonsoft.Json.JsonProperty("priceIncVat", Required = Newtonsoft.Json.Required.Always)]
-        public decimal PriceIncVat { get; set; }
+        [Newtonsoft.Json.JsonProperty("priceIncVat", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public decimal? PriceIncVat { get; set; } = default!;
 
     }
 
@@ -777,23 +776,23 @@ namespace GeneratedController
     {
         [Newtonsoft.Json.JsonProperty("currency", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Currency { get; set; }
+        public string Currency { get; set; } = default!;
 
         /// <summary>
         /// Unit for the price rate (e.g., kW, kWh) for each entry in the actual and preview price lists. Can represent average power over a fixed interval (e.g., 4 kW over 15 min) or equivalent energy consumption within that interval (e.g., 1 kWh per 15 min).
         /// </summary>
         [Newtonsoft.Json.JsonProperty("unit", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public string Unit { get; set; }
+        public string Unit { get; set; } = default!;
 
         [Newtonsoft.Json.JsonProperty("actual", Required = Newtonsoft.Json.Required.Always)]
         [System.ComponentModel.DataAnnotations.Required]
         public System.Collections.Generic.List<PriceListEntry> Actual { get; set; } = new System.Collections.Generic.List<PriceListEntry>();
 
-        [Newtonsoft.Json.JsonProperty("preview", Required = Newtonsoft.Json.Required.DisallowNull, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
-        public System.Collections.Generic.List<PriceListEntry> Preview { get; set; }
+        [Newtonsoft.Json.JsonProperty("preview", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public System.Collections.Generic.List<PriceListEntry>? Preview { get; set; } = default!;
 
-        private System.Collections.Generic.IDictionary<string, object> _additionalProperties;
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
         [Newtonsoft.Json.JsonExtensionData]
         public System.Collections.Generic.IDictionary<string, object> AdditionalProperties

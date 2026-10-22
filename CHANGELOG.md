@@ -15,6 +15,8 @@ Changes below are for version 0.4.0 of the Grid Tariff API (`specification/gridt
 - Documentation of `PeakIdentificationSettings` in the developer guide, with examples.
 
 ### Changed
+- `fixedPrice`, `energyPrice` and `powerPrice` in `Tariff` are now optional, since a tariff may not use all price components.
+- `priceIncVat` in `Price` and `PriceListEntry` is now optional, since tariffs may only provide `priceExVat`.
 - **Breaking:** `peakIdentificationPeriod` in `PeakIdentificationSettings` is renamed to `peakResetPeriod`: the period over which peaks are collected and billed, after which the peaks are reset.
 - `billingPeriod` in `Tariff` is now optional and informational only. It does not affect how power peaks are calculated.
 - Improved descriptions of the properties in `PeakIdentificationSettings`.

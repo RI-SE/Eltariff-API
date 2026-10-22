@@ -519,7 +519,6 @@
         },
         "required": [
           "priceExVat",
-          "priceIncVat",
           "currency"
         ],
         "additionalProperties": false
@@ -989,10 +988,7 @@
           "companyName",
           "companyOrgNo",
           "product",
-          "direction",
-          "fixedPrice",
-          "energyPrice",
-          "powerPrice"
+          "direction"
         ],
         "additionalProperties": false
       },
@@ -1077,8 +1073,7 @@
         "required": [
           "start",
           "end",
-          "priceExVat",
-          "priceIncVat"
+          "priceExVat"
         ],
         "additionalProperties": false
       },
